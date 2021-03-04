@@ -16,7 +16,6 @@ class UserController
 
         $view = new View('user/index');
         $view->title = 'Benutzer';
-        $view->heading = 'Benutzer';
         $view->users = $userRepository->readAll();
         $view->display();
     }
@@ -25,7 +24,6 @@ class UserController
     {
         $view = new View('user/create');
         $view->title = 'Benutzer erstellen';
-        $view->heading = 'Benutzer erstellen';
         $view->display();
     }
 

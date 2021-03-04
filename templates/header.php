@@ -32,4 +32,3 @@
     </header>
 
     <main class="container">
-      <h1><?= $heading; ?></h1>

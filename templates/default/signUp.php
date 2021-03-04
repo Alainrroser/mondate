@@ -1,9 +1,10 @@
-<div class = "center-align">
-	<div class = "card">
-		<img src = "/images/logo.png"
-		     class = "card-img-top"
-		     alt = "The Mondate Logo">
-		<div class = "card-body">
+<div class="center-align">
+<div class = "card">
+	<img src = "/images/logo.png"
+	     class = "card-img-top"
+	     alt = "The Mondate Logo">
+	<div class = "card-body">
+		<form>
 			<div class = "form-group form">
 				<label for = "e-mail">
 					E-Mail
@@ -20,15 +21,19 @@
 				       class = "form-control"
 				       placeholder = "Enter your password">
 			</div>
+			<div class = "form-group form">
+				<label for = "password">
+					Confirm password
+				</label>
+				<input type = "password"
+				       class = "form-control"
+				       placeholder = "Enter your password">
+			</div>
 			<a href = "#"
-			   class = "btn btn-primary btn-red">
-				Sign In
-			</a>
-			<a href = "default/signUp"
 			   class = "btn btn-primary btn-red">
 				Sign Up
 			</a>
-			</form>
-		</div>
+		</form>
 	</div>
+</div>
 </div>
