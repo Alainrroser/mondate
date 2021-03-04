@@ -4,7 +4,7 @@
 		     class = "card-img-top"
 		     alt = "The Mondate Logo">
 		<div class = "card-body">
-			<form action="/user/doCreate" method="post">
+			<form action="/user/doSignUp" method="post">
 				<div class = "form-group form">
 					<label for = "e-mail">
 						E-Mail

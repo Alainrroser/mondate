@@ -9,7 +9,7 @@
     class UserRepository extends Repository {
         protected $tableName = 'user';
         
-        public function create($email, $password) {
+        public function signUp($email, $password) {
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
             
             $query = "INSERT INTO $this->tableName (email, password) VALUES (?, ?)";

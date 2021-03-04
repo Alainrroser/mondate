@@ -14,7 +14,9 @@
             if($user != null) {
                 // Prüfen ob der Password-Hash dem aus der Datenbank entspricht
                 if(password_verify($password, $user->password)) {
-                    // Login successful
+                    session_unset();
+                    session_destroy();
+                    session_start();
                     $_SESSION["userId"] = $user -> id;
                     return true;
                 }

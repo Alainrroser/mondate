@@ -10,14 +10,14 @@
      * Siehe Dokumentation im DefaultController.
      */
     class UserController {
-        public function doCreate() {
+        public function doSignUp() {
             $email = $_POST['email'];
             $password = $_POST['password'];
             
             $userRepository = new UserRepository();
-            $userRepository -> create($email, $password);
+            $userRepository -> signUp($email, $password);
             
-            // Anfrage an die URI /user weiterleiten (HTTP 302)
+            // Anfrage an die URI /calendar weiterleiten (HTTP 302)
             header('Location: /calendar/');
         }
         
@@ -25,9 +25,9 @@
             $email = $_POST['email'];
             $password = $_POST['password'];
             if(Authentication ::login($email, $password)) {
-                //header("Location: /calendar/");
+                header("Location: /calendar/");
             } else {
-                //header("Location: /user/");
+                header("Location: /user/");
             }
         }
         
