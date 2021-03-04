@@ -1,10 +1,11 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 html {
     position: relative;
     min-height: 100%;
-}
-
-body {
-    margin-bottom: 60px;
 }
 
 body > .container {
@@ -72,5 +73,5 @@ tbody {
 
 body {
     display: block;
-    height: 90vh;
+    height: calc(100vh - 60px);
 }

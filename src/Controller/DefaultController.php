@@ -45,13 +45,6 @@
             $view -> display();
         }
         
-        public function signIn()
-        {
-            $view = new View('default/signIn');
-            $view -> title = 'Sign In';
-            $view -> display();
-        }
-        
         public function signUp()
         {
             $view = new View('default/signUp');
