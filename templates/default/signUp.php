@@ -29,8 +29,8 @@
 				       class = "form-control"
 				       placeholder = "Enter your password">
 			</div>
-			<a href = "#"
-			   class = "btn btn-primary btn-red">
+			<a href = "/calendar/index"
+			   class = "btn btn-primary">
 				Sign Up
 			</a>
 		</form>

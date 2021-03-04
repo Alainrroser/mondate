@@ -29,16 +29,15 @@ body > .container {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 .card {
-    margin: auto;
     width: 18rem;
 }
 
-.btn-red {
+.btn-primary {
     display: block;
     margin: 10px auto;
     width: 40%;
@@ -46,4 +45,32 @@ body > .container {
 
 .form > input {
     width: 100%;
+}
+
+table {
+    max-width: fit-content;
+}
+
+td, th {
+    width: 200px;
+}
+
+thead, tbody {
+    display: block;
+}
+
+tbody {
+    max-height: 60vh;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.container {
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    display: block;
+    height: 90vh;
 }

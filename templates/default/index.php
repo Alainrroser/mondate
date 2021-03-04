@@ -20,12 +20,12 @@
 				       class = "form-control"
 				       placeholder = "Enter your password">
 			</div>
-			<a href = "#"
-			   class = "btn btn-primary btn-red">
+			<a href = "/calendar/"
+			   class = "btn btn-primary">
 				Sign In
 			</a>
-			<a href = "default/signUp"
-			   class = "btn btn-primary btn-red">
+			<a href = "/default/signUp"
+			   class = "btn btn-primary">
 				Sign Up
 			</a>
 			</form>
