@@ -8,17 +8,7 @@ use App\View\View;
 /**
  * Siehe Dokumentation im DefaultController.
  */
-class UserController
-{
-    public function index()
-    {
-        $userRepository = new UserRepository();
-
-        $view = new View('user/index');
-        $view->title = 'Benutzer';
-        $view->users = $userRepository->readAll();
-        $view->display();
-    }
+class UserController {
 
     public function create()
     {
@@ -50,5 +40,19 @@ class UserController
 
         // Anfrage an die URI /user weiterleiten (HTTP 302)
         header('Location: /user');
+    }
+    
+    public function index()
+    {
+        $view = new View('user/index');
+        $view -> title = 'Sign In';
+        $view -> display();
+    }
+    
+    public function signUp()
+    {
+        $view = new View('user/signUp');
+        $view -> title = 'Sign Up';
+        $view -> display();
     }
 }

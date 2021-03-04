@@ -2,7 +2,7 @@
 
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">&copy; ICT Berufsbildungcenter AG 2016</span>
+	      <a href="../impressum/" class="text-muted">Impressum</a>
       </div>
     </footer>
 

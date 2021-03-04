@@ -18,7 +18,7 @@ class UriParser
             return $controllerName; // "Controller" anhängen
         }
 
-        return 'Default';
+        return 'User';
     }
 
     /**

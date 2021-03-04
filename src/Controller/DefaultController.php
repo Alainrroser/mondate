@@ -44,11 +44,4 @@
             $view -> title = 'Startseite';
             $view -> display();
         }
-        
-        public function signUp()
-        {
-            $view = new View('default/signUp');
-            $view -> title = 'Sign Up';
-            $view -> display();
-        }
     }

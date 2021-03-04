@@ -1,19 +1,34 @@
-<article class="hreview open special">
-	<?php if (empty($users)): ?>
-		<div class="dhd">
-			<h2 class="item title">Hoopla! Keine User gefunden.</h2>
-		</div>
-	<?php else: ?>
-		<?php foreach ($users as $user): ?>
-			<div class="panel panel-default">
-				<div class="panel-heading"><?= $user->firstName; ?> <?= $user->lastName; ?></div>
-				<div class="panel-body">
-					<p class="description">In der Datenbank existiert ein User mit dem Namen <?= $user->firstName; ?> <?= $user->lastName; ?>. Dieser hat die EMail-Adresse: <a href="mailto:<?= $user->email; ?>"><?= $user->email; ?></a></p>
-					<p>
-						<a title="Löschen" href="/user/delete?id=<?= $user->id; ?>">Löschen</a>
-					</p>
-				</div>
+<div class = "center-align">
+	<div class = "card">
+		<img src = "/images/logo.png"
+		     class = "card-img-top"
+		     alt = "The Mondate Logo">
+		<div class = "card-body">
+			<div class = "form-group form">
+				<label for = "e-mail">
+					E-Mail
+				</label>
+				<input type = "email"
+				       class = "form-control"
+				       placeholder = "Enter your e-mail">
 			</div>
-		<?php endforeach; ?>
-	<?php endif; ?>
-</article>
+			<div class = "form-group form">
+				<label for = "password">
+					Password
+				</label>
+				<input type = "password"
+				       class = "form-control"
+				       placeholder = "Enter your password">
+			</div>
+			<a href = "/calendar/"
+			   class = "btn btn-primary">
+				Sign In
+			</a>
+			<a href = "/user/signUp"
+			   class = "btn btn-primary">
+				Sign Up
+			</a>
+			</form>
+		</div>
+	</div>
+</div>
