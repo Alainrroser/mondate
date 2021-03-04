@@ -26,8 +26,7 @@
      *     - Daten welche z.B. von einem Formular kommen validieren und dem Model
      *         übergeben, damit sie in der Datenbank persistiert werden können.
      */
-    class DefaultController
-    {
+    class DefaultController {
         /**
          * Die index Funktion des DefaultControllers sollte in jedem Projekt
          * existieren, da diese ausgeführt wird, falls die URI des Requests leer
@@ -35,8 +34,7 @@
          * welcher Controller und welche Methode aufgerufen wird, ist im Dispatcher
          * beschrieben.
          */
-        public function index()
-        {
+        public function index() {
             // In diesem Fall möchten wir dem Benutzer die View mit dem Namen
             //   "default_index" rendern. Wie das genau funktioniert, ist in der
             //   View Klasse beschrieben.

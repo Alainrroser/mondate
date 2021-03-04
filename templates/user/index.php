@@ -9,6 +9,7 @@
 					E-Mail
 				</label>
 				<input type = "email"
+				       name = "email"
 				       class = "form-control"
 				       placeholder = "Enter your e-mail">
 			</div>
@@ -17,6 +18,7 @@
 					Password
 				</label>
 				<input type = "password"
+				       name = "password"
 				       class = "form-control"
 				       placeholder = "Enter your password">
 			</div>
