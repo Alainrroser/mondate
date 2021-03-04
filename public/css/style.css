@@ -13,8 +13,8 @@ body {
     height: calc(100vh - 60px);
 }
 
-body > .container {
-    padding: 80px 15px 0;
+main {
+    height: 100%;
 }
 
 .footer {

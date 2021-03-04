@@ -1,7 +1,7 @@
 <div class = "center-align">
 	<div class = "card">
 		<img src = "/images/logo.png"
-		     class = "card-img-top"
+		     class = "card-img-top w-50 mx-auto"
 		     alt = "The Mondate Logo">
 		<div class = "card-body">
 			<form action="/user/doSignIn" method="post">
