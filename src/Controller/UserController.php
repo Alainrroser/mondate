@@ -10,18 +10,14 @@
      */
     class UserController {
         public function doCreate() {
-            if(isset($_POST['send'])) {
-                $firstName = $_POST['fname'];
-                $lastName = $_POST['lname'];
-                $email = $_POST['email'];
-                $password = $_POST['password'];
-                
-                $userRepository = new UserRepository();
-                $userRepository -> create($firstName, $lastName, $email, $password);
-            }
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            $userRepository = new UserRepository();
+            $userRepository -> create($email, $password);
             
             // Anfrage an die URI /user weiterleiten (HTTP 302)
-            header('Location: /user');
+            header('Location: /calendar/');
         }
         
         public function delete() {

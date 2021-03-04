@@ -1,12 +1,43 @@
-﻿DROP TABLE IF EXISTS user;
-CREATE TABLE  user (
-  id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  firstName VARCHAR(64)  NOT NULL,
-  lastName  VARCHAR(64)  NOT NULL,
-  email     VARCHAR(128) NOT NULL,
-  password  VARCHAR(255)  NOT NULL,
-  PRIMARY KEY  (id)
+DROP DATABASE IF EXISTS mondate;
+
+CREATE DATABASE mondate;
+USE mondate;
+
+CREATE TABLE user (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    email VARCHAR(200) NOT NULL,
+    password VARCHAR(255),
+    UNIQUE KEY (email)
 );
 
-INSERT INTO user (firstName, lastName, email, password) VALUES ('Ramon',  'Binz',  'ramon.binz@bbcag.ch',   sha2('ramon', 256));
-INSERT INTO user (firstName, lastName, email, password) VALUES ('Samuel', 'Wicky', 'samuel.wicky@bbcag.ch', sha2('samuel', 256));
+CREATE TABLE appointment (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    date DATE NOT NULL,
+    start TIME NOT NULL,
+    end TIME,
+    name VARCHAR(50) NOT NULL,
+    description TEXT(1000),
+    creator_id INT NOT NULL
+);
+
+CREATE TABLE tag (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    color CHAR(6) NOT NULL
+);
+
+CREATE TABLE appointment_user (
+    appointment_id INT NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (appointment_id) REFERENCES appointment(id),
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    PRIMARY KEY (appointment_id, user_id)
+);
+
+CREATE TABLE appointment_tag (
+    appointment_id INT NOT NULL,
+    tag_id INT NOT NULL,
+    FOREIGN KEY (appointment_id) REFERENCES appointment(id),
+    FOREIGN KEY (tag_id) REFERENCES tag(id),
+    PRIMARY KEY (appointment_id, tag_id)
+);
