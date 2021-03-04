@@ -31,4 +31,4 @@
       </nav>
     </header>
 
-    <main class="container">
+    <main class="container d-flex justify-content-center m-0 mw-100">

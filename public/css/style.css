@@ -8,6 +8,11 @@ html {
     min-height: 100%;
 }
 
+body {
+    display: block;
+    height: calc(100vh - 60px);
+}
+
 body > .container {
     padding: 80px 15px 0;
 }
@@ -56,22 +61,20 @@ td, th {
     width: 200px;
 }
 
+tr {
+    height: 50px;
+}
+
 thead, tbody {
     display: block;
 }
 
 tbody {
     max-height: 60vh;
-    overflow-x: auto;
     overflow-y: auto;
 }
 
-.container {
-    padding: 0;
-    height: 100%;
-}
-
-body {
-    display: block;
-    height: calc(100vh - 60px);
+main.container {
+    padding-left: 100px;
+    padding-right: 100px;
 }
