@@ -2,6 +2,7 @@
     
     namespace App\Controller;
     
+    use App\Authentication\Authentication;
     use App\Repository\UserRepository;
     use App\View\View;
     
@@ -12,12 +13,22 @@
         public function doCreate() {
             $email = $_POST['email'];
             $password = $_POST['password'];
-
+            
             $userRepository = new UserRepository();
             $userRepository -> create($email, $password);
             
             // Anfrage an die URI /user weiterleiten (HTTP 302)
             header('Location: /calendar/');
+        }
+        
+        public function doSignIn() {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            if(Authentication ::login($email, $password)) {
+                header("Location: /calendar/");
+            } else {
+                header("Location: /user/");
+            }
         }
         
         public function delete() {
