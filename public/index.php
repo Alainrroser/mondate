@@ -14,5 +14,6 @@
     use App\Dispatcher\Dispatcher;
     use App\Exception\ExceptionListener;
     
+    session_start();
     ExceptionListener ::register();
     Dispatcher ::dispatch();

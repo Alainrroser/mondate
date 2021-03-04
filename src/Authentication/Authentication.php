@@ -43,10 +43,7 @@
         
         public static function restrictAuthenticated() {
             if(!self ::isAuthenticated()) {
-                throw new RuntimeException("You have no permissions for this site.");
-                // Unbefungte Zugriffsversuche sollten immer geloggt werden
-                // z.B. mit error_log()
-                exit();
+                header('Location: /user/');
             }
         }
     }
