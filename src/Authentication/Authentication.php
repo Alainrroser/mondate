@@ -12,12 +12,9 @@
             $user = $userRepository -> get($email);
             
             if($user != null) {
-                $password_hash = password_hash($password, PASSWORD_DEFAULT);
-                
                 // Prüfen ob der Password-Hash dem aus der Datenbank entspricht
-                if($password_hash == $user -> password) {
+                if(password_verify($password, $user->password)) {
                     // Login successful
-                    session_start();
                     $_SESSION["userId"] = $user -> id;
                     return true;
                 }
@@ -33,7 +30,7 @@
         }
         
         public static function isAuthenticated() {
-            return isset($_SESSION["userId"]);
+            return isset($_SESSION['userId']);
         }
         
         public static function getAuthenticatedUser() {

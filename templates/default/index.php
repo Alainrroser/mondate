@@ -1,1 +1,1 @@
-Hello World
+session_start();

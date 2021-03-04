@@ -30,7 +30,7 @@
             
             $statement = ConnectionHandler ::getConnection() -> prepare($query);
             $statement -> bind_param('s', $email);
-            
+
             $statement -> execute();
             $result = $statement -> get_result();
             

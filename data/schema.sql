@@ -1,6 +1,6 @@
 DROP DATABASE IF EXISTS mondate;
 
-CREATE DATABASE mondate;
+CREATE DATABASE mondate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE mondate;
 
 CREATE TABLE user (

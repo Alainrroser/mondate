@@ -25,9 +25,9 @@
             $email = $_POST['email'];
             $password = $_POST['password'];
             if(Authentication ::login($email, $password)) {
-                header("Location: /calendar/");
+                //header("Location: /calendar/");
             } else {
-                header("Location: /user/");
+                //header("Location: /user/");
             }
         }
         
