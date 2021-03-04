@@ -12,10 +12,12 @@ class UserRepository
 
     public function create($email, $password)
     {
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
         $query = "INSERT INTO $this->tableName (email, password) VALUES (?, ?)";
         $statement = ConnectionHandler::getConnection()->prepare($query);
 
-        $statement->bind_param('ss', $email, $password);
+        $statement->bind_param('ss', $email, $password_hash);
         $execution_result = $statement->execute();
 
         if (!$execution_result) {
@@ -25,12 +27,12 @@ class UserRepository
         return $statement->insert_id;
     }
 
-    public function get($email, $password)
+    public function get($email)
     {
-        $query = "SELECT * FROM $this->tableName WHERE email == ? AND password == $password";
+        $query = "SELECT * FROM $this->tableName WHERE email == ?";
 
         $statement = ConnectionHandler::getConnection()->prepare($query);
-        $statement->bind_param('ss', $email, $password);
+        $statement->bind_param('ss', $email);
 
         $statement->execute();
         $result = $statement->get_result();
