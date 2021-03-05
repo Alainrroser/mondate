@@ -15,16 +15,24 @@ function index_to_time($index) {
 $cell_content = array();
 
 foreach ($appointments as $appointment) {
+    // Convert appointment start date and time to seconds
     $date_as_string = $appointment->date . ' ' . $appointment->start;
     $id = DateTime::createFromFormat('Y-m-d H:i:s', $date_as_string)->getTimestamp();
 
+    // Calculate the number of cells required based on the end time
     $start_in_seconds = DateTime::createFromFormat('H:i:s', $appointment->start)->getTimestamp();
     $end_in_seconds = DateTime::createFromFormat('H:i:s', $appointment->end)->getTimestamp();
     $duration_in_seconds = $end_in_seconds - $start_in_seconds;
     $number_of_cells = $duration_in_seconds / SECONDS_PER_HOUR;
 
+    // Store the buttons in the array
     for ($i = 0; $i < $number_of_cells; $i++) {
-        $cell_content[$id + $i * SECONDS_PER_HOUR] = "<button class=\"btn btn-primary m-0 w-100 bg-orange\">$appointment->name</button>";
+        $text = "-";
+        if($i == 0) {
+            $text = $appointment->name;
+        }
+
+        $cell_content[$id + $i * SECONDS_PER_HOUR] = "<button class=\"btn btn-primary m-0 w-100 bg-orange\">$text</button>";
     }
 }
 ?>
@@ -74,7 +82,10 @@ foreach ($appointments as $appointment) {
                     echo "<th scope=\"row\" class=\"p-0 align-middle\">" . index_to_time($i) . "</th>";
 
                     for ($j = 0; $j < sizeof(COLUMNS); $j++) {
+                        // Convert the current cell date and time to seconds
                         $id = $start_date + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
+
+                        // Get and display the cell content from the array
                         $content = isset($cell_content[$id]) ? $cell_content[$id] : "";
                         echo "<td class=\"cell-appointment py-0 px-1 align-middle\">$content</td>";
                     }

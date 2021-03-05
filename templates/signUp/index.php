@@ -1,5 +1,5 @@
 <div class="center-align">
-    <div class="card w-25 pt-5">
+    <div class="card w-25 pt-5 shadow-sm">
         <img src="/images/logo.png"
              class="card-img-top w-25 mx-auto"
              alt="The Mondate Logo">
