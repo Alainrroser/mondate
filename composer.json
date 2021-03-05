@@ -3,7 +3,10 @@
   "description": "PHP mvc der bbcag.ch",
   "type": "project",
   "minimum-stability": "dev",
-  "require": {},
+  "require": {
+    "ext-json": "*",
+    "ext-dom": "*"
+  },
   "autoload": {
     "psr-4": {
       "App\\":"src/"

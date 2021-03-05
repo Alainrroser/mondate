@@ -1,7 +1,7 @@
 <div class="center-align">
-    <div class="card">
+    <div class="card w-25 pt-5">
         <img src="/images/logo.png"
-             class="card-img-top w-50 mx-auto"
+             class="card-img-top w-25 mx-auto"
              alt="The Mondate Logo">
         <div class="card-body">
             <form action="/user/doSignIn" method="post">
@@ -23,13 +23,15 @@
                            class="form-control"
                            placeholder="Enter your password">
                 </div>
-                <button class="btn btn-primary login-button" type="submit">
-                    Sign In
-                </button>
-                <a href="/signUp/"
-                   class="btn btn-secondary login-button">
-                    Sign Up
-                </a>
+                <div class="d-flex flex-column align-items-center justify-content-center">
+                    <button class="btn btn-primary w-50 mb-2" type="submit">
+                        Sign In
+                    </button>
+                    <a href="/signUp/"
+                       class="btn btn-secondary w-50">
+                        Sign Up
+                    </a>
+                </div>
             </form>
         </div>
     </div>

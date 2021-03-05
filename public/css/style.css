@@ -45,12 +45,6 @@ main {
     width: 18rem;
 }
 
-.login-button {
-    display: block;
-    margin: 10px auto;
-    width: 40%;
-}
-
 .form > input {
     width: 100%;
 }

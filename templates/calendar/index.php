@@ -2,11 +2,32 @@
 
 const COLUMNS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+const SECONDS_PER_HOUR = 60 * 60;
+const SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
+
 function index_to_time($index)
 {
     return str_pad($index, 2, '0', STR_PAD_LEFT) . ":00";
 }
 
+?>
+
+<?php
+$cell_content = array();
+
+foreach ($appointments as $appointment) {
+    $date_as_string = $appointment->date . ' ' . $appointment->start;
+    $id = DateTime::createFromFormat('Y-m-d H:i:s', $date_as_string)->getTimestamp();
+
+    $start_in_seconds = DateTime::createFromFormat('H:i:s', $appointment->start)->getTimestamp();
+    $end_in_seconds = DateTime::createFromFormat('H:i:s', $appointment->end)->getTimestamp();
+    $duration_in_seconds = $end_in_seconds - $start_in_seconds;
+    $number_of_cells = $duration_in_seconds / SECONDS_PER_HOUR;
+
+    for ($i = 0; $i < $number_of_cells; $i++) {
+        $cell_content[$id+$i * 3600] = "<button class=\"btn btn-primary m-0 w-100\">$appointment->name</button>";
+    }
+}
 ?>
 
 <div class="container mw-100">
@@ -54,19 +75,9 @@ function index_to_time($index)
                     echo "<th scope=\"row\" class=\"p-0 align-middle\">" . index_to_time($i) . "</th>";
 
                     for ($j = 0; $j < sizeof(COLUMNS); $j++) {
-                        if ($i == 17 && $j == 3) {
-                            echo "
-                            <td class=\"cell-appointment p-0 align-middle\">
-                                <button class=\"btn btn-primary m-0 w-100\">Dentist</button>
-                            </td>";
-                        } else if ($i == 3 && $j == 2) {
-                            echo "
-                            <td class=\"cell-appointment p-0 align-middle\">
-                                <button class=\"btn btn-primary m-0 w-100\">Bowling</button>
-                            </td>";
-                        } else {
-                            echo "<td class=\"cell-appointment\"></td>";
-                        }
+                        $id = $start_date + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
+                        $content = isset($cell_content[$id]) ? $cell_content[$id] : "";
+                        echo "<td class=\"cell-appointment p-0 align-middle\">$content</td>";
                     }
 
                     echo "</tr>";
@@ -79,7 +90,11 @@ function index_to_time($index)
     <div class="row float-right pt-3">
         <div class="col">
             <button id="btn-last" class="btn btn-secondary px-5">Last</button>
-            <span id="scope-identifier"></span>
+            <span id="scope-identifier">
+                <?php
+                echo date('d.m.Y', $start_date) . ' - ' . date('d.m.Y', $end_date);
+                ?>
+            </span>
             <button id="btn-next" class="btn btn-secondary px-5">Next</button>
         </div>
     </div>
