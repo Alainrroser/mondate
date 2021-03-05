@@ -39,7 +39,7 @@ foreach ($appointments as $appointment) {
 
 <div class="container mw-100">
     <div class="row pb-4">
-        <div class="col">
+        <div class="col-8">
             <img src="/images/logo.png"
                  class="card-img-top"
                  alt="The Mondate Logo"
@@ -47,7 +47,7 @@ foreach ($appointments as $appointment) {
         </div>
         <div class="col">
             <form action="/logout/" method="post">
-                <button type=submit class="btn btn-secondary w-50 mb-2">Logout</button>
+                <button type=submit class="btn btn-secondary w-50 mb-2 float-right">Logout</button>
             </form>
         </div>
     </div>
