@@ -5,8 +5,7 @@ const COLUMNS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const SECONDS_PER_HOUR = 60 * 60;
 const SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
-function index_to_time($index)
-{
+function index_to_time($index) {
     return str_pad($index, 2, '0', STR_PAD_LEFT) . ":00";
 }
 
@@ -25,7 +24,7 @@ foreach ($appointments as $appointment) {
     $number_of_cells = $duration_in_seconds / SECONDS_PER_HOUR;
 
     for ($i = 0; $i < $number_of_cells; $i++) {
-        $cell_content[$id+$i * 3600] = "<button class=\"btn btn-primary m-0 w-100\">$appointment->name</button>";
+        $cell_content[$id + $i * SECONDS_PER_HOUR] = "<button class=\"btn btn-primary m-0 w-100 bg-orange\">$appointment->name</button>";
     }
 }
 ?>
@@ -77,7 +76,7 @@ foreach ($appointments as $appointment) {
                     for ($j = 0; $j < sizeof(COLUMNS); $j++) {
                         $id = $start_date + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
                         $content = isset($cell_content[$id]) ? $cell_content[$id] : "";
-                        echo "<td class=\"cell-appointment p-0 align-middle\">$content</td>";
+                        echo "<td class=\"cell-appointment py-0 px-1 align-middle\">$content</td>";
                     }
 
                     echo "</tr>";
@@ -89,13 +88,13 @@ foreach ($appointments as $appointment) {
     </div>
     <div class="row float-right pt-3">
         <div class="col">
-            <button id="btn-last" class="btn btn-secondary px-5">Last</button>
+            <a href="/calendar/last" class="btn btn-secondary px-5">Last</a>
             <span id="scope-identifier">
                 <?php
                 echo date('d.m.Y', $start_date) . ' - ' . date('d.m.Y', $end_date);
                 ?>
             </span>
-            <button id="btn-next" class="btn btn-secondary px-5">Next</button>
+            <a href="/calendar/next" class="btn btn-secondary px-5">Next</a>
         </div>
     </div>
 </div>

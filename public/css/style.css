@@ -11,7 +11,6 @@ html {
 body {
     display: block;
     height: calc(100vh - 60px);
-    padding-top: 2rem;
 }
 
 main {
@@ -55,6 +54,7 @@ table {
 
 td, th {
     width: 200px;
+    overflow-y: visible;
 }
 
 tr {
@@ -71,8 +71,7 @@ tbody {
 }
 
 main.container {
-    padding-left: 100px;
-    padding-right: 100px;
+    padding: 40px 40px 0 40px;
 }
 
 #scope-identifier {
