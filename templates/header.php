@@ -15,5 +15,6 @@
 
     <title><?=$title;?> | Bbc MVC</title>
   </head>
-  <body>
-    <main class = "container d-flex justify-content-center m-0 mw-100">
+    <div class="body-container">
+        <body>
+            <main class = "container d-flex justify-content-center m-0 mw-100">

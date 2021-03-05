@@ -4,9 +4,9 @@
     
     use App\View\View;
     
-    class ImpressumController {
+    class ImprintController {
         public function index() {
-            $view = new View('impressum/index');
+            $view = new View('imprint/index');
             $view -> title = 'Impressum';
             $view -> display();
         }

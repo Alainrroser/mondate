@@ -47,4 +47,7 @@
         ausschliesslich den oben genannten Personen. Für die Reproduktion jeglicher Elemente ist die schriftliche
         Zustimmung der Urheberrechtsträger im Voraus einzuholen.
     </p>
+    <a href="../../calendar/" class="btn btn-primary">
+        Back
+    </a>
 </div>
