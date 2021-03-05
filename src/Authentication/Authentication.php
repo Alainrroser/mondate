@@ -43,7 +43,7 @@
         
         public static function restrictAuthenticated() {
             if(!self ::isAuthenticated()) {
-                header('Location: /user/');
+                header('Location: /signIn/');
             }
         }
     }

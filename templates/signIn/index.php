@@ -6,7 +6,7 @@
 		<div class = "card-body">
 			<form action="/user/doSignIn" method="post">
 				<div class = "form-group form">
-					<label for = "e-mail">
+					<label for = "email">
 						E-Mail
 					</label>
 					<input type = "email"
@@ -26,7 +26,7 @@
 				<button class="btn btn-primary" type="submit">
 					Sign In
 				</button>
-				<a href = "/user/signUp"
+				<a href = "/signUp/"
 				   class = "btn btn-primary">
 					Sign Up
 				</a>

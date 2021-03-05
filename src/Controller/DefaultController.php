@@ -2,7 +2,7 @@
     
     namespace App\Controller;
     
-    use App\View\View;
+    use App\Authentication\Authentication;
     
     /**
      * Der Controller ist der Ort an dem es für jede Seite, welche der Benutzer
@@ -15,7 +15,7 @@
      *   UserController) zu implementieren. Nicht zusammengehörende Features sollten
      *   jeweils auf unterschiedliche Controller aufgeteilt werden.
      *
-     * Was passiert in einer Controllerfunktion?
+     * Was passiert in einer Controller-Funktion?
      *   Die Anforderungen an die einzelnen Funktionen sind sehr unterschiedlich.
      *   Folgend die gängigsten:
      *     - Dafür sorgen, dass dem Benutzer eine View (HTML, CSS & JavaScript)
@@ -36,10 +36,9 @@
          */
         public function index() {
             // In diesem Fall möchten wir dem Benutzer die View mit dem Namen
-            //   "default_index" rendern. Wie das genau funktioniert, ist in der
-            //   View Klasse beschrieben.
-            $view = new View('default/index');
-            $view -> title = 'Startseite';
-            $view -> display();
+            // "default_index" rendern. Wie das genau funktioniert, ist in der
+            // View Klasse beschrieben.
+            Authentication::restrictAuthenticated();
+            header("Location: /calendar");
         }
     }

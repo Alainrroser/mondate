@@ -40,14 +40,7 @@
         }
         
         public function index() {
-            $view = new View('user/index');
-            $view -> title = 'Sign In';
-            $view -> display();
-        }
-        
-        public function signUp() {
-            $view = new View('user/signUp');
-            $view -> title = 'Sign Up';
-            $view -> display();
+            Authentication::restrictAuthenticated();
+            header("Location: /calendar");
         }
     }
