@@ -11,6 +11,7 @@ html {
 body {
     display: block;
     height: calc(100vh - 60px);
+    padding-top: 2rem;
 }
 
 main {
@@ -29,6 +30,7 @@ main {
 .footer > .container {
     padding-right: 15px;
     padding-left: 15px;
+    margin-left: 0;
 }
 
 .center-align {
@@ -43,7 +45,7 @@ main {
     width: 18rem;
 }
 
-.btn-primary {
+.login-button {
     display: block;
     margin: 10px auto;
     width: 40%;
@@ -77,4 +79,12 @@ tbody {
 main.container {
     padding-left: 100px;
     padding-right: 100px;
+}
+
+#scope-identifier {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
