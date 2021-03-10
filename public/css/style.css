@@ -9,7 +9,8 @@ html {
 }
 
 .body-container {
-    padding-bottom: 80px;
+    display: block;
+    height: calc(100vh - 60px);
 }
 
 body {
@@ -86,7 +87,7 @@ table.table thead th {
 }
 
 main.container {
-    padding: 40px 40px 0 40px;
+    padding: 0 40px 0 40px;
 }
 
 #scope-identifier {
