@@ -12,7 +12,14 @@ function index_to_time($index) {
 ?>
 
 <?php
-$cell_content = array();
+$columns = array();
+$cellContent = array();
+
+for ($i = 0; $i < sizeof(COLUMNS); $i++) {
+    $current_date = $_SESSION['startDate'] + 60 * 60 * 24 * $i;
+
+    $columns[$i] = COLUMNS[$i] . "<br>" . date('d.m.Y', $current_date);
+}
 
 foreach ($appointments as $appointment) {
     // Convert appointment start date and time to seconds
@@ -20,23 +27,23 @@ foreach ($appointments as $appointment) {
     $id = DateTime::createFromFormat('Y-m-d H:i:s', $date_as_string)->getTimestamp();
 
     // Calculate the number of cells required based on the end time
-    $start_in_seconds = DateTime::createFromFormat('H:i:s', $appointment->start)->getTimestamp();
-    $end_in_seconds = DateTime::createFromFormat('H:i:s', $appointment->end)->getTimestamp();
-    $duration_in_seconds = $end_in_seconds - $start_in_seconds;
-    $number_of_cells = $duration_in_seconds / SECONDS_PER_HOUR;
-    
-    $color = 'rgb(' . mt_rand(0, 255) . ', ' . mt_rand(0, 255) . ', ' . mt_rand(0, 255) . ')';
+    $startInSeconds = DateTime::createFromFormat('H:i:s', $appointment->start)->getTimestamp();
+    $endInSeconds = DateTime::createFromFormat('H:i:s', $appointment->end)->getTimestamp();
+    $durationInSeconds = $endInSeconds - $startInSeconds;
+    $numberOfCells = $durationInSeconds / SECONDS_PER_HOUR;
+
+    $color = '#' . $appointmentColors[$appointment->id];
     $style = "background-color: $color; border-color: $color";
 
     // Store the buttons in the array
-    for ($i = 0; $i < $number_of_cells; $i++) {
+    for ($i = 0; $i < $numberOfCells; $i++) {
         $text = "-";
         if($i == 0) {
             $text = $appointment->name;
         }
 
-        $cell_id = $id + $i * SECONDS_PER_HOUR;
-        $cell_content[$cell_id] = "<div style=\"$style\" class=\"btn btn-primary m-0 w-100\">$text</div>";
+        $cellId = $id + $i * SECONDS_PER_HOUR;
+        $cellContent[$cellId] = "<div style=\"$style\" class=\"btn btn-primary m-0 w-100\">$text</div>";
     }
 }
 ?>
@@ -66,6 +73,14 @@ foreach ($appointments as $appointment) {
             <div class="row">
                 <button class="btn btn-secondary w-100 mb-2">Delete Appointment</button>
             </div>
+            <?php
+            foreach($tags as $tag) {
+                $color = '#' . $tag->color;
+                echo "<div class=\"row mt-2\">";
+                echo "<div style=\"width:1rem;height:1rem;background-color: $color\"></div><p>$tag->name</p>";
+                echo "</div>";
+            }
+            ?>
         </div>
         <div class="col-10">
             <table class="table">
@@ -73,7 +88,7 @@ foreach ($appointments as $appointment) {
                 <tr>
                     <th scope="col"></th>
                     <?php
-                    foreach (COLUMNS as $column) {
+                    foreach ($columns as $column) {
                         echo "<th scope=\"col\" class=\"text-center\">$column</th>";
                     }
                     ?>
@@ -87,10 +102,10 @@ foreach ($appointments as $appointment) {
 
                     for ($j = 0; $j < sizeof(COLUMNS); $j++) {
                         // Convert the current cell date and time to seconds
-                        $id = $start_date + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
+                        $id = $startDate + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
 
                         // Get and display the cell content from the array
-                        $content = isset($cell_content[$id]) ? $cell_content[$id] : "";
+                        $content = isset($cellContent[$id]) ? $cellContent[$id] : "";
                         echo "<td class=\"cell-appointment py-0 px-1 align-middle\">$content</td>";
                     }
 
@@ -106,7 +121,7 @@ foreach ($appointments as $appointment) {
             <a href="/calendar/last" class="btn btn-secondary px-5">Last</a>
             <span id="scope-identifier">
                 <?php
-                echo date('d.m.Y', $start_date) . ' - ' . date('d.m.Y', $end_date);
+                echo date('d.m.Y', $startDate) . ' - ' . date('d.m.Y', $endDate);
                 ?>
             </span>
             <a href="/calendar/next" class="btn btn-secondary px-5">Next</a>

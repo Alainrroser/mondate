@@ -169,4 +169,40 @@
                 throw new Exception($statement -> error);
             }
         }
+
+        /**
+         * @param $query
+         * @param $types
+         * @param $vars
+         * @return array
+         * @throws Exception
+         */
+        protected function executeAndGetRows($query, $types=null, ...$vars) {
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+
+            if(isset($types) && isset($vars)) {
+                if(sizeof($vars) == 1) {
+                    $var1 = $vars[0];
+                    $statement->bind_param($types, $var1);
+                } else if(sizeof($vars) > 0) {
+                    $var1 = $vars[0];
+                    $_ = array_slice($vars, 1);
+                    $statement->bind_param($types, $var1,$_);
+                }
+            }
+
+            $statement->execute();
+            $result = $statement->get_result();
+
+            if (!$result) {
+                throw new Exception($statement->error);
+            }
+
+            $rows = array();
+            while($row = $result->fetch_object()) {
+                $rows[] = $row;
+            }
+
+            return $rows;
+        }
     }
