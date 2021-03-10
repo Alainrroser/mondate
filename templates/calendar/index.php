@@ -25,6 +25,9 @@ foreach ($appointments as $appointment) {
     $duration_in_seconds = $end_in_seconds - $start_in_seconds;
     $number_of_cells = $duration_in_seconds / SECONDS_PER_HOUR;
 
+    $color = 'rgb(' . mt_rand(0, 255) . ', ' . mt_rand(0, 255) . ', ' . mt_rand(0, 255) . ')';
+    $style = "background-color: $color; border-color: $color";
+
     // Store the buttons in the array
     for ($i = 0; $i < $number_of_cells; $i++) {
         $text = "-";
@@ -32,7 +35,8 @@ foreach ($appointments as $appointment) {
             $text = $appointment->name;
         }
 
-        $cell_content[$id + $i * SECONDS_PER_HOUR] = "<button class=\"btn btn-primary m-0 w-100 bg-orange\">$text</button>";
+        $cell_id = $id + $i * SECONDS_PER_HOUR;
+        $cell_content[$cell_id] = "<div style=\"$style\" class=\"btn btn-primary m-0 w-100\">$text</div>";
     }
 }
 ?>
