@@ -7,7 +7,7 @@ use App\Repository\UserRepository;
 
 class UserController
 {
-    const PASSWORD_PATTERN = '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,20}$';
+    const PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-\.]).{8,20}$";
 
     public function doSignUp()
     {
@@ -28,14 +28,24 @@ class UserController
 
         $emailValid = isset($email) && !empty($email) &&
             filter_var($email, FILTER_VALIDATE_EMAIL);
-        $passwordValid = isset($password) && !empty($password) &&
-            preg_match(UserController::PASSWORD_PATTERN, $password);
 
-        if ($emailValid && $passwordValid && Authentication::login($email, $password)) {
+        if ($emailValid && Authentication::login($email, $password)) {
             header("Location: /calendar/");
         } else {
             header("Location: /user/");
         }
+    }
+    
+    public function doChangePassword() {
+        $userRepository = new UserRepository();
+        $userRepository->changePassword($_SESSION["userId"], $_POST["password"]);
+        Authentication::logout();
+    }
+    
+    public function changePassword() {
+        $view = new View('user/changePassword');
+        $view->title = 'Change Password';
+        $view->display();
     }
 
     public function delete()

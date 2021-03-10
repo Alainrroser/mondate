@@ -25,7 +25,6 @@
                            name="password"
                            class="form-control"
                            placeholder="Enter your password"
-                           pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,20}$"
                            required>
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">

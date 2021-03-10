@@ -13,7 +13,7 @@
           type = "text/css"
           href = "/css/style.css">
 
-    <title><?=$title;?> | Bbc MVC</title>
+    <title>Mondate</title>
   </head>
     <div class="body-container">
         <body>

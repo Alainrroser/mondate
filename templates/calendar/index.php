@@ -57,9 +57,37 @@ foreach ($appointments as $appointment) {
                  style="width: 100px">
         </div>
         <div class="col">
-            <form action="/logout/" method="post">
-                <button type=submit class="btn btn-secondary w-50 mb-2 float-right">Logout</button>
-            </form>
+            <div class="dropdown float-right">
+                <button class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    Account
+                </button>
+                <div class="dropdown-menu dropdown-menu-right"
+                     aria-labelledby="dropdownMenuButton">
+                    <form action="/logout/"
+                          method="post">
+                        <button type=submit
+                                class="dropdown-item">
+                            Logout
+                        </button>
+                    </form>
+                    <a href="/user/changePassword"
+                       class="dropdown-item">
+                        Change password
+                    </a>
+                    <form action="/user/delete"
+                          method="post">
+                        <button type=submit
+                                class="dropdown-item">
+                            Delete Account
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">

@@ -205,4 +205,18 @@
 
             return $rows;
         }
+    
+        public function changePassword($id, $password) {
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+        
+            $query = "UPDATE $this->tableName SET password=? WHERE id=?";
+        
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+            $statement->bind_param("si", $password_hash, $id);
+        
+            $execution_result = $statement->execute();
+            if(!$execution_result) {
+                throw new Exception($statement->error);
+            }
+        }
     }

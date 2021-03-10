@@ -4,22 +4,9 @@
              class="card-img-top w-25 mx-auto"
              alt="The Mondate Logo">
         <div class="card-body">
-            <form action="/user/doSignUp"
+            <form action="/user/doChangePassword"
                   method="post"
                   onsubmit="return confirmPassword()">
-                <div class="
-                  form-group
-                  form">
-                    <label for="e-mail">
-                        E-Mail
-                    </label>
-                    <input type="email"
-                           id="email"
-                           name="email"
-                           class="form-control"
-                           placeholder="Enter your e-mail"
-                           required>
-                </div>
                 <div class="form-group form">
                     <label for="password">
                         Password
@@ -45,11 +32,11 @@
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <button class="btn btn-primary w-50 mb-2"
                             type="submit">
-                        Sign Up
+                        Change Password
                     </button>
-                    <a href="/signIn/"
+                    <a href="/calendar/"
                        class="btn btn-secondary w-50">
-                        Sign In
+                        Back
                     </a>
                 </div>
         </form>
@@ -57,4 +44,5 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/js/signUp.js"></script>
+<script type="text/javascript"
+        src="/js/signUp.js"></script>
