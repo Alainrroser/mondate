@@ -1,7 +1,7 @@
 USE mondate;
 
 -- its-a-me
-SET @me = (SELECT id FROM user WHERE email = 'marino.vonwattenwyl@bbcag.ch');
+SET @me = (SELECT id FROM user LIMIT 1);
 
 -- annihilate data
 DELETE FROM appointment_user;

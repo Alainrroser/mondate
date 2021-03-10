@@ -29,8 +29,8 @@ CREATE TABLE tag (
 CREATE TABLE appointment_user (
     appointment_id INT NOT NULL,
     user_id INT NOT NULL,
-    FOREIGN KEY (appointment_id) REFERENCES appointment(id),
-    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (appointment_id) REFERENCES appointment(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (appointment_id, user_id)
 );
 

@@ -5,8 +5,7 @@
              alt="The Mondate Logo">
         <div class="card-body">
             <form action="/user/doSignUp"
-                  method="post"
-                  onsubmit="return confirmPassword()">
+                  method="post">
                 <div class="
                   form-group
                   form">
@@ -44,7 +43,8 @@
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <button class="btn btn-primary w-50 mb-2"
-                            type="submit">
+                            type="submit"
+                            id="submit-button">
                         Sign Up
                     </button>
                     <a href="/signIn/"

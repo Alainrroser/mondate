@@ -51,10 +51,9 @@ class UserController
     public function delete()
     {
         $userRepository = new UserRepository();
-        $userRepository->deleteById($_GET['id']);
+        $userRepository->deleteById($_SESSION['userId']);
 
-        // Anfrage an die URI /user weiterleiten (HTTP 302)
-        header('Location: /user');
+        Authentication::logout();
     }
 
     public function index()

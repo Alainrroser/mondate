@@ -101,14 +101,21 @@ foreach ($appointments as $appointment) {
             <div class="row">
                 <button class="btn btn-secondary w-100 mb-2">Delete Appointment</button>
             </div>
-            <?php
-            foreach($tags as $tag) {
-                $color = '#' . $tag->color;
-                echo "<div class=\"row mt-2\">";
-                echo "<div style=\"width:1rem;height:1rem;background-color: $color\"></div><p>$tag->name</p>";
-                echo "</div>";
-            }
-            ?>
+            <div class="row mt-5">
+                <h2 class="h5">Tags</h2>
+                <div class="container">
+                    <?php
+                    foreach($tags as $tag) {
+                        $color = '#' . $tag->color;
+                        echo
+                        "<div class=\"row mt-2 align-items-center\">
+                        <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-2\"></span>
+                        <span class=\"align-middle\">$tag->name</span>
+                    </div>";
+                    }
+                    ?>
+                </div>
+            </div>
         </div>
         <div class="col-10">
             <table class="table">
