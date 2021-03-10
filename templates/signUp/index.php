@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group form">
                     <label for="password">
-                        Confirm password
+                        Confirm Password
                     </label>
                     <input type="password"
                            id="confirm_password"

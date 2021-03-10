@@ -57,8 +57,8 @@ foreach ($appointments as $appointment) {
                  style="width: 100px">
         </div>
         <div class="col">
-            <div class="dropdown float-right">
-                <button class="btn btn-secondary dropdown-toggle"
+            <div class="dropdown float-right w-50">
+                <button class="btn btn-secondary dropdown-toggle w-100"
                         type="button"
                         id="dropdownMenuButton"
                         data-toggle="dropdown"
@@ -66,26 +66,17 @@ foreach ($appointments as $appointment) {
                         aria-expanded="false">
                     Account
                 </button>
-                <div class="dropdown-menu dropdown-menu-right"
+                <div class="dropdown-menu dropdown-menu-right w-100"
                      aria-labelledby="dropdownMenuButton">
-                    <form action="/logout/"
-                          method="post">
-                        <button type=submit
-                                class="dropdown-item">
-                            Logout
-                        </button>
-                    </form>
-                    <a href="/user/changePassword"
-                       class="dropdown-item">
-                        Change password
+                    <a href="/logout" type=submit class="dropdown-item w-100">
+                        Logout
                     </a>
-                    <form action="/user/delete"
-                          method="post">
-                        <button type=submit
-                                class="dropdown-item">
-                            Delete Account
-                        </button>
-                    </form>
+                    <a href="/user/changePassword" class="dropdown-item w-100">
+                        Change Password
+                    </a>
+                    <a href="/user/delete" type=submit class="dropdown-item w-100">
+                        Delete Account
+                    </a>
                 </div>
             </div>
         </div>

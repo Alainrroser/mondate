@@ -5,8 +5,7 @@
              alt="The Mondate Logo">
         <div class="card-body">
             <form action="/user/doChangePassword"
-                  method="post"
-                  onsubmit="return confirmPassword()">
+                  method="post">
                 <div class="form-group form">
                     <label for="password">
                         Password
@@ -20,7 +19,7 @@
                 </div>
                 <div class="form-group form">
                     <label for="password">
-                        Confirm password
+                        Confirm Password
                     </label>
                     <input type="password"
                            id="confirm_password"

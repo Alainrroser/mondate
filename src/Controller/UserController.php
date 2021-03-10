@@ -4,11 +4,10 @@ namespace App\Controller;
 
 use App\Authentication\Authentication;
 use App\Repository\UserRepository;
+use App\View\View;
 
 class UserController
 {
-    const PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-\.]).{8,20}$";
-
     public function doSignUp()
     {
         $email = $_POST['email'];
