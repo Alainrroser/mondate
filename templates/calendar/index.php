@@ -24,7 +24,7 @@ foreach ($appointments as $appointment) {
     $end_in_seconds = DateTime::createFromFormat('H:i:s', $appointment->end)->getTimestamp();
     $duration_in_seconds = $end_in_seconds - $start_in_seconds;
     $number_of_cells = $duration_in_seconds / SECONDS_PER_HOUR;
-
+    
     $color = 'rgb(' . mt_rand(0, 255) . ', ' . mt_rand(0, 255) . ', ' . mt_rand(0, 255) . ')';
     $style = "background-color: $color; border-color: $color";
 
