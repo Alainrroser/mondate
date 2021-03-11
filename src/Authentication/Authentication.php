@@ -9,7 +9,7 @@
         public static function login($email, $password) {
             // Den Benutzer anhand der E-Mail oder des Benutzernamen auslesen
             $userRepository = new UserRepository();
-            $user = $userRepository->get($email);
+            $user = $userRepository->readByEmail($email);
             
             if($user != null) {
                 // Prüfen ob der Password-Hash dem aus der Datenbank entspricht

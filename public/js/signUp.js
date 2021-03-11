@@ -1,3 +1,5 @@
+"use strict"
+
 let password = document.getElementById("password")
 let confirmPassword = document.getElementById("confirmPassword")
 

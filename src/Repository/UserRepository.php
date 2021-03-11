@@ -40,7 +40,7 @@
          * @return object|stdClass
          * @throws Exception
          */
-        public function get($email) {
+        public function readByEmail($email) {
             $query = "SELECT * FROM $this->tableName WHERE email = ?";
             
             $statement = ConnectionHandler::getConnection()->prepare($query);

@@ -21,23 +21,12 @@
             $tagRepository = new TagRepository();
             
             $appointments = $appointmentRepository->getAppointmentsForUser($userId);
-            $tags = $tagRepository->getTags();
-            
-            $appointmentColors = [];
-            
-            foreach($appointments as $appointment) {
-                $tagsForAppointment = $tagRepository->getTagsForAppointment($appointment->id);
-                $tag = $tagsForAppointment[0]; // Get first tag
-                
-                $appointmentColors[$appointment->id] = $tag->color;
-            }
-            
+            $tags = $tagRepository->readAll();
             $this->setStartDateIfNotSet();
             
             $view = new View('calendar/index');
             $view->title = 'Calendar';
             $view->appointments = $appointments;
-            $view->appointmentColors = $appointmentColors;
             $view->tags = $tags;
             $view->startDate = $_SESSION['startDate'];
             $view->endDate = $_SESSION['startDate'] + CalendarController::SECONDS_PER_SCOPE;
