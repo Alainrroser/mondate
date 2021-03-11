@@ -33,6 +33,8 @@
         }
         
         public function doChangePassword() {
+            Authentication::restrictAuthenticated();
+
             $userRepository = new UserRepository();
             $user = Authentication::getAuthenticatedUser();
             if(password_verify($_POST["oldPassword"], $user->password)) {
@@ -44,12 +46,16 @@
         }
         
         public function changePassword() {
+            Authentication::restrictAuthenticated();
+
             $view = new View('user/changePassword');
             $view->title = 'Change Password';
             $view->display();
         }
         
         public function delete() {
+            Authentication::restrictAuthenticated();
+
             $userRepository = new UserRepository();
             $userRepository->deleteById($_SESSION['userId']);
             

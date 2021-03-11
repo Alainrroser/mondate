@@ -169,6 +169,29 @@
                 throw new Exception($statement->error);
             }
         }
+
+        /**
+         * @param $query
+         * @param null $types
+         * @param mixed ...$vars
+         * @return false|\mysqli_stmt
+         */
+        private function bindStatementParams($query, $types=null, $vars) {
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+
+            if(isset($types) && isset($vars)) {
+                if(sizeof($vars) == 1) {
+                    $var1 = $vars[0];
+                    $statement->bind_param($types, $var1);
+                } else if(sizeof($vars) > 0) {
+                    $var1 = $vars[0];
+                    $_ = array_slice($vars, 1);
+                    $statement->bind_param($types, $var1, ...$_);
+                }
+            }
+
+            return $statement;
+        }
         
         /**
          * @param $query
@@ -178,19 +201,8 @@
          * @return array
          * @throws Exception
          */
-        protected function executeAndGetRows($query, $types = null, ...$vars) {
-            $statement = ConnectionHandler::getConnection()->prepare($query);
-            
-            if(isset($types) && isset($vars)) {
-                if(sizeof($vars) == 1) {
-                    $var1 = $vars[0];
-                    $statement->bind_param($types, $var1);
-                } else if(sizeof($vars) > 0) {
-                    $var1 = $vars[0];
-                    $_ = array_slice($vars, 1);
-                    $statement->bind_param($types, $var1, $_);
-                }
-            }
+        protected function executeAndGetRows($query, $types=null, ...$vars) {
+            $statement = self::bindStatementParams($query, $types, $vars);
             
             $statement->execute();
             $result = $statement->get_result();
@@ -206,18 +218,23 @@
             
             return $rows;
         }
-        
-        public function changePassword($id, $password) {
-            $password_hash = password_hash($password, PASSWORD_DEFAULT);
-            
-            $query = "UPDATE $this->tableName SET password=? WHERE id=?";
-            
-            $statement = ConnectionHandler::getConnection()->prepare($query);
-            $statement->bind_param("si", $password_hash, $id);
-            
-            $execution_result = $statement->execute();
-            if(!$execution_result) {
+
+        /**
+         * @param $query
+         * @param null $types
+         * @param mixed ...$vars
+         * @return int
+         * @throws Exception
+         */
+        protected function insertAndGetId($query, $types=null, ...$vars) {
+            $statement = self::bindStatementParams($query, $types, $vars);
+            $executionResult = $statement->execute();
+
+            if(!$executionResult) {
                 throw new Exception($statement->error);
             }
+
+            return $statement->insert_id;
         }
+
     }

@@ -40,12 +40,16 @@
         }
         
         public function next() {
+            Authentication::restrictAuthenticated();
+
             $this->setStartDateIfNotSet();
             $_SESSION['startDate'] += CalendarController::SECONDS_PER_WEEK;
             header('Location: /calendar');
         }
         
         public function last() {
+            Authentication::restrictAuthenticated();
+
             $this->setStartDateIfNotSet();
             $_SESSION['startDate'] -= CalendarController::SECONDS_PER_WEEK;
             header('Location: /calendar');

@@ -63,4 +63,13 @@ class AppointmentRepository extends Repository {
         return $appointments;
     }
 
+    public function createAppointment($date, $start, $end, $name, $description, $creatorId) {
+        $queryAppointment = "INSERT INTO $this->tableName (date, start, end, name, description, creator_id)
+                  VALUES (?, ?, ?, ?, ?, ?)";
+        $appointmentId = self::insertAndGetId($queryAppointment, 'sssssi', $date, $start, $end, $name, $description, $creatorId);
+
+        $queryAppointmentUser = "INSERT INTO appointment_user (appointment_id, user_id) VALUES (?, ?)";
+        self::insertAndGetId($queryAppointmentUser, 'ii', $appointmentId, $creatorId);
+    }
+
 }

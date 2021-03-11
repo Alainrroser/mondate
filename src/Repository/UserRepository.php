@@ -20,18 +20,8 @@
          */
         public function signUp($email, $password) {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-            
             $query = "INSERT INTO $this->tableName (email, password) VALUES (?, ?)";
-            $statement = ConnectionHandler::getConnection()->prepare($query);
-            
-            $statement->bind_param('ss', $email, $passwordHash);
-            $executionResult = $statement->execute();
-            
-            if(!$executionResult) {
-                throw new Exception($statement->error);
-            }
-            
-            return $statement->insert_id;
+            return parent::insertAndGetId($query, 'ss', $email, $passwordHash);
         }
         
         /**
@@ -55,5 +45,18 @@
             
             return $result->fetch_object();
         }
-        
+
+        public function changePassword($id, $password) {
+            $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+            $query = "UPDATE $this->tableName SET password=? WHERE id=?";
+
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+            $statement->bind_param("si", $password_hash, $id);
+
+            $execution_result = $statement->execute();
+            if(!$execution_result) {
+                throw new Exception($statement->error);
+            }
+        }
     }

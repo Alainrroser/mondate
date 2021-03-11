@@ -86,7 +86,7 @@
                  class="card-img-top w-25 mx-auto"
                  alt="The Mondate Logo">
             <div class="card-body">
-                <form action=""
+                <form action="/appointment/create"
                       method="post">
                     <div class="form-group form">
                         <label>
@@ -110,16 +110,16 @@
                                 <label>
                                     Start Time
                                 </label>
-                                <input type="time"
-                                       name="startTime"
+                                <input type="text"
+                                       name="start"
                                        class="form-control">
                             </div>
                             <div class="form-group form">
                                 <label>
                                     End Time
                                 </label>
-                                <input type="time"
-                                       name="endTime"
+                                <input type="text"
+                                       name="end"
                                        class="form-control">
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                  class="card-img-top w-25 mx-auto"
                  alt="The Mondate Logo">
             <div class="card-body">
-                <form action=""
+                <form action="/appointment/create"
                       method="post">
                     <div class="form-group form">
                         <label>
@@ -215,16 +215,16 @@
                                 <label>
                                     Start Time
                                 </label>
-                                <input type="time"
-                                       name="startTime"
+                                <input type="text"
+                                       name="start"
                                        class="form-control">
                             </div>
                             <div class="form-group form">
                                 <label>
                                     End Time
                                 </label>
-                                <input type="time"
-                                       name="endTime"
+                                <input type="text"
+                                       name="end"
                                        class="form-control">
                             </div>
                         </div>
@@ -255,7 +255,7 @@
                                         </button>
                                         <div class="dropdown-menu"
                                              aria-labelledby="dropdownMenuButton">
-                                            
+
                                         </div>
                                     </div>
                                 </div>
