@@ -34,8 +34,13 @@
         
         public function doChangePassword() {
             $userRepository = new UserRepository();
-            $userRepository->changePassword($_SESSION["userId"], $_POST["password"]);
-            Authentication::logout();
+            $user = Authentication::getAuthenticatedUser();
+            if(password_verify($_POST["oldPassword"], $user->password)) {
+                $userRepository->changePassword($_SESSION["userId"], $_POST["password"]);
+                Authentication::logout();
+            } else {
+                header("Location: /user/changePassword");
+            }
         }
         
         public function changePassword() {

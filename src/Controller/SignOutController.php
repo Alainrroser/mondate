@@ -7,7 +7,7 @@
     use App\Authentication\Authentication;
     use App\View\View;
     
-    class LogoutController {
+    class SignOutController {
         public function index() {
             Authentication::logout();
         }

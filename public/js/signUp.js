@@ -1,5 +1,5 @@
 let password = document.getElementById("password")
-let confirmPassword = document.getElementById("confirm_password")
+let confirmPassword = document.getElementById("confirmPassword")
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,20}$/g
 
@@ -24,4 +24,3 @@ document.querySelector('#submit-button').addEventListener("click", function () {
         confirmPassword.setCustomValidity("")
     }
 })
-

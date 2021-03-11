@@ -24,7 +24,7 @@
     </h3>
     <p>
         The authors do not assume any liability with regard to the correctness, accuracy, topicality,
-        Reliability and completeness of the information. Liability claims against the author for material damage
+        Reliability and completeness of the information. Liability claims against the authors for material damage
         or of an intangible nature resulting from the access, use or non-use of the published
         Information that has arisen through misuse of the connection or through technical malfunctions
         locked out. All offers are non-binding. The authors expressly reserve the right to change parts of the pages

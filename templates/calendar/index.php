@@ -50,12 +50,15 @@
 
 <div class="container mw-100">
     <div class="row pb-4">
-        <div class="col-8">
+        <div class="col-4">
             <img src="/images/logo.png"
                  class="card-img-top"
                  alt="The Mondate Logo"
                  style="width: 100px">
         </div>
+        <h1 class="col-4 text-center">
+            Mondate
+        </h1>
         <div class="col">
             <div class="dropdown float-right w-50">
                 <button class="btn btn-secondary dropdown-toggle w-100"
@@ -68,7 +71,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right w-100"
                      aria-labelledby="dropdownMenuButton">
-                    <a href="/logout"
+                    <a href="/signOut"
                        type=submit
                        class="dropdown-item w-100">
                         Logout
@@ -89,13 +92,19 @@
     <div class="row">
         <div class="container col px-5">
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2">Create Appointment</button>
+                <button class="btn btn-secondary w-100 mb-2">
+                    Create Appointment
+                </button>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2">Edit Appointment</button>
+                <button class="btn btn-secondary w-100 mb-2">
+                    Edit Appointment
+                </button>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2">Delete Appointment</button>
+                <button class="btn btn-secondary w-100 mb-2">
+                    Delete Appointment
+                </button>
             </div>
             <div class="row mt-5">
                 <h2 class="h5">Tags</h2>

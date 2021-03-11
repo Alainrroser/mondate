@@ -1,5 +1,8 @@
 <div class="center-align">
     <div class="card w-25 pt-5 shadow-sm">
+        <h1 class="text-center mb-3">
+            Sign Up
+        </h1>
         <img src="/images/logo.png"
              class="card-img-top w-25 mx-auto"
              alt="The Mondate Logo">
@@ -16,7 +19,7 @@
                            id="email"
                            name="email"
                            class="form-control"
-                           placeholder="Enter your e-mail"
+                           placeholder="Enter an e-mail"
                            required>
                 </div>
                 <div class="form-group form">
@@ -27,7 +30,7 @@
                            id="password"
                            name="password"
                            class="form-control"
-                           placeholder="Enter your password"
+                           placeholder="Enter a password"
                            required>
                 </div>
                 <div class="form-group form">
@@ -35,10 +38,10 @@
                         Confirm Password
                     </label>
                     <input type="password"
-                           id="confirm_password"
-                           name="confirm_password"
+                           id="confirmPassword"
+                           name="confirmPassword"
                            class="form-control"
-                           placeholder="Enter your password"
+                           placeholder="Confirm your password"
                            required>
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
