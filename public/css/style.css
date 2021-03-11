@@ -48,6 +48,7 @@ main {
 
 .card {
     width: 18rem;
+    margin: 0;
 }
 
 .form > input {
@@ -116,4 +117,8 @@ main.container {
 
 .appointment-top-bottom {
     border-radius: 10px;
+}
+
+#createAppointment, #editAppointment {
+    z-index: 1;
 }
