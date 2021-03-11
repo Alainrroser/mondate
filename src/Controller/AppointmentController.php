@@ -5,7 +5,7 @@
     
     
     use App\View\View;
-
+    
     class AppointmentController {
         public function index() {
             $view = new View('');

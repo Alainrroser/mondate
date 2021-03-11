@@ -9,11 +9,11 @@
      * auf eine bestehende Datei zeigen hierhin umgeleitet.
      */
     
-    require_once __DIR__ . '/../vendor/autoload.php';
+    require_once __DIR__.'/../vendor/autoload.php';
     
     use App\Dispatcher\Dispatcher;
     use App\Exception\ExceptionListener;
     
     session_start();
-    ExceptionListener ::register();
-    Dispatcher ::dispatch();
+    ExceptionListener::register();
+    Dispatcher::dispatch();

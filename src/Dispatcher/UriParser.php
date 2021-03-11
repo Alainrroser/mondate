@@ -7,7 +7,7 @@
          * Diese Methode wertet die Request URI aus und gibt den Controllername zurück.
          */
         public static function getControllerName() {
-            $uriFragments = self ::getUriFragments();
+            $uriFragments = self::getUriFragments();
             
             // Den Namen des gewünschten Controllers ermitteln
             if(!empty($uriFragments[0])) {
@@ -23,7 +23,7 @@
          * Diese Methode wertet die Request URI aus und gibt den Actionname (Action = Methode im Controller) zurück.
          */
         public static function getMethodName() {
-            $uriFragments = self ::getUriFragments();
+            $uriFragments = self::getUriFragments();
             
             // Den Namen der auszuführenden Methode ermitteln
             $method = 'index';

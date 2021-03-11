@@ -9,7 +9,7 @@
         public static function login($email, $password) {
             // Den Benutzer anhand der E-Mail oder des Benutzernamen auslesen
             $userRepository = new UserRepository();
-            $user = $userRepository -> get($email);
+            $user = $userRepository->get($email);
             
             if($user != null) {
                 // Prüfen ob der Password-Hash dem aus der Datenbank entspricht
@@ -17,7 +17,7 @@
                     session_unset();
                     session_destroy();
                     session_start();
-                    $_SESSION["userId"] = $user -> id;
+                    $_SESSION["userId"] = $user->id;
                     return true;
                 }
             }
@@ -38,11 +38,11 @@
         public static function getAuthenticatedUser() {
             $userRepository = new UserRepository();
             $userId = $_SESSION["userId"];
-            return $userRepository -> readById($userId);
+            return $userRepository->readById($userId);
         }
         
         public static function restrictAuthenticated() {
-            if(!self ::isAuthenticated()) {
+            if(!self::isAuthenticated()) {
                 header('Location: /signIn/');
             }
         }

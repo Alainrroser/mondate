@@ -7,7 +7,7 @@
     class ImprintController {
         public function index() {
             $view = new View('imprint/index');
-            $view -> title = 'Impressum';
-            $view -> display();
+            $view->title = 'Impressum';
+            $view->display();
         }
     }

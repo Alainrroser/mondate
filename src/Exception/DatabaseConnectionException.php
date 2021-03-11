@@ -10,6 +10,6 @@
             $code = 0;
             $previous = null;
             
-            parent ::__construct($message, $code, $previous);
+            parent::__construct($message, $code, $previous);
         }
     }

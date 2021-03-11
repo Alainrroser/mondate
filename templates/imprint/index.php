@@ -1,9 +1,9 @@
 <div class="container">
     <h1>
-        Impressum
+        Imprint
     </h1>
     <h2>
-        Kontakt
+        Contact
     </h2>
     <address>
         <a href="mailto:Alain.Roser@bbcag.ch">
@@ -14,40 +14,41 @@
         </a>
     </address>
     <p>
-        Diese Webseite wurde im Rahmen eines Berufsbildungscenter Basislehrjahr-Projektes erstellt.
+        This website was created as a Bbc project.
     </p>
     <h2>
-        Haftung
+        Liability
     </h2>
     <h3>
-        Haftungsausschluss
+        Disclaimer of liability
     </h3>
     <p>
-        Die Autoren übernehmen keinerlei Gewähr hinsichtlich der inhaltlichen Richtigkeit, Genauigkeit, Aktualität,
-        Zuverlässigkeit und Vollständigkeit der Informationen. Haftungsansprüche gegen den Autor wegen Schäden materieller
-        oder immaterieller Art, welche aus dem Zugriff oder der Nutzung bzw. Nichtnutzung der veröffentlichten
-        Informationen, durch Missbrauch der Verbindung oder durch technische Störungen entstanden sind, werden
-        ausgeschlossen. Alle Angebote sind unverbindlich. Die Autoren behalten es sich ausdrücklich vor, Teile der Seiten
-        oder das gesamte Angebot ohne gesonderte Ankündigung zu verändern, zu ergänzen, zu löschen oder die Veröffentlichung
-        zeitweise oder endgültig einzustellen.
+        The authors do not assume any liability with regard to the correctness, accuracy, topicality,
+        Reliability and completeness of the information. Liability claims against the author for material damage
+        or of an intangible nature resulting from the access, use or non-use of the published
+        Information that has arisen through misuse of the connection or through technical malfunctions
+        locked out. All offers are non-binding. The authors expressly reserve the right to change parts of the pages
+        or to change, add, delete or publish the entire offer without prior notice
+        temporarily or permanently.
     </p>
     <h3>
-        Haftung für Links
+        Liability for Links
     </h3>
     <p>
-        Verweise und Links auf Webseiten Dritter liegen ausserhalb unseres Verantwortungsbereichs Es wird jegliche
-        Verantwortung für solche Webseiten abgelehnt. Der Zugriff und die Nutzung solcher Webseiten erfolgen auf eigene
-        Gefahr des Nutzers oder der Nutzerin.
+        References and links to third party websites are outside our area of responsibility
+        Responsibility for such websites declined. Such websites are accessed and used on their own
+        Risk to the user.
     </p>
     <h3>
-        Urheberrechte
+        Copyrights
     </h3>
     <p>
-        Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf der Website gehören
-        ausschliesslich den oben genannten Personen. Für die Reproduktion jeglicher Elemente ist die schriftliche
-        Zustimmung der Urheberrechtsträger im Voraus einzuholen.
+        The copyright and all other rights to content, images, photos or other files on the website belong
+        exclusively to the above-mentioned persons. For the reproduction of any element is the written
+        Obtain the consent of the copyright holder in advance.
     </p>
-    <a href="../../calendar/" class="btn btn-primary">
+    <a href="../../calendar/"
+       class="btn btn-primary">
         Back
     </a>
 </div>

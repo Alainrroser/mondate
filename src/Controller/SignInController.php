@@ -10,7 +10,7 @@
             if(Authentication::isAuthenticated()) {
                 header('Location: /calendar/');
             }
-
+            
             $view = new View('signIn/index');
             $view->title = 'Sign In';
             $view->display();

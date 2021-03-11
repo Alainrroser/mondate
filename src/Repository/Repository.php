@@ -99,23 +99,23 @@
             
             // Datenbankverbindung anfordern und, das Query "preparen" (vorbereiten)
             // und die Parameter "binden"
-            $statement = ConnectionHandler ::getConnection() -> prepare($query);
-            $statement -> bind_param('i', $id);
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+            $statement->bind_param('i', $id);
             
             // Das Statement absetzen
-            $statement -> execute();
+            $statement->execute();
             
             // Resultat der Abfrage holen
-            $result = $statement -> get_result();
+            $result = $statement->get_result();
             if(!$result) {
-                throw new Exception($statement -> error);
+                throw new Exception($statement->error);
             }
             
             // Ersten Datensatz aus dem Reultat holen
-            $row = $result -> fetch_object();
+            $row = $result->fetch_object();
             
             // Datenbankressourcen wieder freigeben
-            $result -> close();
+            $result->close();
             
             // Den gefundenen Datensatz zurückgeben
             return $row;
@@ -135,17 +135,17 @@
         public function readAll($max = 100) {
             $query = "SELECT * FROM {$this->tableName} LIMIT 0, $max";
             
-            $statement = ConnectionHandler ::getConnection() -> prepare($query);
-            $statement -> execute();
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+            $statement->execute();
             
-            $result = $statement -> get_result();
+            $result = $statement->get_result();
             if(!$result) {
-                throw new Exception($statement -> error);
+                throw new Exception($statement->error);
             }
             
             // Datensätze aus dem Resultat holen und in das Array $rows speichern
             $rows = [];
-            while($row = $result -> fetch_object()) {
+            while($row = $result->fetch_object()) {
                 $rows[] = $row;
             }
             
@@ -162,24 +162,25 @@
         public function deleteById($id) {
             $query = "DELETE FROM {$this->tableName} WHERE id=?";
             
-            $statement = ConnectionHandler ::getConnection() -> prepare($query);
-            $statement -> bind_param('i', $id);
+            $statement = ConnectionHandler::getConnection()->prepare($query);
+            $statement->bind_param('i', $id);
             
-            if(!$statement -> execute()) {
-                throw new Exception($statement -> error);
+            if(!$statement->execute()) {
+                throw new Exception($statement->error);
             }
         }
-
+        
         /**
          * @param $query
          * @param $types
          * @param $vars
+         *
          * @return array
          * @throws Exception
          */
-        protected function executeAndGetRows($query, $types=null, ...$vars) {
+        protected function executeAndGetRows($query, $types = null, ...$vars) {
             $statement = ConnectionHandler::getConnection()->prepare($query);
-
+            
             if(isset($types) && isset($vars)) {
                 if(sizeof($vars) == 1) {
                     $var1 = $vars[0];
@@ -187,33 +188,33 @@
                 } else if(sizeof($vars) > 0) {
                     $var1 = $vars[0];
                     $_ = array_slice($vars, 1);
-                    $statement->bind_param($types, $var1,$_);
+                    $statement->bind_param($types, $var1, $_);
                 }
             }
-
+            
             $statement->execute();
             $result = $statement->get_result();
-
-            if (!$result) {
+            
+            if(!$result) {
                 throw new Exception($statement->error);
             }
-
-            $rows = array();
+            
+            $rows = [];
             while($row = $result->fetch_object()) {
                 $rows[] = $row;
             }
-
+            
             return $rows;
         }
-    
+        
         public function changePassword($id, $password) {
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        
+            
             $query = "UPDATE $this->tableName SET password=? WHERE id=?";
-        
+            
             $statement = ConnectionHandler::getConnection()->prepare($query);
             $statement->bind_param("si", $password_hash, $id);
-        
+            
             $execution_result = $statement->execute();
             if(!$execution_result) {
                 throw new Exception($statement->error);
