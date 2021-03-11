@@ -119,6 +119,6 @@ main.container {
     border-radius: 10px;
 }
 
-#createAppointment, #editAppointment {
+#createAppointment, #editAppointment, #tags {
     z-index: 1;
 }

@@ -19,21 +19,20 @@ function reload() {
 
 let createAppointment = document.getElementById("createAppointment")
 
-function showCreateAppointment() {
-    createAppointment.classList.remove("invisible")
-}
-
-function hideCreateAppointment() {
-    createAppointment.classList.add("invisible")
+function toggleCreateAppointment() {
+    createAppointment.classList.toggle("invisible")
 }
 
 let editAppointment = document.getElementById("editAppointment")
 
-function showEditAppointment() {
-    editAppointment.classList.remove("invisible")
+function toggleEditAppointment() {
+    editAppointment.classList.toggle("invisible")
 }
 
+let tags = document.getElementById("tags");
 
-function hideEditAppointment() {
-    editAppointment.classList.add("invisible")
+
+function toggleTags(event) {
+    tags.classList.toggle("invisible")
+    event.preventDefault();
 }

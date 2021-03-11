@@ -82,9 +82,6 @@
             <h1 class="text-center mb-3">
                 Create Appointment
             </h1>
-            <img src="/images/logo.png"
-                 class="card-img-top w-25 mx-auto"
-                 alt="The Mondate Logo">
             <div class="card-body">
                 <form action="/appointment/create"
                       method="post">
@@ -154,10 +151,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href=""
+                                <button onclick="toggleTags(event)"
                                    class="btn btn-secondary">
                                     Manage Tags...
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -168,7 +165,7 @@
                                 Create
                             </button>
                             <button class="btn btn-secondary"
-                                    onclick="hideCreateAppointment()">
+                                    onclick="toggleCreateAppointment()">
                                 Cancel
                             </button>
                         </div>
@@ -187,9 +184,6 @@
             <h1 class="text-center mb-3">
                 Edit Appointment
             </h1>
-            <img src="/images/logo.png"
-                 class="card-img-top w-25 mx-auto"
-                 alt="The Mondate Logo">
             <div class="card-body">
                 <form action="/appointment/create"
                       method="post">
@@ -259,10 +253,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href=""
+                                <button onclick="toggleTags(event)" type="button"
                                    class="btn btn-secondary">
                                     Manage Tags...
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -273,7 +267,7 @@
                                 Save
                             </button>
                             <button class="btn btn-secondary"
-                                    onclick="hideEditAppointment()">
+                                    onclick="toggleEditAppointment()">
                                 Cancel
                             </button>
                         </div>
@@ -281,6 +275,73 @@
                            class="btn btn-secondary">
                             Share...
                         </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="center-align invisible position-fixed"
+         id="tags">
+        <div class="card w-25 pt-5 shadow-sm">
+            <h1 class="text-center mb-3">
+                Tags
+            </h1>
+            <div class="card-body">
+                <form action=""
+                      method="post">
+                    <div class="d-flex flex-row">
+                        <div class="card w-50 pt-5 mr-3 mb-3 shadow-sm">
+                        
+                        </div>
+                        <div class="form-group form d-flex flex-column">
+                            <div class="form-group form">
+                                <label>
+                                    Name
+                                </label>
+                                <input type="text"
+                                       name="name"
+                                       class="form-control">
+                            </div>
+                            <div class="form-group form">
+                                <label>
+                                    Color
+                                </label>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle"
+                                            type="button"
+                                            id="dropdownMenuButton"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false">
+                                        Select Color...
+                                    </button>
+                                    <div class="dropdown-menu"
+                                         aria-labelledby="dropdownMenuButton">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form">
+                                <button class="btn btn-secondary">
+                                    Add
+                                </button>
+                            </div>
+                            <div class="form-group form justify-content-end">
+                                <button class="btn btn-secondary">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Save
+                        </button>
+                        <button class="btn btn-secondary"
+                                onclick="toggleTags(event)">
+                            Cancel
+                        </button>
                     </div>
                 </form>
             </div>
@@ -330,11 +391,11 @@
         <div class="container col px-5">
             <div class="row">
                 <button class="btn btn-secondary w-100 mb-2"
-                        onclick="showCreateAppointment()">Create Appointment</button>
+                        onclick="toggleCreateAppointment()">Create Appointment</button>
             </div>
             <div class="row">
                 <button class="btn btn-secondary w-100 mb-2"
-                        onclick="showEditAppointment()">Edit Appointment</button>
+                        onclick="toggleEditAppointment()">Edit Appointment</button>
             </div>
             <div class="row">
                 <button class="btn btn-secondary w-100 mb-2">Delete Appointment</button>
