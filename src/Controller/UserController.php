@@ -3,6 +3,7 @@
     namespace App\Controller;
     
     use App\Authentication\Authentication;
+    use App\Repository\AppointmentRepository;
     use App\Repository\UserRepository;
     use App\View\View;
     
@@ -56,9 +57,14 @@
         public function delete() {
             Authentication::restrictAuthenticated();
 
+            $userId = $_SESSION['userId'];
+
+            $appointmentRepository = new AppointmentRepository();
+            $appointmentRepository->deleteAppointsFromUser($userId);
+
             $userRepository = new UserRepository();
-            $userRepository->deleteById($_SESSION['userId']);
-            
+            $userRepository->deleteById($userId);
+
             Authentication::logout();
         }
         

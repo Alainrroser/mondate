@@ -176,21 +176,30 @@
          * @param mixed ...$vars
          * @return false|\mysqli_stmt
          */
-        private function bindStatementParams($query, $types=null, $vars) {
+        protected function bindStatementParams($query, $types, ...$vars) {
             $statement = ConnectionHandler::getConnection()->prepare($query);
 
             if(isset($types) && isset($vars)) {
-                if(sizeof($vars) == 1) {
-                    $var1 = $vars[0];
-                    $statement->bind_param($types, $var1);
-                } else if(sizeof($vars) > 0) {
-                    $var1 = $vars[0];
-                    $_ = array_slice($vars, 1);
-                    $statement->bind_param($types, $var1, ...$_);
-                }
+                // black magic
+                $statement->bind_param($types, ...$vars);
             }
 
             return $statement;
+        }
+
+        /**
+         * @param $query
+         * @param null $types
+         * @param mixed ...$vars
+         * @throws Exception
+         */
+        protected function execute($query, $types=null, ...$vars) {
+            $statement = self::bindStatementParams($query, $types, ...$vars);
+            $statement->execute();
+
+            if(!$statement) {
+                throw new Exception($statement->error);
+            }
         }
         
         /**
@@ -202,7 +211,7 @@
          * @throws Exception
          */
         protected function executeAndGetRows($query, $types=null, ...$vars) {
-            $statement = self::bindStatementParams($query, $types, $vars);
+            $statement = self::bindStatementParams($query, $types, ...$vars);
             
             $statement->execute();
             $result = $statement->get_result();
@@ -227,7 +236,7 @@
          * @throws Exception
          */
         protected function insertAndGetId($query, $types=null, ...$vars) {
-            $statement = self::bindStatementParams($query, $types, $vars);
+            $statement = self::bindStatementParams($query, $types, ...$vars);
             $executionResult = $statement->execute();
 
             if(!$executionResult) {

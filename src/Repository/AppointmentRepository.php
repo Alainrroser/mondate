@@ -3,6 +3,7 @@
 
 namespace App\Repository;
 
+use App\Database\ConnectionHandler;
 use App\Model\Appointment;
 use App\Model\Tag;
 use Exception;
@@ -70,6 +71,13 @@ class AppointmentRepository extends Repository {
 
         $queryAppointmentUser = "INSERT INTO appointment_user (appointment_id, user_id) VALUES (?, ?)";
         self::insertAndGetId($queryAppointmentUser, 'ii', $appointmentId, $creatorId);
+    }
+
+    public function deleteAppointsFromUser($userId) {
+        $queryDeleteAppointment = "DELETE appointment FROM appointment
+                                   JOIN appointment_user ON appointment.id = appointment_user.appointment_id
+                                   WHERE appointment_user.user_id = ?";
+        $this->execute($queryDeleteAppointment, 'i', $userId);
     }
 
 }

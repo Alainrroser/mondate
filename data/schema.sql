@@ -45,7 +45,7 @@ CREATE TABLE appointment_tag
 (
     appointment_id INT NOT NULL,
     tag_id         INT NOT NULL,
-    FOREIGN KEY (appointment_id) REFERENCES appointment (id),
-    FOREIGN KEY (tag_id) REFERENCES tag (id),
+    FOREIGN KEY (appointment_id) REFERENCES appointment (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tag (id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (appointment_id, tag_id)
 );
