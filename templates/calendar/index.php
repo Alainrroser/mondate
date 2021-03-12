@@ -295,8 +295,17 @@
                 <form action=""
                       method="post">
                     <div class="d-flex flex-row">
-                        <div class="card w-50 pt-5 mr-3 mb-3 shadow-sm">
-                        
+                        <div class="card w-50 mr-3 mb-3 shadow-sm">
+                            <?php
+                                foreach($tags as $tag) {
+                                    $color = '#'.$tag->color;
+                                    echo
+                                    "<div class=\"align-items-center d-flex flex-row pl-1\">
+                                        <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-2\"></span>
+                                        <span class=\"align-middle\">$tag->name</span>
+                                    </div>";
+                                }
+                            ?>
                         </div>
                         <div class="form-group form d-flex flex-column">
                             <div class="form-group form">
@@ -311,20 +320,7 @@
                                 <label>
                                     Color
                                 </label>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle"
-                                            type="button"
-                                            id="dropdownMenuButton"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                        Select Color...
-                                    </button>
-                                    <div class="dropdown-menu"
-                                         aria-labelledby="dropdownMenuButton">
-                                        
-                                    </div>
-                                </div>
+                                <input type="color" name="color" class="form-control">
                             </div>
                             <div class="form-group form">
                                 <button class="btn btn-secondary">
