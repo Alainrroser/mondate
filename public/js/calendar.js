@@ -37,6 +37,7 @@ for(let appointmentButton of appointmentButtons) {
 
             selectedAppointmentID = id
             document.querySelector("#delete-appointment-id").setAttribute("value", selectedAppointmentID)
+            document.querySelector("#edit-appointment-id").setAttribute("value", selectedAppointmentID)
         }
 
         let relatedButtons = document.querySelectorAll("#appointment-id-" + id)

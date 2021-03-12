@@ -59,7 +59,7 @@
             $userId = $_SESSION['userId'];
 
             $appointmentRepository = new AppointmentRepository();
-            $appointmentRepository->deleteAppointsFromUser($userId);
+            $appointmentRepository->deleteAppointmentsFromUser($userId);
 
             $userRepository = new UserRepository();
             $userRepository->deleteById($userId);

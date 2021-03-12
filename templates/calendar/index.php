@@ -189,8 +189,9 @@
                 Edit Appointment
             </h1>
             <div class="card-body">
-                <form action="/appointment/create"
+                <form action="/appointment/edit"
                       method="post">
+                    <input type="hidden" name="id" value="" id="edit-appointment-id">
                     <div class="form-group form">
                         <label>
                             Name

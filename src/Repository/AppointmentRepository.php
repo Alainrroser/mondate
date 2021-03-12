@@ -72,8 +72,18 @@ class AppointmentRepository extends Repository {
         $queryAppointmentUser = "INSERT INTO appointment_user (appointment_id, user_id) VALUES (?, ?)";
         self::insertAndGetId($queryAppointmentUser, 'ii', $appointmentId, $creatorId);
     }
+    
+    public function editAppointment($id, $date, $start, $end, $name, $description) {
+        $query = "UPDATE $this->tableName SET date = ?,
+                                              start = ?,
+                                              end = ?,
+                                              name = ?,
+                                              description = ?
+                                              WHERE id = ?";
+        $this->execute($query, 'sssssi', $date, $start, $end, $name, $description, $id);
+    }
 
-    public function deleteAppointsFromUser($userId) {
+    public function deleteAppointmentsFromUser($userId) {
         $queryDeleteAppointment = "DELETE appointment FROM appointment
                                    JOIN appointment_user ON appointment.id = appointment_user.appointment_id
                                    WHERE appointment_user.user_id = ?";

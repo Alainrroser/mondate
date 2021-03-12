@@ -45,7 +45,14 @@ class AppointmentController {
     }
 
     public function edit() {
-
+        Authentication::restrictAuthenticated();
+    
+        if(isset($_POST["id"])) {
+            $appointmentRepository = new AppointmentRepository();
+            $appointmentRepository->editAppointment($_POST["id"], $_POST["date"], $_POST["start"], $_POST["end"], $_POST["name"], $_POST["description"]);
+        }
+    
+        header('Location: /calendar');
     }
 
     public function delete() {
