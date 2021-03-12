@@ -25,8 +25,13 @@ class TagRepository extends Repository {
     }
     
     public function addTag($name, $color) {
-        $query = "INSERT INTO tag (name, color) VALUES (?, ?)";
+        $query = "INSERT INTO $this->tableName (name, color) VALUES (?, ?)";
         return parent::insertAndGetId($query, 'ss', $name, $color);
+    }
+    
+    public function editTag($id, $name, $color) {
+        $query = "UPDATE $this->tableName SET name=?, color=? WHERE id=?";
+        $this->execute($query, "ssi", $id, $name, $color);
     }
 
 }

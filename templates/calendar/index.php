@@ -294,6 +294,7 @@
             <div class="card-body">
                 <form action=""
                       method="post">
+                    <input type="hidden" name="tagId" value="" id="tag-id">
                     <div class="d-flex flex-row">
                         <div class="card w-50 mr-3 mb-3 shadow-sm">
                             <?php
@@ -390,10 +391,14 @@
     <div class="row">
         <div class="container col px-5">
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2 toggleCreate">Create Appointment</button>
+                <button class="btn btn-secondary w-100 mb-2 toggleCreate">
+                    Create Appointment
+                </button>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2 toggleEdit">Edit Appointment</button>
+                <button class="btn btn-secondary w-100 mb-2 toggleEdit">
+                    Edit Appointment
+                </button>
             </div>
             <div class="row">
                 <form action="/appointment/delete" method="post" class="w-100">
@@ -404,7 +409,9 @@
                 </form>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2" id="reloadButton">Reload</button>
+                <button class="btn btn-secondary w-100 mb-2" id="reloadButton">
+                    Refresh
+                </button>
             </div>
             <div class="row mt-5">
                 <h2 class="h5">Tags</h2>
