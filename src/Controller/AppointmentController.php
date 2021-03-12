@@ -49,6 +49,13 @@ class AppointmentController {
     }
 
     public function delete() {
+        Authentication::restrictAuthenticated();
 
+        if(isset($_POST["id"])) {
+            $appointmentRepository = new AppointmentRepository();
+            $appointmentRepository->deleteById($_POST["id"]);
+        }
+
+        header('Location: /calendar');
     }
 }

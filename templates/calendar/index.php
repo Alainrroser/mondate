@@ -22,6 +22,8 @@
     }
     
     foreach($appointments as $appointment) {
+        $appointmentId = $appointment->getId();
+
         // Convert appointment start date and time to seconds
         $date_as_string = $appointment->getDate().' '.$appointment->getStart();
         $id = DateTime::createFromFormat('Y-m-d H:i:s', $date_as_string)->getTimestamp();
@@ -32,10 +34,10 @@
         $durationInSeconds = $endInSeconds - $startInSeconds;
         $numberOfCells = ceil($durationInSeconds / SECONDS_PER_HOUR);
         
-        $style = "background-color: gray; border-color: gray";
+        $style = "background-color: gray;";
         if(sizeof($appointment->getTags()) == 1) {
             $color = '#'.$appointment->getTags()[0]->getColor();
-            $style = "background-color: $color; border-color: $color";
+            $style = "background-color: $color;";
         } else if(sizeof($appointment->getTags()) > 1) {
             $gradient = 'linear-gradient(90deg';
             
@@ -48,7 +50,7 @@
             }
             
             $gradient .= ')';
-            $style = "background: $gradient; border: none;";
+            $style = "background: $gradient;";
         }
         
         // Store the buttons in the array
@@ -58,19 +60,22 @@
                 $text = $appointment->getName();
             }
             
-            $classes = "btn btn-primary w-100 appointment";
+            $classes = "w-100 p-0 align-middle appointment";
             if($numberOfCells == 1) {
-                $classes = $classes." appointment-top-bottom";
+                $classes .= " appointment-top-bottom";
             } else {
-                if($i == 0) {
-                    $classes = $classes." appointment-top";
-                } else if($i == $numberOfCells - 1) {
-                    $classes = $classes." appointment-bottom";
+                if ($i == 0) {
+                    $classes .= " appointment-top";
+                } else if ($i == $numberOfCells - 1) {
+                    $classes .= " appointment-bottom";
+                } else {
+                    $classes .= " appointment-between";
                 }
             }
             
-            $cellId = $id + $i * SECONDS_PER_HOUR;
-            $cellContent[$cellId] = "<div style=\"$style\" class=\"$classes\">$text</div>";
+            $cellKey = $id + $i * SECONDS_PER_HOUR;
+            $cellId = "appointment-id-$appointmentId";
+            $cellContent[$cellKey] = "<div style=\"$style\" class=\"$classes\" id=\"$cellId\"><span>$text</span></div>";
         }
     }
 ?>
@@ -168,9 +173,8 @@
                                 Cancel
                             </button>
                         </div>
-                        <button href=""
-                           class="btn btn-secondary"
-                           type="button">
+                        <button class="btn btn-secondary"
+                                type="button">
                             Share...
                         </button>
                     </div>
@@ -271,8 +275,7 @@
                                 Cancel
                             </button>
                         </div>
-                        <button href=""
-                                class="btn btn-secondary"
+                        <button class="btn btn-secondary"
                                 type="button">
                             Share...
                         </button>
@@ -396,7 +399,12 @@
                 <button class="btn btn-secondary w-100 mb-2 toggleEdit">Edit Appointment</button>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2">Delete Appointment</button>
+                <form action="/appointment/delete" method="post" class="w-100">
+                    <input type="hidden" name="id" value="" id="delete-appointment-id">
+                    <button type="submit" class="btn btn-secondary w-100 mb-2">
+                        Delete Appointment
+                    </button>
+                </form>
             </div>
             <div class="row">
                 <button class="btn btn-secondary w-100 mb-2" id="reloadButton">Reload</button>

@@ -13,6 +13,39 @@ document.onkeydown = function (event) {
     }
 }
 
+let appointmentButtons = document.querySelectorAll(".appointment")
+
+let appointmentSelected = false;
+let selectedAppointmentID = 0;
+
+for(let appointmentButton of appointmentButtons) {
+    appointmentButton.addEventListener("click", function() {
+        let id = appointmentButton.id.split("-")[2]
+
+        if(appointmentSelected && selectedAppointmentID === id) {
+            appointmentSelected = false
+        } else {
+            if(appointmentSelected) {
+                for(let otherAppointmentButton of appointmentButtons) {
+                    if(appointmentButton.id.localeCompare("#appointment-id-" + selectedAppointmentID)) {
+                        otherAppointmentButton.classList.remove("appointment-selected")
+                    }
+                }
+            } else {
+                appointmentSelected = true
+            }
+
+            selectedAppointmentID = id
+            document.querySelector("#delete-appointment-id").setAttribute("value", selectedAppointmentID)
+        }
+
+        let relatedButtons = document.querySelectorAll("#appointment-id-" + id)
+        for(let relatedButton of relatedButtons) {
+            relatedButton.classList.toggle("appointment-selected")
+        }
+    });
+}
+
 let toggleCreateButtons = document.querySelectorAll(".toggleCreate")
 let toggleEditButtons = document.querySelectorAll(".toggleEdit")
 let toggleTagButtons = document.querySelectorAll(".toggleTag")
