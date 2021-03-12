@@ -151,8 +151,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button onclick="toggleTags(event)"
-                                   class="btn btn-secondary">
+                                <button
+                                   class="btn btn-secondary toggleTag">
                                     Manage Tags...
                                 </button>
                             </div>
@@ -164,8 +164,7 @@
                                     class="btn btn-primary">
                                 Create
                             </button>
-                            <button class="btn btn-secondary"
-                                    onclick="toggleCreateAppointment()">
+                            <button class="btn btn-secondary toggleCreate">
                                 Cancel
                             </button>
                         </div>
@@ -253,8 +252,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button onclick="toggleTags(event)" type="button"
-                                   class="btn btn-secondary">
+                                <button type="button"
+                                   class="btn btn-secondary toggleTag">
                                     Manage Tags...
                                 </button>
                             </div>
@@ -266,8 +265,7 @@
                                     class="btn btn-primary">
                                 Save
                             </button>
-                            <button class="btn btn-secondary"
-                                    onclick="toggleEditAppointment()">
+                            <button class="btn btn-secondary toggleEdit">
                                 Cancel
                             </button>
                         </div>
@@ -338,8 +336,7 @@
                                 class="btn btn-primary">
                             Save
                         </button>
-                        <button class="btn btn-secondary"
-                                onclick="toggleTags(event)">
+                        <button class="btn btn-secondary toggleTag">
                             Cancel
                         </button>
                     </div>
@@ -390,19 +387,16 @@
     <div class="row">
         <div class="container col px-5">
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2"
-                        onclick="toggleCreateAppointment()">Create Appointment</button>
+                <button class="btn btn-secondary w-100 mb-2 toggleCreate">Create Appointment</button>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2"
-                        onclick="toggleEditAppointment()">Edit Appointment</button>
+                <button class="btn btn-secondary w-100 mb-2 toggleEdit">Edit Appointment</button>
             </div>
             <div class="row">
                 <button class="btn btn-secondary w-100 mb-2">Delete Appointment</button>
             </div>
-            <div class="row"
-                 onclick="reload()">
-                <button class="btn btn-secondary w-100 mb-2">Reload</button>
+            <div class="row">
+                <button class="btn btn-secondary w-100 mb-2" id="reloadButton">Reload</button>
             </div>
             <div class="row mt-5">
                 <h2 class="h5">Tags</h2>

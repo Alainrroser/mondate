@@ -13,26 +13,25 @@ document.onkeydown = function (event) {
     }
 }
 
-function reload() {
+for (let i = 0; i < document.querySelectorAll(".toggleCreate"); i++) {
+    document.querySelectorAll(".toggleCreate").addEventListener("click", function() {
+        document.getElementById("createAppointment").classList.toggle("invisible")
+    })
+}
+
+for (let j = 0; j < document.querySelectorAll(".toggleEdit"); j++) {
+    document.querySelectorAll(".toggleEdit").addEventListener("click", function() {
+        document.getElementById("createAppointment").classList.toggle("invisible")
+    })
+}
+
+for (let k = 0; k < document.querySelectorAll(".toggleTag"); k++) {
+    document.querySelectorAll(".toggleTag").addEventListener("click", function(event) {
+        document.getElementById("createAppointment").classList.toggle("invisible")
+        event.preventDefault();
+    })
+}
+
+document.querySelector("#reloadButton").addEventListener("click", function() {
     location.reload()
-}
-
-let createAppointment = document.getElementById("createAppointment")
-
-function toggleCreateAppointment() {
-    createAppointment.classList.toggle("invisible")
-}
-
-let editAppointment = document.getElementById("editAppointment")
-
-function toggleEditAppointment() {
-    editAppointment.classList.toggle("invisible")
-}
-
-let tags = document.getElementById("tags");
-
-
-function toggleTags(event) {
-    tags.classList.toggle("invisible")
-    event.preventDefault();
-}
+})
