@@ -66,7 +66,7 @@ for (let toggleEditButton of toggleEditButtons) {
 for (let toggleTagButton of toggleTagButtons) {
     toggleTagButton.addEventListener("click", function(event) {
         document.getElementById("tags").classList.toggle("invisible")
-        event.preventDefault();
+        event.preventDefault()
     })
 }
 
