@@ -144,7 +144,6 @@
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle"
                                                 type="button"
-                                                id="dropdownMenuButton"
                                                 data-toggle="dropdown"
                                                 aria-haspopup="true"
                                                 aria-expanded="false">
@@ -152,7 +151,17 @@
                                         </button>
                                         <div class="dropdown-menu"
                                              aria-labelledby="dropdownMenuButton">
-                                            
+                                            <?php
+                                                foreach($tags as $tag) {
+                                                    $color = '#'.$tag->color;
+                                                    echo
+                                                    "<div class=\"align-items-center d-flex flex-row pl-1\">
+                                                        <input type=\"checkbox\" class=\"align-middle mr-1\">
+                                                        <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-1\"></span>
+                                                        <label class=\"align-middle mb-0\">$tag->name</label>
+                                                    </div>";
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -246,7 +255,6 @@
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle"
                                                 type="button"
-                                                id="dropdownMenuButton"
                                                 data-toggle="dropdown"
                                                 aria-haspopup="true"
                                                 aria-expanded="false">
@@ -254,7 +262,17 @@
                                         </button>
                                         <div class="dropdown-menu"
                                              aria-labelledby="dropdownMenuButton">
-
+                                            <?php
+                                                foreach($tags as $tag) {
+                                                    $color = '#'.$tag->color;
+                                                    echo
+                                                    "<div class=\"align-items-center d-flex flex-row pl-1\">
+                                                        <input type=\"checkbox\" class=\"align-middle mr-1\">
+                                                        <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-1\"></span>
+                                                        <label class=\"align-middle mb-0\">$tag->name</label>
+                                                    </div>";
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -292,59 +310,56 @@
                 Tags
             </h1>
             <div class="card-body">
-                <form action=""
-                      method="post">
-                    <input type="hidden" name="tagId" value="" id="tag-id">
-                    <div class="d-flex flex-row">
-                        <div class="card w-50 mr-3 mb-3 shadow-sm">
-                            <?php
-                                foreach($tags as $tag) {
-                                    $color = '#'.$tag->color;
-                                    echo
-                                    "<div class=\"align-items-center d-flex flex-row pl-1\">
-                                        <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-2\"></span>
-                                        <span class=\"align-middle\">$tag->name</span>
-                                    </div>";
-                                }
-                            ?>
+                <input type="hidden" name="tagId" value="" id="tag-id">
+                <div class="d-flex flex-row">
+                    <div class="card w-50 mr-3 mb-3 shadow-sm">
+                        <?php
+                            foreach($tags as $tag) {
+                                $color = '#'.$tag->color;
+                                echo
+                                "<div class=\"align-items-center d-flex flex-row pl-1\">
+                                    <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-2\"></span>
+                                    <span class=\"align-middle\">$tag->name</span>
+                                </div>";
+                            }
+                        ?>
+                    </div>
+                    <div class="form-group form d-flex flex-column">
+                        <div class="form-group form">
+                            <label>
+                                Name
+                            </label>
+                            <input type="text"
+                                   name="name"
+                                   class="form-control">
                         </div>
-                        <div class="form-group form d-flex flex-column">
-                            <div class="form-group form">
-                                <label>
-                                    Name
-                                </label>
-                                <input type="text"
-                                       name="name"
-                                       class="form-control">
-                            </div>
-                            <div class="form-group form">
-                                <label>
-                                    Color
-                                </label>
-                                <input type="color" name="color" class="form-control">
-                            </div>
-                            <div class="form-group form">
-                                <button class="btn btn-secondary">
-                                    Add
-                                </button>
-                            </div>
-                            <div class="form-group form justify-content-end">
-                                <button class="btn btn-secondary">
-                                    Remove
-                                </button>
-                            </div>
+                        <div class="form-group form">
+                            <label>
+                                Color
+                            </label>
+                            <input type="color" name="color" class="form-control">
+                        </div>
+                        <div class="form-group form">
+                            <button class="btn btn-secondary">
+                                Add
+                            </button>
+                        </div>
+                        <div class="form-group form justify-content-end">
+                            <button class="btn btn-secondary">
+                                Remove
+                            </button>
                         </div>
                     </div>
-                    <div>
-                        <button type="submit"
-                                class="btn btn-primary">
-                            Save
-                        </button>
-                        <button class="btn btn-secondary toggleTag">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
+                </div>
+                <div>
+                    <button type="button"
+                            class="btn btn-primary">
+                        Close
+                    </button>
+                    <button class="btn btn-secondary toggleTag">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
