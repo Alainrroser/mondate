@@ -151,8 +151,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button
-                                   class="btn btn-secondary toggleTag">
+                                <button class="btn btn-secondary toggleTag">
                                     Manage Tags...
                                 </button>
                             </div>
@@ -164,14 +163,16 @@
                                     class="btn btn-primary">
                                 Create
                             </button>
-                            <button class="btn btn-secondary toggleCreate">
+                            <button class="btn btn-secondary toggleCreate"
+                                    type="button">
                                 Cancel
                             </button>
                         </div>
-                        <a href=""
-                           class="btn btn-secondary">
+                        <button href=""
+                           class="btn btn-secondary"
+                           type="button">
                             Share...
-                        </a>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -253,7 +254,7 @@
                                     </div>
                                 </div>
                                 <button type="button"
-                                   class="btn btn-secondary toggleTag">
+                                        class="btn btn-secondary toggleTag">
                                     Manage Tags...
                                 </button>
                             </div>
@@ -265,14 +266,16 @@
                                     class="btn btn-primary">
                                 Save
                             </button>
-                            <button class="btn btn-secondary toggleEdit">
+                            <button class="btn btn-secondary toggleEdit"
+                                    type="button">
                                 Cancel
                             </button>
                         </div>
-                        <a href=""
-                           class="btn btn-secondary">
+                        <button href=""
+                                class="btn btn-secondary"
+                                type="button">
                             Share...
-                        </a>
+                        </button>
                     </div>
                 </form>
             </div>

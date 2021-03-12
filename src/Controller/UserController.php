@@ -15,8 +15,7 @@
             $userRepository = new UserRepository();
             $userRepository->signUp($email, $password);
             
-            // Anfrage an die URI /calendar weiterleiten (HTTP 302)
-            header('Location: /calendar/');
+            header('Location: /calendar');
         }
         
         public function doSignIn() {
@@ -27,9 +26,9 @@
                           filter_var($email, FILTER_VALIDATE_EMAIL);
             
             if($emailValid && Authentication::login($email, $password)) {
-                header("Location: /calendar/");
+                header("Location: /calendar");
             } else {
-                header("Location: /user/");
+                header("Location: /user");
             }
         }
         
