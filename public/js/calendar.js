@@ -58,13 +58,13 @@ for (let toggleCreateButton of toggleCreateButtons) {
 
 for (let toggleEditButton of toggleEditButtons) {
     toggleEditButton.addEventListener("click", function() {
-        document.getElementById("createAppointment").classList.toggle("invisible")
+        document.getElementById("editAppointment").classList.toggle("invisible")
     })
 }
 
 for (let toggleTagButton of toggleTagButtons) {
     toggleTagButton.addEventListener("click", function(event) {
-        document.getElementById("createAppointment").classList.toggle("invisible")
+        document.getElementById("tags").classList.toggle("invisible")
         event.preventDefault();
     })
 }

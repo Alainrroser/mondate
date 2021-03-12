@@ -3,7 +3,7 @@
         <footer class="footer">
           <div class="container">
               <a href="../imprint/"
-                 class="text-muted">Impressum</a>
+                 class="text-muted">Imprint</a>
           </div>
         </footer>
     
