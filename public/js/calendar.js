@@ -87,11 +87,21 @@ document.querySelector("#btn-edit-appointment").addEventListener("click", functi
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
+
             document.querySelector(".input-appointment-name").setAttribute("value", object.name)
             document.querySelector(".input-appointment-date").setAttribute("value", object.date)
             document.querySelector(".input-appointment-start").setAttribute("value", object.start)
             document.querySelector(".input-appointment-end").setAttribute("value", object.end)
             document.querySelector(".input-appointment-description").value = object.description
+
+            let tags = object.tags
+            for(let tag of tags) {
+                let tagDivs = document.querySelectorAll(".tag-" + tag)
+                for(let tagDiv of tagDivs) {
+                    let tagCheckbox = tagDiv.getElementsByTagName("input")[0]
+                    tagCheckbox.checked = true
+                }
+            }
         }
     };
     request.open("GET", "/appointment/get?id=" + selectedAppointmentID, false)
@@ -121,7 +131,7 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
 
             for(let appointmentTag of document.querySelector(".appointment-tags")) {
                 appointmentTag.innerHTML +=
-                    "<div id=\"tag-" + object.id + "\" class=\"align-items-center d-flex flex-row pl-1\">" +
+                    "<div class=\"tag-" + object.id + "align-items-center d-flex flex-row pl-1\">" +
                     "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
                     "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
                     "<span class=\"align-middle\">" + object.name + "</span>" +
@@ -159,8 +169,7 @@ document.querySelector("#btn-remove-tag").addEventListener("click", function() {
     
     let appointmentTags = document.querySelectorAll(".appointment-tag")
     for (let tag of appointmentTags) {
-        let checkListId = tag.id.split("-")[1]
-        if (checkListId === selectedTagId) {
+        if (tag.classList.contains("tag-" + selectedTagId)) {
             tag.remove()
         }
     }
