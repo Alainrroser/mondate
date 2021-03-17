@@ -11,9 +11,25 @@
 
     class TagController {
         function index() {
-        
+            header("Location: /");
         }
-        
+
+        public function create() {
+            Authentication::restrictAuthenticated();
+
+            $tagRepository = new TagRepository();
+            $tagId = $tagRepository->addTag($_POST["name"], substr($_POST["color"], 1));
+
+            $response = array();
+            $response['id'] = $tagId;
+            $response['name'] = $_POST["name"];
+            $response['color'] = $_POST["color"];
+
+            $view = new JsonView();
+            $view->setJsonObject($response);
+            $view->display();
+        }
+
         function edit($id, $name, $color) {
             Authentication::restrictAuthenticated();
     
@@ -26,20 +42,5 @@
     
             $tagRepository = new TagRepository();
             $tagRepository->deleteById($id);
-        }
-    
-        public function create() {
-            Authentication::restrictAuthenticated();
-            
-            $tagRepository = new TagRepository();
-            $tagRepository->addTag($_POST["name"], substr($_POST["color"], 1));
-            
-            $response = array();
-            $response['name'] = $_POST["name"];
-            $response['color'] = $_POST["color"];
-        
-            $view = new JsonView();
-            $view->setJsonObject($response);
-            $view->display();
         }
     }

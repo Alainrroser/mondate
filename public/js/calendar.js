@@ -83,14 +83,19 @@ document.querySelector("#reloadButton").addEventListener("click", function () {
 })
 
 document.querySelector("#btn-edit-appointment").addEventListener("click", function () {
-    $.get("/appointment/get?id=" + selectedAppointmentID, function (data) {
-        let object = JSON.parse(data)
-        document.querySelector(".input-appointment-name").setAttribute("value", object.name)
-        document.querySelector(".input-appointment-date").setAttribute("value", object.date)
-        document.querySelector(".input-appointment-start").setAttribute("value", object.start)
-        document.querySelector(".input-appointment-end").setAttribute("value", object.end)
-        document.querySelector(".input-appointment-description").value = object.description
-    })
+    let request = new XMLHttpRequest()
+    request.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+            let object = JSON.parse(this.responseText)
+            document.querySelector(".input-appointment-name").setAttribute("value", object.name)
+            document.querySelector(".input-appointment-date").setAttribute("value", object.date)
+            document.querySelector(".input-appointment-start").setAttribute("value", object.start)
+            document.querySelector(".input-appointment-end").setAttribute("value", object.end)
+            document.querySelector(".input-appointment-description").value = object.description
+        }
+    };
+    request.open("GET", "/appointment/get?id=" + selectedAppointmentID, false)
+    request.send()
 })
 
 document.querySelector("#btn-add-tag").addEventListener("click", function () {
@@ -111,7 +116,7 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
                 "</div>"
             document.querySelector(".tag-list").innerHTML +=
                 "<div class=\"align-items-center d-flex flex-row pl-1\">" +
-                "<input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">" +
+                "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
                 "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
                 "<span class=\"align-middle\">" + object.name + "</span>" +
                 "</div>"
