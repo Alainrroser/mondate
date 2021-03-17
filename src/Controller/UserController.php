@@ -11,24 +11,31 @@
         public function doSignUp() {
             $email = $_POST['email'];
             $password = $_POST['password'];
+        
+            $emailValid = isset($email) && !empty($email) &&
+                          filter_var($email, FILTER_VALIDATE_EMAIL);
+        
+            $passwordValid = isset($password) && !empty($password) &&
+                             preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,20}$/", $password);
+        
+            if($passwordValid && $emailValid) {
+                $userRepository = new UserRepository();
+                $userRepository->signUp($email, $password);
             
-            $userRepository = new UserRepository();
-            $userRepository->signUp($email, $password);
-            
-            header('Location: /calendar');
+                header("Location: /calendar");
+            } else {
+                header("Location: /signUp");
+            }
         }
         
         public function doSignIn() {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            
-            $emailValid = isset($email) && !empty($email) &&
-                          filter_var($email, FILTER_VALIDATE_EMAIL);
-            
-            if($emailValid && Authentication::login($email, $password)) {
+    
+            if(Authentication::login($email, $password)) {
                 header("Location: /calendar");
             } else {
-                header("Location: /user");
+                header("Location: /signIn");
             }
         }
         
