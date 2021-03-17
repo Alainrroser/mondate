@@ -80,6 +80,18 @@ class AppointmentController {
         return true;
     }
 
+    public function share() {
+        Authentication::restrictAuthenticated();
+
+        $id = $_POST['id'];
+        $userEmails = isset($_POST['users']) ? array() : array_keys($_POST['users']);
+
+        $appointmentRepository = new AppointmentRepository();
+        $appointmentRepository->shareAppointment($id, $userEmails);
+
+        header('Location: /calendar');
+    }
+
     public function delete() {
         Authentication::restrictAuthenticated();
 
@@ -92,6 +104,8 @@ class AppointmentController {
     }
 
     public function get() {
+        Authentication::restrictAuthenticated();
+
         $appointmentRepository = new AppointmentRepository();
         $appointment = $appointmentRepository->readById($_GET['id']);
 

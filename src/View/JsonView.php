@@ -16,7 +16,7 @@ class JsonView {
     }
 
     public function display() {
-        $response = json_encode($this->jsonObject);
+        $response = json_encode($this->jsonObject, JSON_PRETTY_PRINT);
         echo $response;
     }
 }

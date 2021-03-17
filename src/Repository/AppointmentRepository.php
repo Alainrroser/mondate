@@ -92,6 +92,16 @@ class AppointmentRepository extends Repository {
         }
     }
 
+    public function shareAppointment($id, $userEmails) {
+        foreach($userEmails as $userEmail) {
+            $query = "
+                INSERT INTO appointment_user (appointment_id, user_id) VALUES (
+                    ?, (SELECT id FROM user WHERE email = ?)
+                )";
+            self::insertAndGetId($query, 'is', $id, $userEmail);
+        }
+    }
+
     public function deleteAppointmentsFromUser($userId) {
         $queryDeleteAppointment = "DELETE appointment FROM appointment
                                    JOIN appointment_user ON appointment.id = appointment_user.appointment_id
