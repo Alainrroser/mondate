@@ -81,3 +81,19 @@ for (let toggleShareButton of toggleShareButtons) {
 document.querySelector("#reloadButton").addEventListener("click", function() {
     location.reload()
 })
+
+document.querySelector("#btn-edit-appointment").addEventListener("click", function() {
+    let request = new XMLHttpRequest()
+    request.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+            let object = JSON.parse(this.responseText)
+            document.querySelector(".input-appointment-name").setAttribute("value", object.name)
+            document.querySelector(".input-appointment-date").setAttribute("value", object.date)
+            document.querySelector(".input-appointment-start").setAttribute("value", object.start)
+            document.querySelector(".input-appointment-end").setAttribute("value", object.end)
+            document.querySelector(".input-appointment-description").value = object.description
+        }
+    };
+    request.open("GET", "/appointment/get?id=" + selectedAppointmentID, false)
+    request.send()
+})

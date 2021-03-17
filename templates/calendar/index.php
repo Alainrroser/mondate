@@ -130,11 +130,7 @@
                         <label>
                             Description
                         </label>
-                        <textarea rows="5"
-                                name="description"
-                                class="form-control">
-                            
-                        </textarea>
+                        <textarea rows="5" name="description" class="form-control"></textarea>
                     </div>
                     <div class="form-group form">
                         <div class="form-group form">
@@ -155,10 +151,11 @@
                                              aria-labelledby="dropdownMenuButton">
                                             <?php
                                                 foreach($tags as $tag) {
+                                                    $id = $tag->id;
                                                     $color = '#'.$tag->color;
                                                     echo
                                                     "<div class=\"align-items-center d-flex flex-row pl-1\">
-                                                        <input type=\"checkbox\" class=\"align-middle mr-1\">
+                                                        <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
                                                         <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-1\"></span>
                                                         <label class=\"align-middle mb-0\">$tag->name</label>
                                                     </div>";
@@ -212,7 +209,7 @@
                         </label>
                         <input type="text"
                                name="name"
-                               class="form-control">
+                               class="input-appointment-name form-control">
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <div class="form-group form">
@@ -221,7 +218,7 @@
                             </label>
                             <input type="date"
                                    name="date"
-                                   class="form-control">
+                                   class="input-appointment-date form-control">
                         </div>
                         <div class="d-flex flex-row">
                             <div class="form-group form">
@@ -230,7 +227,7 @@
                                 </label>
                                 <input type="text"
                                        name="start"
-                                       class="form-control">
+                                       class="input-appointment-start form-control">
                             </div>
                             <div class="form-group form">
                                 <label>
@@ -238,7 +235,7 @@
                                 </label>
                                 <input type="text"
                                        name="end"
-                                       class="form-control">
+                                       class="input-appointment-end form-control">
                             </div>
                         </div>
                     </div>
@@ -246,11 +243,7 @@
                         <label>
                             Description
                         </label>
-                        <textarea rows="5"
-                               name="description"
-                               class="form-control">
-                            
-                        </textarea>
+                        <textarea rows="5" name="description" class="input-appointment-description form-control"></textarea>
                     </div>
                     <div class="form-group form">
                         <div class="form-group form">
@@ -271,10 +264,11 @@
                                              aria-labelledby="dropdownMenuButton">
                                             <?php
                                                 foreach($tags as $tag) {
+                                                    $id = $tag->id;
                                                     $color = '#'.$tag->color;
                                                     echo
                                                     "<div class=\"align-items-center d-flex flex-row pl-1\">
-                                                        <input type=\"checkbox\" class=\"align-middle mr-1\">
+                                                        <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
                                                         <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-1\"></span>
                                                         <label class=\"align-middle mb-0\">$tag->name</label>
                                                     </div>";
@@ -469,7 +463,7 @@
                 </button>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2 toggleEdit">
+                <button id="btn-edit-appointment" class="btn btn-secondary w-100 mb-2 toggleEdit">
                     Edit Appointment
                 </button>
             </div>
