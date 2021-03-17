@@ -96,7 +96,7 @@
                         </label>
                         <input type="text"
                                name="name"
-                               class="form-control">
+                               class="form-control" required>
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <div class="form-group form">
@@ -105,7 +105,7 @@
                             </label>
                             <input type="date"
                                    name="date"
-                                   class="form-control">
+                                   class="form-control" required>
                         </div>
                         <div class="d-flex flex-row">
                             <div class="form-group form">
@@ -114,7 +114,7 @@
                                 </label>
                                 <input type="text"
                                        name="start"
-                                       class="form-control">
+                                       class="form-control" required>
                             </div>
                             <div class="form-group form">
                                 <label>
@@ -122,7 +122,7 @@
                                 </label>
                                 <input type="text"
                                        name="end"
-                                       class="form-control">
+                                       class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                         <label>
                             Description
                         </label>
-                        <textarea rows="5" name="description" class="form-control"></textarea>
+                        <textarea rows="5" name="description" class="form-control" required></textarea>
                     </div>
                     <div class="form-group form">
                         <div class="form-group form">
@@ -147,14 +147,14 @@
                                                 aria-expanded="false">
                                             Select Tags...
                                         </button>
-                                        <div class="tag-list dropdown-menu"
+                                        <div class="appointment-tags dropdown-menu"
                                              aria-labelledby="dropdownMenuButton">
                                             <?php
                                                 foreach($tags as $tag) {
                                                     $id = $tag->id;
                                                     $color = '#'.$tag->color;
                                                     echo
-                                                    "<div class=\"align-items-center d-flex flex-row pl-1\">
+                                                    "<div id=\"tag-$id\" class=\"appointment-tag align-items-center d-flex flex-row pl-1\">
                                                         <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
                                                         <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-1\"></span>
                                                         <label class=\"align-middle mb-0\">$tag->name</label>
@@ -260,14 +260,14 @@
                                                 aria-expanded="false">
                                             Select Tags...
                                         </button>
-                                        <div class="tag-list dropdown-menu"
+                                        <div class="appointment-tags dropdown-menu"
                                              aria-labelledby="dropdownMenuButton">
                                             <?php
                                                 foreach($tags as $tag) {
                                                     $id = $tag->id;
                                                     $color = '#'.$tag->color;
                                                     echo
-                                                    "<div class=\"align-items-center d-flex flex-row pl-1\">
+                                                    "<div id=\"tag-$id\" class=\"appointment-tag align-items-center d-flex flex-row pl-1\">
                                                         <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
                                                         <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-1\"></span>
                                                         <label class=\"align-middle mb-0\">$tag->name</label>
@@ -312,15 +312,15 @@
             </h1>
             <div class="card-body">
                 <div class="d-flex flex-row">
-                    <div class="tag-color-list card w-50 mr-3 mb-3 shadow-sm">
+                    <div class="tag-list card list-group w-50 mr-3 mb-3 shadow-sm">
                         <?php
                             foreach($tags as $tag) {
                                 $color = '#'.$tag->color;
                                 echo
-                                "<div class=\"align-items-center d-flex flex-row pl-1\">
+                                "<button id=\"tag-$tag->id\" class=\"tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
                                     <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-2\"></span>
                                     <span class=\"align-middle\">$tag->name</span>
-                                </div>";
+                                </button>";
                             }
                         ?>
                     </div>
@@ -329,25 +329,32 @@
                             <label>
                                 Name
                             </label>
-                            <input type="text"
+                            <input type="text" id="tag-name"
                                    name="name"
-                                   class="tag-name form-control">
+                                   class="tag-name form-control" required>
                         </div>
                         <div class="form-group form">
                             <label>
                                 Color
                             </label>
-                            <input type="color"
+                            <input type="color" id="tag-color"
                                    name="color"
-                                   class="tag-color form-control">
+                                   class="tag-color form-control" required>
                         </div>
-                        <div class="form-group form">
-                            <button class="btn btn-secondary" id="btn-add-tag">
-                                Add
-                            </button>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-group form">
+                                <button class="btn btn-secondary" id="btn-add-tag">
+                                    Add
+                                </button>
+                            </div>
+                            <div class="form-group form">
+                                <button class="btn btn-secondary" id="btn-edit-tag">
+                                    Edit
+                                </button>
+                            </div>
                         </div>
                         <div class="form-group form justify-content-end">
-                            <button class="btn btn-secondary">
+                            <button class="btn btn-secondary" id="btn-remove-tag">
                                 Remove
                             </button>
                         </div>
@@ -357,9 +364,6 @@
                     <button type="button"
                             class="btn btn-primary toggleTag">
                         Close
-                    </button>
-                    <button class="btn btn-secondary toggleTag">
-                        Cancel
                     </button>
                 </div>
             </div>
@@ -374,23 +378,28 @@
             <div class="card-body">
                 <form action=""
                       method="post">
-                    <textarea class="form-control mb-4" rows="10" cols="">
+                    <div class="contacts card list-group shadow-sm w-100 mb-3">
                     
-                    </textarea>
+                    </div>
                     <div class="d-flex justify-content-between">
                         <div>
                             <label>
                                 E-Mail
                             </label>
-                            <input type="text" name="email">
+                            <input type="text" name="email" required>
                         </div>
-                        <button type="button" class="btn btn-secondary">
+                        <button type="button" class="btn btn-secondary mb-2">
                             Add
                         </button>
                     </div>
-                    <button type="button" class="btn btn-secondary mb-5">
+                    <div class="mb-5 d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary">
                             Remove
                         </button>
+                        <button type="button" class="btn btn-secondary">
+                            Edit
+                        </button>
+                    </div>
                     <div class="d-flex justify-content-between">
                         <div>
                             <button type="submit"

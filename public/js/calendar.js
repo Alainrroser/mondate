@@ -109,12 +109,12 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
         if (this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
             console.log(this.responseText)
-            document.querySelector(".tag-color-list").innerHTML +=
-                "<div class=\"align-items-center d-flex flex-row pl-1\">" +
+            document.querySelector(".tag-list").innerHTML +=
+                "<button class=\"align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">" +
                 "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
                 "<span class=\"align-middle\">" + object.name + "</span>" +
-                "</div>"
-            document.querySelector(".tag-list").innerHTML +=
+                "</button>"
+            document.querySelector(".appointment-tags").innerHTML +=
                 "<div class=\"align-items-center d-flex flex-row pl-1\">" +
                 "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
                 "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
@@ -123,4 +123,38 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
         }
     }
     request.send(data)
+})
+
+let tags = document.querySelectorAll(".tag")
+let selectedTag = tags[0]
+selectedTag.classList.add("active")
+
+for (let tag of tags) {
+    tag.addEventListener("click", function() {
+        selectedTag.classList.remove("active")
+        tag.classList.add("active")
+        selectedTag = tag
+    })
+}
+
+document.querySelector("#btn-remove-tag").addEventListener("click", function() {
+    let data = new FormData()
+    let selectedTagId = selectedTag.id.split("-")[1]
+    data.append("id", selectedTagId)
+    
+    let request = new XMLHttpRequest()
+    request.open("POST", "/tag/delete", true)
+    request.send(data)
+    
+    let appointmentTags = document.querySelectorAll(".appointment-tag")
+    for (let tag of appointmentTags) {
+        let checkListId = tag.id.split("-")[1]
+        if (checkListId === selectedTagId) {
+            tag.remove()
+        }
+    }
+    
+    document.querySelector(".tag-list").removeChild(selectedTag)
+    selectedTag = tags[0]
+    selectedTag.classList.add("active")
 })

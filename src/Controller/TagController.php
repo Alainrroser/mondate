@@ -37,10 +37,10 @@
             $tagRepository->editTag($_POST["tagId"], $_POST["name"], $_POST["color"]);
         }
         
-        function delete($id) {
+        function delete() {
             Authentication::restrictAuthenticated();
-    
+            
             $tagRepository = new TagRepository();
-            $tagRepository->deleteById($id);
+            $tagRepository->deleteById($_POST["id"]);
         }
     }

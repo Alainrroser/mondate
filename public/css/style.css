@@ -157,3 +157,12 @@ main.container {
 #createAppointment, #editAppointment, #tags, #share {
     z-index: 1;
 }
+
+.tag-color-list {
+    overflow-y: scroll;
+    max-height: 350px;
+}
+
+.contacts {
+    height: 300px;
+}
