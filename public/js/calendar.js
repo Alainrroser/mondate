@@ -94,12 +94,18 @@ document.querySelector("#btn-edit-appointment").addEventListener("click", functi
             document.querySelector(".input-appointment-end").setAttribute("value", object.end)
             document.querySelector(".input-appointment-description").value = object.description
 
-            let tags = object.tags
-            for(let tag of tags) {
-                let tagDivs = document.querySelectorAll(".tag-" + tag)
-                for(let tagDiv of tagDivs) {
+            let appointmentTagsDivs = document.querySelectorAll(".appointment-tags")
+
+            for(let appointmentTags of appointmentTagsDivs) {
+                for(let tagDiv of appointmentTags.getElementsByTagName("div")) {
                     let tagCheckbox = tagDiv.getElementsByTagName("input")[0]
-                    tagCheckbox.checked = true
+                    tagCheckbox.checked = false
+
+                    for(let tag of object.tags) {
+                        if(tagDiv.classList.contains("tag-" + tag)) {
+                            tagCheckbox.checked = true
+                        }
+                    }
                 }
             }
         }
@@ -129,7 +135,7 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
             document.querySelector(".tag-list").appendChild(tagButton)
             addTagEventListener(tagButton)
 
-            for(let appointmentTag of document.querySelector(".appointment-tags")) {
+            for(let appointmentTag of document.querySelectorAll(".appointment-tags")) {
                 appointmentTag.innerHTML +=
                     "<div class=\"tag-" + object.id + "align-items-center d-flex flex-row pl-1\">" +
                     "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
