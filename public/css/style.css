@@ -149,6 +149,6 @@ main.container {
     border: 5px solid black;
 }
 
-#createAppointment, #editAppointment, #tags {
+#createAppointment, #editAppointment, #tags, #share {
     z-index: 1;
 }

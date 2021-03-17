@@ -50,6 +50,7 @@ for(let appointmentButton of appointmentButtons) {
 let toggleCreateButtons = document.querySelectorAll(".toggleCreate")
 let toggleEditButtons = document.querySelectorAll(".toggleEdit")
 let toggleTagButtons = document.querySelectorAll(".toggleTag")
+let toggleShareButtons = document.querySelectorAll(".toggleShare")
 
 for (let toggleCreateButton of toggleCreateButtons) {
     toggleCreateButton.addEventListener("click", function() {
@@ -66,6 +67,13 @@ for (let toggleEditButton of toggleEditButtons) {
 for (let toggleTagButton of toggleTagButtons) {
     toggleTagButton.addEventListener("click", function(event) {
         document.getElementById("tags").classList.toggle("invisible")
+        event.preventDefault()
+    })
+}
+
+for (let toggleShareButton of toggleShareButtons) {
+    toggleShareButton.addEventListener("click", function(event) {
+        document.getElementById("share").classList.toggle("invisible")
         event.preventDefault()
     })
 }

@@ -23,7 +23,7 @@
     
     foreach($appointments as $appointment) {
         $appointmentId = $appointment->getId();
-
+        
         // Convert appointment start date and time to seconds
         $date_as_string = $appointment->getDate().' '.$appointment->getStart();
         $id = DateTime::createFromFormat('Y-m-d H:i:s', $date_as_string)->getTimestamp();
@@ -64,9 +64,9 @@
             if($numberOfCells == 1) {
                 $classes .= " appointment-top-bottom";
             } else {
-                if ($i == 0) {
+                if($i == 0) {
                     $classes .= " appointment-top";
-                } else if ($i == $numberOfCells - 1) {
+                } else if($i == $numberOfCells - 1) {
                     $classes .= " appointment-bottom";
                 } else {
                     $classes .= " appointment-between";
@@ -130,9 +130,11 @@
                         <label>
                             Description
                         </label>
-                        <input type="text"
-                               name="description"
-                               class="form-control">
+                        <textarea rows="5"
+                                name="description"
+                                class="form-control">
+                            
+                        </textarea>
                     </div>
                     <div class="form-group form">
                         <div class="form-group form">
@@ -182,7 +184,7 @@
                                 Cancel
                             </button>
                         </div>
-                        <button class="btn btn-secondary"
+                        <button class="btn btn-secondary toggleShare"
                                 type="button">
                             Share...
                         </button>
@@ -200,7 +202,10 @@
             <div class="card-body">
                 <form action="/appointment/edit"
                       method="post">
-                    <input type="hidden" name="id" value="" id="edit-appointment-id">
+                    <input type="hidden"
+                           name="id"
+                           value=""
+                           id="edit-appointment-id">
                     <div class="form-group form">
                         <label>
                             Name
@@ -241,9 +246,11 @@
                         <label>
                             Description
                         </label>
-                        <input type="text"
+                        <textarea rows="5"
                                name="description"
                                class="form-control">
+                            
+                        </textarea>
                     </div>
                     <div class="form-group form">
                         <div class="form-group form">
@@ -294,7 +301,7 @@
                                 Cancel
                             </button>
                         </div>
-                        <button class="btn btn-secondary"
+                        <button class="btn btn-secondary toggleShare"
                                 type="button">
                             Share...
                         </button>
@@ -310,7 +317,10 @@
                 Tags
             </h1>
             <div class="card-body">
-                <input type="hidden" name="tagId" value="" id="tag-id">
+                <input type="hidden"
+                       name="tagId"
+                       value=""
+                       id="tag-id">
                 <div class="d-flex flex-row">
                     <div class="card w-50 mr-3 mb-3 shadow-sm">
                         <?php
@@ -337,7 +347,9 @@
                             <label>
                                 Color
                             </label>
-                            <input type="color" name="color" class="form-control">
+                            <input type="color"
+                                   name="color"
+                                   class="form-control">
                         </div>
                         <div class="form-group form">
                             <button class="btn btn-secondary">
@@ -360,6 +372,52 @@
                         Cancel
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="center-align invisible position-fixed"
+         id="share">
+        <div class="card w-25 pt-5 shadow-sm">
+            <h1 class="text-center mb-3">
+                Share
+            </h1>
+            <div class="card-body">
+                <form action=""
+                      method="post">
+                    <input type="hidden"
+                           name="id"
+                           value=""
+                           id="share-id">
+                    <textarea class="form-control mb-4" rows="10" cols="">
+                    
+                    </textarea>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <label>
+                                E-Mail
+                            </label>
+                            <input type="text" name="email">
+                        </div>
+                        <button type="button" class="btn btn-secondary">
+                            Add
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-secondary mb-5">
+                            Remove
+                        </button>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Save
+                            </button>
+                            <button class="btn btn-secondary toggleShare"
+                                    type="button">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -416,15 +474,22 @@
                 </button>
             </div>
             <div class="row">
-                <form action="/appointment/delete" method="post" class="w-100">
-                    <input type="hidden" name="id" value="" id="delete-appointment-id">
-                    <button type="submit" class="btn btn-secondary w-100 mb-2">
+                <form action="/appointment/delete"
+                      method="post"
+                      class="w-100">
+                    <input type="hidden"
+                           name="id"
+                           value=""
+                           id="delete-appointment-id">
+                    <button type="submit"
+                            class="btn btn-secondary w-100 mb-2">
                         Delete Appointment
                     </button>
                 </form>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2" id="reloadButton">
+                <button class="btn btn-secondary w-100 mb-2"
+                        id="reloadButton">
                     Refresh
                 </button>
             </div>
