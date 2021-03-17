@@ -147,7 +147,7 @@
                                                 aria-expanded="false">
                                             Select Tags...
                                         </button>
-                                        <div class="dropdown-menu"
+                                        <div class="tag-list dropdown-menu"
                                              aria-labelledby="dropdownMenuButton">
                                             <?php
                                                 foreach($tags as $tag) {
@@ -260,7 +260,7 @@
                                                 aria-expanded="false">
                                             Select Tags...
                                         </button>
-                                        <div class="dropdown-menu"
+                                        <div class="tag-list dropdown-menu"
                                              aria-labelledby="dropdownMenuButton">
                                             <?php
                                                 foreach($tags as $tag) {
@@ -311,12 +311,8 @@
                 Tags
             </h1>
             <div class="card-body">
-                <input type="hidden"
-                       name="tagId"
-                       value=""
-                       id="tag-id">
                 <div class="d-flex flex-row">
-                    <div class="card w-50 mr-3 mb-3 shadow-sm">
+                    <div class="tag-color-list card w-50 mr-3 mb-3 shadow-sm">
                         <?php
                             foreach($tags as $tag) {
                                 $color = '#'.$tag->color;
@@ -335,7 +331,7 @@
                             </label>
                             <input type="text"
                                    name="name"
-                                   class="form-control">
+                                   class="tag-name form-control">
                         </div>
                         <div class="form-group form">
                             <label>
@@ -343,10 +339,10 @@
                             </label>
                             <input type="color"
                                    name="color"
-                                   class="form-control">
+                                   class="tag-color form-control">
                         </div>
                         <div class="form-group form">
-                            <button class="btn btn-secondary">
+                            <button class="btn btn-secondary" id="btn-add-tag">
                                 Add
                             </button>
                         </div>
@@ -359,7 +355,7 @@
                 </div>
                 <div>
                     <button type="button"
-                            class="btn btn-primary">
+                            class="btn btn-primary toggleTag">
                         Close
                     </button>
                     <button class="btn btn-secondary toggleTag">
@@ -378,10 +374,6 @@
             <div class="card-body">
                 <form action=""
                       method="post">
-                    <input type="hidden"
-                           name="id"
-                           value=""
-                           id="share-id">
                     <textarea class="form-control mb-4" rows="10" cols="">
                     
                     </textarea>
