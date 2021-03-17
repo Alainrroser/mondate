@@ -6,73 +6,79 @@ namespace App\Controller;
 
 use App\Authentication\Authentication;
 use App\Repository\AppointmentRepository;
+use App\Repository\TagRepository;
 use App\View\JsonView;
 
 class AppointmentController {
     public function create() {
         Authentication::restrictAuthenticated();
 
-        if(!$this->validateAppointmentKeysExist()) {
-            return;
+        if($this->validateAppointmentData()) {
+            $date = $_POST['date'];
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $tags = $_POST['tags'];
+            $creatorId = $_SESSION['userId'];
+
+            $tagIds = is_null($tags) ? array() : array_keys($tags);
+
+            $appointmentRepository = new AppointmentRepository();
+            $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
+
+            header('Location: /calendar');
         }
-
-        $date = $_POST['date'];
-        $start = $_POST['start'];
-        $end = $_POST['end'];
-        $name = $_POST['name'];
-        $description = $_POST['description'];
-        $tags = $_POST['tags'];
-        $creatorId = $_SESSION['userId'];
-
-        if(empty($date) || empty($start) || empty($end) || empty($name) || empty($description)) {
-            echo "Invalid input, all fields must be filled out";
-            return;
-        }
-
-        $tagIds = is_null($tags) ? array() : array_keys($tags);
-
-        $appointmentRepository = new AppointmentRepository();
-        $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
-
-        header('Location: /calendar');
     }
 
     public function edit() {
         Authentication::restrictAuthenticated();
 
-        $id = $_POST['id'];
-        $date = $_POST['date'];
-        $start = $_POST['start'];
-        $end = $_POST['end'];
-        $name = $_POST['name'];
-        $description = $_POST['description'];
-        $tags = $_POST['tags'];
+        if($this->validateAppointmentData()) {
+            $id = $_POST['id'];
+            $date = $_POST['date'];
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $tags = $_POST['tags'];
 
-        if(empty($id) || empty($date) || empty($start) || empty($end) || empty($name) || empty($description)) {
-            echo "Invalid input, all fields must be filled out";
-            return;
+            $tagIds = is_null($tags) ? array() : array_keys($tags);
+
+            $appointmentRepository = new AppointmentRepository();
+            $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
+
+            header('Location: /calendar');
         }
-
-        $tagIds = is_null($tags) ? array() : array_keys($tags);
-
-        $appointmentRepository = new AppointmentRepository();
-        $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
-
-        header('Location: /calendar');
     }
 
-    private function validateAppointmentKeysExist() {
-        if(!self::array_keys_exist($_POST, 'date', 'start', 'end', 'name', 'description')) {
+    private function validateAppointmentData() {
+        if(!self::postKeysExist('date', 'start', 'end', 'name', 'description')) {
             echo "Invalid input, missing data";
+            return false;
+        }
+
+        if(!self::postKeysNotEmpty('id', 'date', 'start', 'end', 'name', 'description')) {
+            echo "Invalid input, all fields must be filled out";
             return false;
         }
 
         return true;
     }
 
-    private function array_keys_exist($array, ...$keys) {
+    private function postKeysExist(...$keys) {
         foreach($keys as $key) {
-            if(!array_key_exists($key, $array)) {
+            if(!array_key_exists($key, $_POST)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function postKeysNotEmpty(...$keys) {
+        foreach($keys as $key) {
+            if(empty($key)) {
                 return false;
             }
         }
@@ -98,26 +104,43 @@ class AppointmentController {
         if(isset($_POST["id"])) {
             $appointmentRepository = new AppointmentRepository();
             $appointmentRepository->deleteById($_POST["id"]);
+            header('Location: /calendar');
+        } else {
+            echo "Invalid input, appointment ID missing";
         }
-
-        header('Location: /calendar');
     }
 
     public function get() {
         Authentication::restrictAuthenticated();
 
-        $appointmentRepository = new AppointmentRepository();
-        $appointment = $appointmentRepository->readById($_GET['id']);
+        if(isset($_GET["id"])) {
+            $appointmentRepository = new AppointmentRepository();
+            $tagRepository = new TagRepository();
 
-        $response = array();
-        $response['date'] = $appointment->date;
-        $response['start'] = $appointment->start;
-        $response['end'] = $appointment->end;
-        $response['name'] = $appointment->name;
-        $response['description'] = $appointment->description;
+            $id = $_GET['id'];
+            $appointment = $appointmentRepository->readById($id);
 
-        $view = new JsonView();
-        $view->setJsonObject($response);
-        $view->display();
+            if($appointment) {
+                $response = array();
+                $response['date'] = $appointment->date;
+                $response['start'] = $appointment->start;
+                $response['end'] = $appointment->end;
+                $response['name'] = $appointment->name;
+                $response['description'] = $appointment->description;
+                $response['tags'] = array();
+
+                foreach($tagRepository->getTagsForAppointment($id) as $tag) {
+                    $response['tags'][] = $tag->id;
+                }
+
+                $view = new JsonView();
+                $view->setJsonObject($response);
+                $view->display();
+            } else {
+                echo "Invalid input, appointment ID not found in database";
+            }
+        } else {
+            echo "Invalid input, appointment ID missing";
+        }
     }
 }

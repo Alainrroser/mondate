@@ -109,17 +109,24 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
         if (this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
             console.log(this.responseText)
-            document.querySelector(".tag-list").innerHTML +=
-                "<button class=\"align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">" +
+
+            let tagButton = document.createElement("button")
+            tagButton.id = "tag-" + object.id
+            tagButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
+            tagButton.innerHTML =
                 "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
-                "<span class=\"align-middle\">" + object.name + "</span>" +
-                "</button>"
-            document.querySelector(".appointment-tags").innerHTML +=
-                "<div class=\"align-items-center d-flex flex-row pl-1\">" +
-                "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
-                "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
-                "<span class=\"align-middle\">" + object.name + "</span>" +
-                "</div>"
+                "<span class=\"align-middle\">" + object.name + "</span>";
+            document.querySelector(".tag-list").appendChild(tagButton)
+            addTagEventListener(tagButton)
+
+            for(let appointmentTag of document.querySelector(".appointment-tags")) {
+                appointmentTag.innerHTML +=
+                    "<div id=\"tag-" + object.id + "\" class=\"align-items-center d-flex flex-row pl-1\">" +
+                    "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
+                    "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
+                    "<span class=\"align-middle\">" + object.name + "</span>" +
+                    "</div>"
+            }
         }
     }
     request.send(data)
@@ -130,6 +137,10 @@ let selectedTag = tags[0]
 selectedTag.classList.add("active")
 
 for (let tag of tags) {
+    addTagEventListener(tag)
+}
+
+function addTagEventListener(tag) {
     tag.addEventListener("click", function() {
         selectedTag.classList.remove("active")
         tag.classList.add("active")

@@ -107,16 +107,18 @@ main.container {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
-}
-
-.appointment:hover {
     cursor: pointer;
 }
 
 .appointment > span {
+    color: white;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.15);
     display: inline-block;
     transition: all 0.1s ease-in-out;
+    padding: 0 10px;
+    cursor: pointer;
+    user-select: none;
 }
 
 .appointment-top {
