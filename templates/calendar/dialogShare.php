@@ -34,7 +34,7 @@
 
             </div>
             <button type="button"
-                    class="btn btn-secondary toggleShare">
+                    class="btn btn-primary toggleShare">
                 Close
             </button>
         </div>

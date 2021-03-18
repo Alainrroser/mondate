@@ -68,7 +68,7 @@
                 </div>
             </div>
             <button type="button"
-                    class="btn btn-secondary toggleTag">
+                    class="btn btn-primary toggleTag">
                 Close
             </button>
         </div>

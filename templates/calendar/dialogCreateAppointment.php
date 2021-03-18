@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-secondary toggleTag">
+                            <button class="btn btn-secondary toggleTag" type="button">
                                 Manage Tags...
                             </button>
                         </div>
