@@ -60,10 +60,11 @@
             }
         }
 
-        public function getUsersForAppointment($appointment_id) {
+        public function getNonCreatorUsersForAppointment($appointment_id) {
             $query = "SELECT * FROM $this->tableName
                       JOIN appointment_user ON $this->tableName.id = appointment_user.user_id
-                      WHERE appointment_user.appointment_id = ?";
+                      JOIN appointment ON appointment_user->appointment_id = appointment.id
+                      WHERE appointment_user.appointment_id = ? AND appointment.creator_id != $this->tableName.id";
 
             return parent::executeAndGetRows($query, 'i', $appointment_id);
         }

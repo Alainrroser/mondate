@@ -127,7 +127,7 @@ class AppointmentController {
                     $response['tags'][] = $tag->id;
                 }
 
-                foreach($userRepository->getUsersForAppointment($id) as $user) {
+                foreach($userRepository->getNonCreatorUsersForAppointment($id) as $user) {
                     $response['emails'][] = $user->email;
                 }
 
