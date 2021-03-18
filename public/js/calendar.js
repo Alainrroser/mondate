@@ -44,7 +44,7 @@ for (let appointmentButton of appointmentButtons) {
         for (let relatedButton of relatedButtons) {
             relatedButton.classList.toggle("appointment-selected")
         }
-    });
+    })
 }
 
 let toggleCreateButtons = document.querySelectorAll(".toggleCreate")
@@ -262,8 +262,14 @@ document.querySelector("#add-email").addEventListener("click", function() {
     emailButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "share-entry")
     emailButton.type = "button"
     emailButton.textContent = email
-    document.querySelector("#createAppointment form").innerHTML += "<input type=\"hidden\" name=\"emails[]\" value=\"" + email + "\">"
-    document.querySelector("#editAppointment form").innerHTML += "<input type=\"hidden\" name=\"emails[]\" value=\"" + email + "\">"
+
+    let input = document.createElement("input")
+    input.setAttribute("type", "hidden")
+    input.setAttribute("name", "emails[]")
+    input.setAttribute("value", email)
+    document.querySelector("#createAppointment form").appendChild(input)
+    document.querySelector("#editAppointment form").appendChild(input)
+
     if(!selectedEmail) {
         setSelectedEmail(emailButton)
     }

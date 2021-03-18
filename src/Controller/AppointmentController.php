@@ -24,7 +24,7 @@ class AppointmentController {
             $creatorId = $_SESSION['userId'];
 
             $tagIds = is_null($tags) ? array() : array_keys($tags);
-            $emails = $_POST['emails'];
+            $emails = is_null($_POST['emails']) ? array() : $_POST['emails'];
 
             $appointmentRepository = new AppointmentRepository();
             $id = $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
@@ -45,9 +45,9 @@ class AppointmentController {
             $name = $_POST['name'];
             $description = $_POST['description'];
             $tags = $_POST['tags'];
-            $emails = $_POST['emails'];
 
             $tagIds = is_null($tags) ? array() : array_keys($tags);
+            $emails = is_null($_POST['emails']) ? array() : $_POST['emails'];
 
             $appointmentRepository = new AppointmentRepository();
             $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
@@ -58,7 +58,7 @@ class AppointmentController {
     }
 
     private function validateAppointmentData() {
-        if(!self::postKeysExist('date', 'start', 'end', 'name', 'description', 'emails')) {
+        if(!self::postKeysExist('date', 'start', 'end', 'name', 'description')) {
             echo "Invalid input, missing data";
             return false;
         }
