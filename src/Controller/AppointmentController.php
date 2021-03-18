@@ -128,7 +128,7 @@ class AppointmentController {
                 }
 
                 foreach($userRepository->getUsersForAppointment($id) as $user) {
-                    $response['users'][] = $user->email;
+                    $response['emails'][] = $user->email;
                 }
 
                 $view = new JsonView();

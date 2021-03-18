@@ -116,6 +116,9 @@ document.querySelector("#btn-edit-appointment").addEventListener("click", functi
                     }
                 }
             }
+            for (let email of object.emails) {
+                addEmailToList(email)
+            }
         }
     };
     request.open("GET", "/appointment/get?id=" + selectedAppointmentID, false)
@@ -256,25 +259,28 @@ function addEmailEventListener(email) {
     })
 }
 
-document.querySelector("#add-email").addEventListener("click", function() {
-    let email = document.querySelector("#email").value
+function addEmailToList(email) {
     let emailButton = document.createElement("button")
     emailButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "share-entry")
     emailButton.type = "button"
     emailButton.textContent = email
-
+    
     let input = document.createElement("input")
     input.setAttribute("type", "hidden")
     input.setAttribute("name", "emails[]")
     input.setAttribute("value", email)
     document.querySelector("#createAppointment form").appendChild(input)
     document.querySelector("#editAppointment form").appendChild(input)
-
     if(!selectedEmail) {
         setSelectedEmail(emailButton)
     }
     document.querySelector(".email-list").appendChild(emailButton)
     addEmailEventListener(emailButton)
+}
+
+document.querySelector("#add-email").addEventListener("click", function() {
+    let email = document.querySelector("#email").value
+    addEmailToList(email)
     document.querySelector("#email").value = ""
 })
 
