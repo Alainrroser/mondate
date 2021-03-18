@@ -124,6 +124,27 @@ document.querySelector("#btn-edit-appointment").addEventListener("click", functi
     request.send()
 })
 
+let tags = document.querySelectorAll(".tag")
+let selectedTag = null
+
+for (let tag of tags) {
+    addTagEventListener(tag)
+}
+
+function setSelectedTag(tag) {
+    if (selectedTag) {
+        selectedTag.classList.remove("active")
+    }
+    selectedTag = tag
+    selectedTag.classList.add("active")
+}
+
+function addTagEventListener(tag) {
+    tag.addEventListener("click", function() {
+        setSelectedTag(tag)
+    })
+}
+
 document.querySelector("#btn-add-tag").addEventListener("click", function () {
     let data = new FormData()
     data.append("name", document.querySelector(".tag-name").value)
@@ -158,10 +179,6 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
     }
     request.send(data)
 })
-
-let tags = document.querySelectorAll(".tag")
-let selectedTag = tags[0]
-selectedTag.classList.add("active")
 
 document.querySelector("#btn-edit-tag").addEventListener("click", function() {
     let selectedTagId = selectedTag.id.split("-")[1]
@@ -201,18 +218,6 @@ document.querySelector("#btn-save-tag").addEventListener("click", function() {
     request.send()
 })
 
-for (let tag of tags) {
-    addTagEventListener(tag)
-}
-
-function addTagEventListener(tag) {
-    tag.addEventListener("click", function() {
-        selectedTag.classList.remove("active")
-        tag.classList.add("active")
-        selectedTag = tag
-    })
-}
-
 document.querySelector("#btn-remove-tag").addEventListener("click", function() {
     let data = new FormData()
     let selectedTagId = selectedTag.id.split("-")[1]
@@ -236,9 +241,6 @@ document.querySelector("#btn-remove-tag").addEventListener("click", function() {
 
 let emails = document.querySelectorAll(".share-entry")
 let selectedEmail = null
-if(emails.length >= 1) {
-    setSelectedEmail(emails[0])
-}
 
 for (let email of emails) {
     addEmailEventListener(email)
@@ -271,9 +273,6 @@ function addEmailToList(email) {
     input.setAttribute("value", email)
     document.querySelector("#createAppointment form").appendChild(input)
     document.querySelector("#editAppointment form").appendChild(input)
-    if(!selectedEmail) {
-        setSelectedEmail(emailButton)
-    }
     document.querySelector(".email-list").appendChild(emailButton)
     addEmailEventListener(emailButton)
 }
