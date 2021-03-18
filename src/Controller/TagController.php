@@ -30,11 +30,11 @@
             $view->display();
         }
 
-        function edit($id, $name, $color) {
+        function edit() {
             Authentication::restrictAuthenticated();
     
             $tagRepository = new TagRepository();
-            $tagRepository->editTag($_POST["tagId"], $_POST["name"], $_POST["color"]);
+            $tagRepository->editTag($_POST["id"], $_POST["name"], substr($_POST["color"], 1));
         }
         
         function delete() {
@@ -43,4 +43,18 @@
             $tagRepository = new TagRepository();
             $tagRepository->deleteById($_POST["id"]);
         }
+    
+        function get() {
+            $tagRepository = new TagRepository();
+            $tag = $tagRepository->readById($_GET['id']);
+        
+            $response = array();
+            $response['name'] = $tag->name;
+            $response['color'] = $tag->color;
+        
+            $view = new JsonView();
+            $view->setJsonObject($response);
+            $view->display();
+        }
+    
     }

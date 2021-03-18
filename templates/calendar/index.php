@@ -96,7 +96,8 @@
                         </label>
                         <input type="text"
                                name="name"
-                               class="form-control" required>
+                               class="form-control"
+                               required>
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <div class="form-group form">
@@ -105,7 +106,8 @@
                             </label>
                             <input type="date"
                                    name="date"
-                                   class="form-control" required>
+                                   class="form-control"
+                                   required>
                         </div>
                         <div class="d-flex flex-row">
                             <div class="form-group form">
@@ -114,7 +116,8 @@
                                 </label>
                                 <input type="text"
                                        name="start"
-                                       class="form-control" required>
+                                       class="form-control"
+                                       required>
                             </div>
                             <div class="form-group form">
                                 <label>
@@ -122,7 +125,8 @@
                                 </label>
                                 <input type="text"
                                        name="end"
-                                       class="form-control" required>
+                                       class="form-control"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -130,7 +134,10 @@
                         <label>
                             Description
                         </label>
-                        <textarea rows="5" name="description" class="form-control" required></textarea>
+                        <textarea rows="5"
+                                  name="description"
+                                  class="form-control"
+                                  required></textarea>
                     </div>
                     <div class="form-group form">
                         <div class="form-group form">
@@ -176,7 +183,7 @@
                                     class="btn btn-primary">
                                 Create
                             </button>
-                            <button class="btn btn-secondary toggleCreate"
+                            <button class="btn btn-secondary toggleCreate" id="cancel-create"
                                     type="button">
                                 Cancel
                             </button>
@@ -243,7 +250,9 @@
                         <label>
                             Description
                         </label>
-                        <textarea rows="5" name="description" class="input-appointment-description form-control"></textarea>
+                        <textarea rows="5"
+                                  name="description"
+                                  class="input-appointment-description form-control"></textarea>
                     </div>
                     <div class="form-group form">
                         <div class="form-group form">
@@ -267,7 +276,7 @@
                                                     $id = $tag->id;
                                                     $color = '#'.$tag->color;
                                                     echo
-                                                    "<div class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
+                                                    "<div id=\"tag-$id\" class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
                                                         <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
                                                         <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-1\"></span>
                                                         <label class=\"align-middle mb-0\">$tag->name</label>
@@ -290,7 +299,7 @@
                                     class="btn btn-primary">
                                 Save
                             </button>
-                            <button class="btn btn-secondary toggleEdit"
+                            <button class="btn btn-secondary toggleEdit" id="cancel-edit"
                                     type="button">
                                 Cancel
                             </button>
@@ -329,43 +338,54 @@
                             <label>
                                 Name
                             </label>
-                            <input type="text" id="tag-name"
+                            <input type="text"
+                                   id="tag-name"
                                    name="name"
-                                   class="tag-name form-control" required>
+                                   class="tag-name form-control"
+                                   required>
                         </div>
                         <div class="form-group form">
                             <label>
                                 Color
                             </label>
-                            <input type="color" id="tag-color"
+                            <input type="color"
+                                   id="tag-color"
                                    name="color"
-                                   class="tag-color form-control" required>
+                                   class="tag-color form-control"
+                                   required>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="form-group form">
-                                <button class="btn btn-secondary" id="btn-add-tag">
+                                <button class="btn btn-secondary"
+                                        id="btn-add-tag">
                                     Add
                                 </button>
                             </div>
                             <div class="form-group form">
-                                <button class="btn btn-secondary" id="btn-edit-tag">
+                                <button class="btn btn-secondary"
+                                        id="btn-edit-tag">
                                     Edit
                                 </button>
                             </div>
                         </div>
-                        <div class="form-group form justify-content-end">
-                            <button class="btn btn-secondary" id="btn-remove-tag">
-                                Remove
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div class="remove-tag form-group form">
+                                <button class="btn btn-secondary"
+                                        id="btn-remove-tag">
+                                    Remove
+                                </button>
+                            </div>
+                            <button type="button"
+                                    class="btn btn-secondary" id="btn-save-tag">
+                                Save
                             </button>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <button type="button"
-                            class="btn btn-primary toggleTag">
-                        Close
-                    </button>
-                </div>
+                <button type="button"
+                        class="btn btn-secondary toggleTag">
+                    Close
+                </button>
             </div>
         </div>
     </div>
@@ -386,17 +406,22 @@
                             <label>
                                 E-Mail
                             </label>
-                            <input type="text" name="email" required>
+                            <input type="text"
+                                   name="email"
+                                   required>
                         </div>
-                        <button type="button" class="btn btn-secondary mb-2">
+                        <button type="button"
+                                class="btn btn-secondary mb-2">
                             Add
                         </button>
                     </div>
                     <div class="mb-5 d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary">
+                        <button type="button"
+                                class="btn btn-secondary">
                             Remove
                         </button>
-                        <button type="button" class="btn btn-secondary">
+                        <button type="button"
+                                class="btn btn-secondary">
                             Edit
                         </button>
                     </div>
@@ -464,7 +489,8 @@
                 </button>
             </div>
             <div class="row">
-                <button id="btn-edit-appointment" class="btn btn-secondary w-100 mb-2 toggleEdit">
+                <button id="btn-edit-appointment"
+                        class="btn btn-secondary w-100 mb-2 toggleEdit">
                     Edit Appointment
                 </button>
             </div>

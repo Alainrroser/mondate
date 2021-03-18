@@ -31,7 +31,7 @@ class TagRepository extends Repository {
     
     public function editTag($id, $name, $color) {
         $query = "UPDATE $this->tableName SET name=?, color=? WHERE id=?";
-        $this->execute($query, "ssi", $id, $name, $color);
+        $this->execute($query, "ssi", $name, $color, $id);
     }
 
 }

@@ -82,6 +82,14 @@ document.querySelector("#reloadButton").addEventListener("click", function () {
     location.reload()
 })
 
+document.querySelector("#cancel-create").addEventListener("click", function () {
+    location.reload()
+})
+
+document.querySelector("#cancel-edit").addEventListener("click", function () {
+    location.reload()
+})
+
 document.querySelector("#btn-edit-appointment").addEventListener("click", function () {
     let request = new XMLHttpRequest()
     request.onreadystatechange = function() {
@@ -124,7 +132,6 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
     request.onload = function() {
         if (this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
-            console.log(this.responseText)
 
             let tagButton = document.createElement("button")
             tagButton.id = "tag-" + object.id
@@ -151,6 +158,44 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
 let tags = document.querySelectorAll(".tag")
 let selectedTag = tags[0]
 selectedTag.classList.add("active")
+
+document.querySelector("#btn-edit-tag").addEventListener("click", function() {
+    let selectedTagId = selectedTag.id.split("-")[1]
+    let request = new XMLHttpRequest()
+    request.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+            let object = JSON.parse(this.responseText)
+            document.querySelector(".tag-name").value = object.name
+            document.querySelector(".tag-color").value = "#" + object.color
+        }
+    };
+    request.open("GET", "/tag/get?id=" + selectedTagId, false)
+    request.send()
+})
+
+document.querySelector("#btn-save-tag").addEventListener("click", function() {
+    let selectedTagId = selectedTag.id.split("-")[1]
+    let data = new FormData
+    data.append("id", selectedTagId)
+    data.append("name", document.querySelector(".tag-name").value)
+    data.append("color", document.querySelector(".tag-color").value)
+    
+    let sendData = new XMLHttpRequest()
+    sendData.open("POST", "/tag/edit", false)
+    sendData.send(data)
+    
+    let request = new XMLHttpRequest()
+    request.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+            let object = JSON.parse(this.responseText)
+            selectedTag.innerHTML =
+                "<span style=\"width:1rem;height:1rem;background-color: #" + object.color + "\" class=\"mr-2\"></span>" +
+                "<span class=\"align-middle\">" + object.name + "</span>";
+        }
+    }
+    request.open("GET", "/tag/get?id=" + selectedTagId, false)
+    request.send()
+})
 
 for (let tag of tags) {
     addTagEventListener(tag)
