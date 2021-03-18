@@ -77,6 +77,8 @@ class AppointmentRepository extends Repository {
             $queryAppointmentTag = "INSERT INTO appointment_tag (appointment_id, tag_id) VALUES (?, ?)";
             self::insertAndGetId($queryAppointmentTag, 'ii', $appointmentId, $tagId);
         }
+
+        return $appointmentId;
     }
     
     public function editAppointment($id, $date, $start, $end, $name, $description, $tagIds) {

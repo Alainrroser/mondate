@@ -24,9 +24,11 @@ class AppointmentController {
             $creatorId = $_SESSION['userId'];
 
             $tagIds = is_null($tags) ? array() : array_keys($tags);
+            $emails = $_POST['emails'];
 
             $appointmentRepository = new AppointmentRepository();
-            $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
+            $id = $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
+            $appointmentRepository->shareAppointment($id, $emails);
 
             header('Location: /calendar');
         }
@@ -43,18 +45,20 @@ class AppointmentController {
             $name = $_POST['name'];
             $description = $_POST['description'];
             $tags = $_POST['tags'];
+            $emails = $_POST['emails'];
 
             $tagIds = is_null($tags) ? array() : array_keys($tags);
 
             $appointmentRepository = new AppointmentRepository();
             $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
+            $appointmentRepository->shareAppointment($id, $emails);
 
             header('Location: /calendar');
         }
     }
 
     private function validateAppointmentData() {
-        if(!self::postKeysExist('date', 'start', 'end', 'name', 'description')) {
+        if(!self::postKeysExist('date', 'start', 'end', 'name', 'description', 'emails')) {
             echo "Invalid input, missing data";
             return false;
         }
@@ -85,23 +89,6 @@ class AppointmentController {
         }
 
         return true;
-    }
-
-    public function share() {
-        Authentication::restrictAuthenticated();
-
-        if(!isset($_POST['id']) || !isset($_POST['emails'])) {
-            echo "Invalid input, missing data";
-            return;
-        }
-
-        $id = $_POST['id'];
-        $emails = $_POST['emails'];
-
-        $appointmentRepository = new AppointmentRepository();
-        $appointmentRepository->shareAppointment($id, $emails);
-
-        header('Location: /calendar');
     }
 
     public function delete() {
