@@ -95,7 +95,6 @@ document.querySelector("#btn-edit-appointment").addEventListener("click", functi
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
-
             document.querySelector(".input-appointment-name").setAttribute("value", object.name)
             document.querySelector(".input-appointment-date").setAttribute("value", object.date)
             document.querySelector(".input-appointment-start").setAttribute("value", object.start)
@@ -268,6 +267,7 @@ function addEmailToList(email) {
     let input = document.createElement("input")
     input.setAttribute("type", "hidden")
     input.setAttribute("name", "emails[]")
+    input.classList.add("shared-appointment-email")
     input.setAttribute("value", email)
     document.querySelector("#createAppointment form").appendChild(input)
     document.querySelector("#editAppointment form").appendChild(input)
@@ -286,6 +286,12 @@ document.querySelector("#add-email").addEventListener("click", function() {
 
 document.querySelector("#remove-email").addEventListener("click", function() {
     document.querySelector(".email-list").removeChild(selectedEmail)
+    let inputs = document.getElementsByTagName("input")
+    for(let input of inputs) {
+        if(input.classList.contains("shared-appointment-email")) {
+            input.remove()
+        }
+    }
 })
 
 document.querySelector("#edit-email").addEventListener("click", function() {

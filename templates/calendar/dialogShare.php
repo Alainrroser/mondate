@@ -10,7 +10,7 @@
                 E-Mail
             </label>
             <div class="d-flex justify-content-between">
-                <input type="text" class="mb-2 mr-2 w-100"
+                <input type="email" class="mb-2 mr-2 w-100"
                        id="email">
                 <button type="button" id="add-email"
                         class="btn btn-secondary mb-2">
