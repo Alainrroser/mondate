@@ -73,6 +73,7 @@ for (let toggleTagButton of toggleTagButtons) {
 
 for (let toggleShareButton of toggleShareButtons) {
     toggleShareButton.addEventListener("click", function (event) {
+        document.querySelector("#shared-appointment-id").setAttribute("value", selectedAppointmentID)
         document.getElementById("share").classList.toggle("invisible")
         event.preventDefault()
     })
@@ -262,7 +263,7 @@ document.querySelector("#add-email").addEventListener("click", function() {
     emailButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "share-entry")
     emailButton.type = "button"
     emailButton.textContent = email
-    emailButton.innerHTML += "<input type=\"hidden\" name=\"email[]\" value=\"email\">"
+    emailButton.innerHTML += "<input type=\"hidden\" name=\"emails[]\" value=\"" + email + "\">"
     if(!selectedEmail) {
         setSelectedEmail(emailButton)
     }

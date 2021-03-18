@@ -34,6 +34,7 @@
                             <input type="text"
                                    name="start"
                                    class="form-control"
+                                   pattern="\d{1,2}:\d{1,2}(:\d{1,2})?"
                                    required>
                         </div>
                         <div class="form-group form">
@@ -43,6 +44,7 @@
                             <input type="text"
                                    name="end"
                                    class="form-control"
+                                   pattern="\d{1,2}:\d{1,2}(:\d{1,2})?"
                                    required>
                         </div>
                     </div>
@@ -53,8 +55,7 @@
                     </label>
                     <textarea rows="5"
                               name="description"
-                              class="form-control"
-                              required></textarea>
+                              class="form-control"></textarea>
                 </div>
                 <div class="form-group form">
                     <div class="form-group form">

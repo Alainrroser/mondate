@@ -4,7 +4,7 @@
     
     const SECONDS_PER_HOUR = 60 * 60;
     const SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
-    
+
     function index_to_time($index) {
         return str_pad($index, 2, '0', STR_PAD_LEFT).":00";
     }
@@ -17,8 +17,10 @@
     
     // Create the column titles
     for($i = 0; $i < sizeof(COLUMNS); $i++) {
-        $current_date = $_SESSION['startDate'] + 60 * 60 * 24 * $i;
-        $columns[$i] = COLUMNS[$i]."<br>".date('d.m.Y', $current_date);
+        $current_date = clone $startDate;
+        $current_date->add(date_interval_create_from_date_string('1 day'));
+
+        $columns[$i] = COLUMNS[$i] . "<br>" . $current_date->format('d.m.Y');
     }
     
     foreach($appointments as $appointment) {
@@ -196,7 +198,7 @@
         
                         for($j = 0; $j < sizeof(COLUMNS); $j++) {
                             // Convert the current cell date and time to seconds
-                            $id = $startDate + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
+                            $id = $startDate->getTimestamp() + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
             
                             // Get and display the cell content from the array
                             $content = isset($cellContent[$id]) ? $cellContent[$id] : "";
@@ -216,7 +218,7 @@
                class="btn btn-secondary px-5">Last</a>
             <span id="scope-identifier">
                 <?php
-                    echo date('d.m.Y', $startDate).' - '.date('d.m.Y', $endDate);
+                    echo $startDate->format('d.m.Y') . ' - ' . $endDate->format('d.m.Y');
                 ?>
             </span>
             <a href="/calendar/next"

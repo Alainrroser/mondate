@@ -10,15 +10,14 @@
                 <input type="hidden"
                        name="id"
                        value=""
-                       id="share-id">
+                       id="shared-appointment-id">
                 <div class="contacts card list-group shadow-sm w-100 mb-3 email-list"></div>
                 <label>
                     E-Mail
                 </label>
                 <div class="d-flex justify-content-between">
                     <input type="text" class="mb-2 mr-2 w-100"
-                           id="email"
-                           required>
+                           id="email">
                     <button type="button" id="add-email"
                             class="btn btn-secondary mb-2">
                         Add
@@ -38,7 +37,7 @@
                             Save Changes
                         </button>
                     </div>
-                    
+
                 </div>
                 <div class="d-flex justify-content-between">
                     <div>

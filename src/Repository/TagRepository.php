@@ -8,12 +8,6 @@ use Exception;
 class TagRepository extends Repository {
     protected $tableName = 'tag';
 
-    /**
-     * @param $appointment_id
-     *
-     * @return array
-     * @throws Exception
-     */
     public function getTagsForAppointment($appointment_id) {
         $query = "
                     SELECT * FROM $this->tableName

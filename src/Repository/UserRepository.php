@@ -59,4 +59,12 @@
                 throw new Exception($statement->error);
             }
         }
+
+        public function getUsersForAppointment($appointment_id) {
+            $query = "SELECT * FROM $this->tableName
+                      JOIN appointment_user ON $this->tableName.id = appointment_user.user_id
+                      WHERE appointment_user.appointment_id = ?";
+
+            return parent::executeAndGetRows($query, 'i', $appointment_id);
+        }
     }

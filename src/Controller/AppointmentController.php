@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Authentication\Authentication;
 use App\Repository\AppointmentRepository;
 use App\Repository\TagRepository;
+use App\Repository\UserRepository;
 use App\View\JsonView;
 
 class AppointmentController {
@@ -89,11 +90,16 @@ class AppointmentController {
     public function share() {
         Authentication::restrictAuthenticated();
 
+        if(!isset($_POST['id']) || !isset($_POST['emails'])) {
+            echo "Invalid input, missing data";
+            return;
+        }
+
         $id = $_POST['id'];
-        $userEmails = isset($_POST['users']) ? array() : array_keys($_POST['users']);
+        $emails = $_POST['emails'];
 
         $appointmentRepository = new AppointmentRepository();
-        $appointmentRepository->shareAppointment($id, $userEmails);
+        $appointmentRepository->shareAppointment($id, $emails);
 
         header('Location: /calendar');
     }
@@ -106,7 +112,7 @@ class AppointmentController {
             $appointmentRepository->deleteById($_POST["id"]);
             header('Location: /calendar');
         } else {
-            echo "Invalid input, appointment ID missing";
+            echo "Invalid input, missing appointment ID";
         }
     }
 
@@ -116,6 +122,7 @@ class AppointmentController {
         if(isset($_GET["id"])) {
             $appointmentRepository = new AppointmentRepository();
             $tagRepository = new TagRepository();
+            $userRepository = new UserRepository();
 
             $id = $_GET['id'];
             $appointment = $appointmentRepository->readById($id);
@@ -131,6 +138,10 @@ class AppointmentController {
 
                 foreach($tagRepository->getTagsForAppointment($id) as $tag) {
                     $response['tags'][] = $tag->id;
+                }
+
+                foreach($userRepository->getUsersForAppointment($id) as $user) {
+                    $response['users'][] = $user->email;
                 }
 
                 $view = new JsonView();

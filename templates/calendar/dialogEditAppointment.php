@@ -17,7 +17,8 @@
                     </label>
                     <input type="text"
                            name="name"
-                           class="input-appointment-name form-control">
+                           class="input-appointment-name form-control"
+                           required>
                 </div>
                 <div class="d-flex flex-row justify-content-between">
                     <div class="form-group form">
@@ -26,7 +27,8 @@
                         </label>
                         <input type="date"
                                name="date"
-                               class="input-appointment-date form-control">
+                               class="input-appointment-date form-control"
+                               required>
                     </div>
                     <div class="d-flex flex-row">
                         <div class="form-group form">
@@ -35,7 +37,9 @@
                             </label>
                             <input type="text"
                                    name="start"
-                                   class="input-appointment-start form-control">
+                                   class="input-appointment-start form-control"
+                                   pattern="\d{1,2}:\d{1,2}(:\d{1,2})?"
+                                   required>
                         </div>
                         <div class="form-group form">
                             <label>
@@ -43,7 +47,9 @@
                             </label>
                             <input type="text"
                                    name="end"
-                                   class="input-appointment-end form-control">
+                                   class="input-appointment-end form-control"
+                                   pattern="\d{1,2}:\d{1,2}(:\d{1,2})?"
+                                   required>
                         </div>
                     </div>
                 </div>
