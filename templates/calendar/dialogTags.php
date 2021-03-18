@@ -12,9 +12,9 @@
                         $color = '#'.$tag->color;
                         echo
                         "<button id=\"tag-$tag->id\" class=\"tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
-                                    <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-2\"></span>
-                                    <span class=\"align-middle\">$tag->name</span>
-                                </button>";
+                            <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-2\"></span>
+                            <span class=\"align-middle\">$tag->name</span>
+                        </button>";
                     }
                     ?>
                 </div>

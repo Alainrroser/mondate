@@ -150,6 +150,8 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
                     "<span class=\"align-middle\">" + object.name + "</span>" +
                     "</div>"
             }
+            document.querySelector("#tag-name").value = ""
+            document.querySelector("#tag-color").value = ""
         }
     }
     request.send(data)
@@ -228,4 +230,55 @@ document.querySelector("#btn-remove-tag").addEventListener("click", function() {
     document.querySelector(".tag-list").removeChild(selectedTag)
     selectedTag = tags[0]
     selectedTag.classList.add("active")
+})
+
+let emails = document.querySelectorAll(".share-entry")
+let selectedEmail = null
+if(emails.length >= 1) {
+    setSelectedEmail(emails[0])
+}
+
+for (let email of emails) {
+    addEmailEventListener(email)
+}
+
+function setSelectedEmail(email) {
+    if (selectedEmail) {
+        selectedEmail.classList.remove("active")
+    }
+    selectedEmail = email
+    selectedEmail.classList.add("active")
+}
+
+function addEmailEventListener(email) {
+    email.addEventListener("click", function() {
+       setSelectedEmail(email)
+    })
+}
+
+document.querySelector("#add-email").addEventListener("click", function() {
+    let email = document.querySelector("#email").value
+    let emailButton = document.createElement("button")
+    emailButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "share-entry")
+    emailButton.type = "button"
+    emailButton.textContent = email
+    emailButton.innerHTML += "<input type=\"hidden\" name=\"email[]\" value=\"email\">"
+    if(!selectedEmail) {
+        setSelectedEmail(emailButton)
+    }
+    document.querySelector(".email-list").appendChild(emailButton)
+    addEmailEventListener(emailButton)
+    document.querySelector("#email").value = ""
+})
+
+document.querySelector("#remove-email").addEventListener("click", function() {
+    document.querySelector(".email-list").removeChild(selectedEmail)
+})
+
+document.querySelector("#edit-email").addEventListener("click", function() {
+    document.querySelector("#email").value = selectedEmail.textContent
+})
+
+document.querySelector("#save-changes").addEventListener("click", function() {
+    selectedEmail.textContent =  document.querySelector("#email").value
 })

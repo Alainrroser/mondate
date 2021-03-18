@@ -160,7 +160,7 @@ main.container {
     z-index: 1;
 }
 
-.tag-color-list {
+.tag-list {
     overflow-y: scroll;
     max-height: 350px;
 }
