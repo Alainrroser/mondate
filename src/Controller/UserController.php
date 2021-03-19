@@ -11,23 +11,23 @@
         public function doSignUp() {
             $email = $_POST['email'];
             $password = $_POST['password'];
-        
+            
             $emailValid = isset($email) && !empty($email) &&
                           filter_var($email, FILTER_VALIDATE_EMAIL);
-        
+            
             $passwordValid = isset($password) && !empty($password) &&
                              preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,20}$/", $password);
-        
+            
             if($passwordValid && $emailValid) {
                 $userRepository = new UserRepository();
-
+                
                 if(!$userRepository->readByEmail($email)) {
                     $userRepository->signUp($email, $password);
                     header("Location: /calendar");
                 } else {
                     $view = new View('signUp/index');
                     $view->title = 'Sign Up';
-                    $view->errors = array("User already exists.");
+                    $view->errors = ["User already exists."];
                     $view->display();
                 }
             } else {
@@ -38,13 +38,13 @@
         public function doSignIn() {
             $email = $_POST['email'];
             $password = $_POST['password'];
-    
+            
             if(Authentication::login($email, $password)) {
                 header("Location: /calendar");
             } else {
-                $errors = array();
+                $errors = [];
                 $errors[] = "Incorrect password or non-existing user.";
-
+                
                 $view = new View('signIn/index');
                 $view->title = 'Sign In';
                 $view->errors = $errors;
@@ -54,7 +54,7 @@
         
         public function doChangePassword() {
             Authentication::restrictAuthenticated();
-
+            
             $userRepository = new UserRepository();
             $user = Authentication::getAuthenticatedUser();
             if(password_verify($_POST["oldPassword"], $user->password)) {
@@ -67,7 +67,7 @@
         
         public function changePassword() {
             Authentication::restrictAuthenticated();
-
+            
             $view = new View('user/changePassword');
             $view->title = 'Change Password';
             $view->display();
@@ -75,15 +75,15 @@
         
         public function delete() {
             Authentication::restrictAuthenticated();
-
+            
             $userId = $_SESSION['userId'];
-
+            
             $appointmentRepository = new AppointmentRepository();
             $appointmentRepository->deleteAppointmentsFromUser($userId);
-
+            
             $userRepository = new UserRepository();
             $userRepository->deleteById($userId);
-
+            
             Authentication::logout();
         }
         
