@@ -47,8 +47,7 @@
         exclusively to the above-mentioned persons. For the reproduction of any element is the written
         Obtain the consent of the copyright holder in advance.
     </p>
-    <a href="../../calendar/"
-       class="btn btn-primary">
+    <a href="../../calendar/" class="btn btn-primary">
         Back
     </a>
 </div>

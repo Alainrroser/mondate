@@ -169,34 +169,36 @@
                 throw new Exception($statement->error);
             }
         }
-
+        
         /**
-         * @param $query
-         * @param null $types
+         * @param       $query
+         * @param null  $types
          * @param mixed ...$vars
+         *
          * @return false|\mysqli_stmt
          */
         protected function bindStatementParams($query, $types, ...$vars) {
             $statement = ConnectionHandler::getConnection()->prepare($query);
-
+            
             if(isset($types) && isset($vars)) {
                 // black magic
                 $statement->bind_param($types, ...$vars);
             }
-
+            
             return $statement;
         }
-
+        
         /**
-         * @param $query
-         * @param null $types
+         * @param       $query
+         * @param null  $types
          * @param mixed ...$vars
+         *
          * @throws Exception
          */
-        protected function execute($query, $types=null, ...$vars) {
+        protected function execute($query, $types = null, ...$vars) {
             $statement = self::bindStatementParams($query, $types, ...$vars);
             $statement->execute();
-
+            
             if(!$statement) {
                 throw new Exception($statement->error);
             }
@@ -210,7 +212,7 @@
          * @return array
          * @throws Exception
          */
-        protected function executeAndGetRows($query, $types=null, ...$vars) {
+        protected function executeAndGetRows($query, $types = null, ...$vars) {
             $statement = self::bindStatementParams($query, $types, ...$vars);
             
             $statement->execute();
@@ -227,23 +229,24 @@
             
             return $rows;
         }
-
+        
         /**
-         * @param $query
-         * @param null $types
+         * @param       $query
+         * @param null  $types
          * @param mixed ...$vars
+         *
          * @return int
          * @throws Exception
          */
-        protected function insertAndGetId($query, $types=null, ...$vars) {
+        protected function insertAndGetId($query, $types = null, ...$vars) {
             $statement = self::bindStatementParams($query, $types, ...$vars);
             $executionResult = $statement->execute();
-
+            
             if(!$executionResult) {
                 throw new Exception($statement->error);
             }
-
+            
             return $statement->insert_id;
         }
-
+        
     }

@@ -4,10 +4,11 @@
     
     const SECONDS_PER_HOUR = 60 * 60;
     const SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
-
+    
     function index_to_time($index) {
         return str_pad($index, 2, '0', STR_PAD_LEFT).":00";
     }
+
 ?>
 
 <?php
@@ -18,8 +19,8 @@
     for($i = 0; $i < sizeof(COLUMNS); $i++) {
         $current_date = clone $startDate;
         $current_date->add(date_interval_create_from_date_string('1 day'));
-
-        $columns[$i] = COLUMNS[$i] . "<br>" . $current_date->format('d.m.Y');
+        
+        $columns[$i] = COLUMNS[$i]."<br>".$current_date->format('d.m.Y');
     }
     
     foreach($appointments as $appointment) {
@@ -83,46 +84,34 @@
 
 <div class="container pl-0 mw-100">
     <?php
-    require 'dialogCreateAppointment.php';
-    require 'dialogEditAppointment.php';
-    require 'dialogTags.php';
-    require 'dialogShare.php';
-    require 'dialogError.php';
+        require 'dialogCreateAppointment.php';
+        require 'dialogEditAppointment.php';
+        require 'dialogTags.php';
+        require 'dialogShare.php';
+        require 'dialogError.php';
     ?>
     <div class="row pb-4">
         <div class="col-4 px-5">
-            <img src="/images/logo.png"
-                 class="card-img-top"
-                 alt="The Mondate Logo"
-                 style="width: 80px">
+            <img src="/images/logo.png" class="card-img-top" alt="The Mondate Logo" style="width: 80px">
         </div>
         <h1 class="col-4 text-center">
             Mondate
         </h1>
         <div class="col">
             <div class="dropdown float-right w-50">
-                <button class="btn btn-secondary dropdown-toggle w-100"
-                        type="button"
-                        id="dropdownMenuButton"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </button>
                 <div class="dropdown-menu dropdown-menu-right w-100"
                      aria-labelledby="dropdownMenuButton">
-                    <a href="/signOut"
-                       type=submit
-                       class="dropdown-item w-100">
+                    <a href="/signOut" type=submit class="dropdown-item w-100">
                         Sign Out
                     </a>
-                    <a href="/user/changePassword"
-                       class="dropdown-item w-100">
+                    <a href="/user/changePassword" class="dropdown-item w-100">
                         Change Password
                     </a>
-                    <a href="/user/delete"
-                       type=submit
-                       class="dropdown-item w-100">
+                    <a href="/user/delete" type=submit class="dropdown-item w-100">
                         Delete Account
                     </a>
                 </div>
@@ -137,23 +126,14 @@
                 </button>
             </div>
             <div class="ml-0 row">
-                <button id="btn-edit-appointment"
-                        class="btn btn-secondary w-100 mb-2 toggleEdit"
-                        disabled>
+                <button id="btn-edit-appointment" class="btn btn-secondary w-100 mb-2 toggleEdit" disabled>
                     Edit Appointment
                 </button>
             </div>
             <div class="ml-0 row">
-                <form action="/appointment/delete"
-                      method="post"
-                      class="w-100">
-                    <input type="hidden"
-                           name="id"
-                           value=""
-                           id="delete-appointment-id">
-                    <button type="submit" id="btn-delete-appointment"
-                            class="btn btn-secondary w-100 mb-2"
-                            disabled>
+                <form action="/appointment/delete" method="post" class="w-100">
+                    <input type="hidden" name="id" value="" id="delete-appointment-id">
+                    <button type="submit" id="btn-delete-appointment" class="btn btn-secondary w-100 mb-2" disabled>
                         Delete Appointment
                     </button>
                 </form>
@@ -215,18 +195,19 @@
     </div>
     <div class="row float-right pt-3">
         <div class="col">
-            <a href="/calendar/last"
-               class="btn btn-secondary px-5">Last</a>
+            <a href="/calendar/last" class="btn btn-secondary px-5">
+                Last
+            </a>
             <span id="scope-identifier">
                 <?php
-                    echo $startDate->format('d.m.Y') . ' - ' . $endDate->format('d.m.Y');
+                    echo $startDate->format('d.m.Y').' - '.$endDate->format('d.m.Y');
                 ?>
             </span>
-            <a href="/calendar/next"
-               class="btn btn-secondary px-5">Next</a>
+            <a href="/calendar/next" class="btn btn-secondary px-5">
+                Next
+            </a>
         </div>
     </div>
 </div>
 
-<script type="text/javascript"
-        src="/js/calendar.js"></script>
+<script type="text/javascript" src="/js/calendar.js"></script>

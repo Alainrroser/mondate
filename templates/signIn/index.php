@@ -1,51 +1,30 @@
 <div class="d-flex flex-column center-align">
-    <?php if(sizeof($errors) > 0): ?>
-    <div class="alert alert-danger w-25">
-        <?php
-        foreach($errors as $error) {
-            echo "<span>$error</span>";
-        }
-        ?>
-    </div>
-    <?php endif; ?>
-
+    <?php require 'dialogError.php'; ?>
     <div class="card w-25 pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Sign In
         </h1>
-        <img src="/images/logo.png"
-             class="card-img-top w-25 mx-auto"
-             alt="The Mondate Logo">
+        <img src="/images/logo.png" class="card-img-top w-25 mx-auto" alt="The Mondate Logo">
         <div class="card-body">
-            <form action="/user/doSignIn"
-                  method="post">
+            <form action="/user/doSignIn" method="post">
                 <div class="form-group form">
                     <label for="email">
                         E-Mail
                     </label>
-                    <input type="email"
-                           name="email"
-                           class="form-control"
-                           placeholder="Enter your e-mail"
-                           required>
+                    <input type="email" name="email" class="form-control" placeholder="Enter your e-mail" required>
                 </div>
                 <div class="form-group form">
                     <label for="password">
                         Password
                     </label>
-                    <input type="password"
-                           name="password"
-                           class="form-control"
-                           placeholder="Enter your password"
+                    <input type="password" name="password" class="form-control" placeholder="Enter your password"
                            required>
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
-                    <button class="btn btn-primary w-50 mb-2"
-                            type="submit">
+                    <button class="btn btn-primary w-50 mb-2" type="submit">
                         Sign In
                     </button>
-                    <a href="/signUp/"
-                       class="btn btn-secondary w-50">
+                    <a href="/signUp/" class="btn btn-secondary w-50">
                         Sign Up
                     </a>
                 </div>
@@ -53,3 +32,5 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="/js/signIn.js"></script>

@@ -14,7 +14,7 @@
             
             $view = new View('signUp/index');
             $view->title = 'Sign Up';
-            $view->errors = array();
+            $view->errors = [];
             $view->display();
         }
     }
