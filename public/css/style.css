@@ -10,13 +10,13 @@ html {
 
 .body-container {
     display: block;
-    height: calc(100vh - 60px);
-    padding-bottom: 40px;
+    height: max(calc(100vh - 60px), 100%);
+    padding-bottom: 80px;
 }
 
 body {
     display: block;
-    height: calc(100vh - 60px);
+    height: 100%;
 }
 
 main {
@@ -156,6 +156,11 @@ main.container {
     border: 5px solid black;
 }
 
+.mobile-appointment-container {
+    border: 1px solid black;
+    height:100px;
+}
+
 #createAppointment, #editAppointment, #tags, #share, #dialog-error {
     z-index: 1;
 }
@@ -182,16 +187,36 @@ main.container {
     width: 80px;
 }
 
-@media only screen and (min-width: 601px) {
+#container-calendar-mobile {
+    height: 100%;
+}
+
+@media only screen and (min-width: 1201px) {
     .account-screen {
         width: 500px;
     }
+
+    #container-calendar-desktop {
+        display: block;
+    }
+
+    #container-calendar-mobile {
+        display: none !important;
+    }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1200px) {
     .account-screen {
         border: none;
-        box-shadow: none !important;
+        box-shadow: none;
         width: 95vw;
+    }
+
+    #container-calendar-mobile {
+        display: block;
+    }
+
+    #container-calendar-desktop {
+        display: none;
     }
 }

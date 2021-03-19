@@ -18,9 +18,9 @@
     // Create the column titles
     for($i = 0; $i < sizeof(COLUMNS); $i++) {
         $current_date = clone $startDate;
-        $current_date->add(date_interval_create_from_date_string('1 day'));
+        $current_date->add(date_interval_create_from_date_string($i . ' day'));
         
-        $columns[$i] = COLUMNS[$i]."<br>".$current_date->format('d.m.Y');
+        $columns[$i] = COLUMNS[$i] . "<br>" . $current_date->format('d.m.Y');
     }
     
     foreach($appointments as $appointment) {
@@ -82,7 +82,7 @@
     }
 ?>
 
-<div class="container pl-0 mw-100">
+<div id="container-calendar-desktop" class="container pl-0 mw-100">
     <?php
         require 'dialogCreateAppointment.php';
         require 'dialogEditAppointment.php';
@@ -208,6 +208,65 @@
             </a>
         </div>
     </div>
+</div>
+<div id="container-calendar-mobile" class="container px-4">
+    <div class="row d-flex flex-column align-items-center">
+        <h1 class="text-center">
+            Mondate
+        </h1>
+    </div>
+    <div class="row d-flex flex-column align-items-center pb-5">
+        <img src="/images/logo.png" class="card-img-top" alt="The Mondate Logo">
+    </div>
+    <div class="row">
+        <button class="btn btn-secondary w-100 mb-2 toggleCreate">
+            Create Appointment
+        </button>
+    </div>
+    <div class="row">
+        <button id="btn-edit-appointment" class="btn btn-secondary w-100 mb-2 toggleEdit" disabled>
+            Edit Appointment
+        </button>
+    </div>
+    <div class="row">
+        <form action="/appointment/delete" method="post" class="w-100">
+            <input type="hidden" name="id" value="" id="delete-appointment-id">
+            <button type="submit" id="btn-delete-appointment" class="btn btn-secondary w-100 mb-2" disabled>
+                Delete Appointment
+            </button>
+        </form>
+    </div>
+    <div class="row mb-3">
+        <button class="btn btn-secondary w-100 mb-2 refresh">
+            Refresh
+        </button>
+    </div>
+    <div class="row d-flex justify-content-center mb-1">
+        <span id="scope-identifier">
+                <?php
+                echo $startDate->format('d.m.Y').' - '.$endDate->format('d.m.Y');
+                ?>
+            </span>
+    </div>
+    <div class="row d-flex justify-content-center mb-5">
+        <a href="/calendar/last" class="btn btn-secondary w-25 mr-2">
+            Last
+        </a>
+        <a href="/calendar/next" class="btn btn-secondary w-25 ml-2">
+            Next
+        </a>
+    </div>
+    <?php for($i = 0; $i < sizeof(COLUMNS); $i++) {
+        $current_date = clone $startDate;
+        $current_date->add(date_interval_create_from_date_string($i . ' day'));
+
+        echo "<div class=\"row pb-3\">";
+        echo "<h2 class=\"font-weight-bold h4\">" . COLUMNS[$i] . " " . $current_date->format('d.m.Y') . "</h2>";
+        echo "<div class=\"w-100 mobile-appointment-container\">";
+        echo "</div>";
+        echo "</div>";
+    }
+    ?>
 </div>
 
 <script type="text/javascript" src="/js/calendar.js"></script>

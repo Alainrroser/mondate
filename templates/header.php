@@ -15,4 +15,4 @@
 </head>
     <div class="body-container">
         <body>
-            <main class="container d-flex justify-content-center m-0 mw-100">
+            <main class="container d-flex justify-content-center m-0 px-2 mw-100">
