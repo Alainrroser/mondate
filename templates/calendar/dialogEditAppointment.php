@@ -63,7 +63,7 @@
                                                 echo
                                                 "<div id=\"tag-$id\" class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
                                                         <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
-                                                        <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-1\"></span>
+                                                        <span style=\"background-color: $color\" class=\"mr-1 color-block\"></span>
                                                         <label class=\"align-middle mb-0\">$tag->name</label>
                                                     </div>";
                                             }

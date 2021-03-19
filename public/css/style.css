@@ -143,7 +143,7 @@ main.container {
 
 .appointment-between.appointment-selected {
     border-left: 5px solid black;
-    border-right: 5px solid black;
+    border-right: 5px solid #000000;
 }
 
 .appointment-bottom.appointment-selected {
@@ -171,4 +171,13 @@ main.container {
 
 .remove-tag {
     margin-bottom: 0;
+}
+
+.color-block {
+    width:1rem;
+    height:1rem;
+}
+
+.card-img-top {
+    width: 80px;
 }

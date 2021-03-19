@@ -92,7 +92,7 @@
     ?>
     <div class="row pb-4">
         <div class="col-4 px-5">
-            <img src="/images/logo.png" class="card-img-top" alt="The Mondate Logo" style="width: 80px">
+            <img src="/images/logo.png" class="card-img-top" alt="The Mondate Logo">
         </div>
         <h1 class="col-4 text-center">
             Mondate
@@ -151,7 +151,7 @@
                             $color = '#'.$tag->color;
                             echo
                             "<div class=\"row mt-2 align-items-center\">
-                                <span style=\"width:1rem;height:1rem;background-color: $color\" class=\"mr-2\"></span>
+                                <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
                                 <span class=\"align-middle\">$tag->name</span>
                             </div>";
                         }
