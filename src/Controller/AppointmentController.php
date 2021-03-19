@@ -16,7 +16,7 @@
             
             $collides = false;
             $appointmentRepository = new AppointmentRepository();
-            $rows = $appointmentRepository->getStartAndEndAndDateFromId();
+            $rows = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
             if($this->validateAppointmentData()) {
                 $date = $_POST['date'];
                 $start = $_POST['start'];
@@ -25,8 +25,8 @@
                 $description = $_POST['description'];
                 $creatorId = $_SESSION['userId'];
                 foreach($rows as $row) {
-                    if((($start >= $row->start && $start <= $row->end) || ($end >= $row->start && $end <= $row->end))
-                       && $row->date === $date) {
+                    if((($start >= $row->getStart() && $start <= $row->getEnd()) || ($end >= $row->getStart() && $end <= $row->getEnd()))
+                        && $row->getDate() === $date) {
                         $collides = true;
                     }
                 }
@@ -56,7 +56,7 @@
     
             $collides = false;
             $appointmentRepository = new AppointmentRepository();
-            $rows = $appointmentRepository->getStartAndEndAndDateFromId();
+            $rows = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
             if($this->validateAppointmentData()) {
                 $id = $_POST['id'];
                 $date = $_POST['date'];
@@ -65,9 +65,11 @@
                 $name = $_POST['name'];
                 $description = $_POST['description'];
                 foreach($rows as $row) {
-                    if((($start >= $row->start && $start <= $row->end) || ($end >= $row->start && $end <= $row->end))
-                       && $row->date === $date) {
-                        $collides = true;
+                    if($id != $row->getId()) {
+                        if((($start >= $row->getStart() && $start <= $row->getEnd()) || ($end >= $row->getStart() && $end <= $row->getEnd()))
+                            && $row->getDate() === $date) {
+                            $collides = true;
+                        }
                     }
                 }
                 if($collides) {

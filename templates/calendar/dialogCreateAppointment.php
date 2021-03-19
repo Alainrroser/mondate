@@ -1,5 +1,5 @@
 <div class="center-align invisible position-fixed" id="createAppointment">
-    <div class="card w-25 pt-5 shadow-sm">
+    <div class="dialog card pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Create Appointment
         </h1>
@@ -47,9 +47,9 @@
                             Tags
                         </label>
                         <div class="d-flex flex-row justify-content-between">
-                            <div>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                            <div class="d-flex flex-row w-25">
+                                <div class="dropdown w-100">
+                                    <button class="btn btn-secondary dropdown-toggle w-100" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Select Tags...
                                     </button>
@@ -69,22 +69,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-secondary toggleTag" type="button">
+                            <button class="btn btn-secondary toggleTag w-25" type="button">
                                 Manage Tags...
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <div>
-                        <button type="submit" class="btn btn-primary">
+                    <div class="d-flex flex-row w-50">
+                        <button type="submit" class="btn btn-primary w-50 mr-2">
                             Create
                         </button>
-                        <button class="btn btn-secondary refresh" type="button">
+                        <button class="btn btn-secondary refresh w-50" type="button">
                             Cancel
                         </button>
                     </div>
-                    <button class="btn btn-secondary toggleShare" type="button">
+                    <button class="btn btn-secondary toggleShare w-25" type="button">
                         Share...
                     </button>
                 </div>

@@ -9,6 +9,29 @@
         return str_pad($index, 2, '0', STR_PAD_LEFT).":00";
     }
 
+    function getAppointmentStyle($appointment) {
+        $style = "background-color: gray;";
+        if(sizeof($appointment->getTags()) == 1) {
+            $color = '#'.$appointment->getTags()[0]->getColor();
+            $style = "background-color: $color;";
+        } else if(sizeof($appointment->getTags()) > 1) {
+            $gradient = 'linear-gradient(90deg';
+
+            for($i = 0; $i < sizeof($appointment->getTags()); $i++) {
+                $tag = $appointment->getTags()[$i];
+                $color = $tag->getColor();
+                $percent = ($i * 100) / (sizeof($appointment->getTags()) - 1);
+
+                $gradient .= ", #$color $percent%";
+            }
+
+            $gradient .= ')';
+            $style = "background: $gradient;";
+        }
+
+        return $style;
+    }
+
 ?>
 
 <?php
@@ -34,26 +57,9 @@
         $startInSeconds = DateTime::createFromFormat('H:i:s', $appointment->getStart())->getTimestamp();
         $endInSeconds = DateTime::createFromFormat('H:i:s', $appointment->getEnd())->getTimestamp();
         $durationInSeconds = $endInSeconds - $startInSeconds;
-        $numberOfCells = ceil($durationInSeconds / SECONDS_PER_HOUR);
+        $numberOfCells = max(ceil($durationInSeconds / SECONDS_PER_HOUR), 1);
         
-        $style = "background-color: gray;";
-        if(sizeof($appointment->getTags()) == 1) {
-            $color = '#'.$appointment->getTags()[0]->getColor();
-            $style = "background-color: $color;";
-        } else if(sizeof($appointment->getTags()) > 1) {
-            $gradient = 'linear-gradient(90deg';
-            
-            for($i = 0; $i < sizeof($appointment->getTags()); $i++) {
-                $tag = $appointment->getTags()[$i];
-                $color = $tag->getColor();
-                $percent = ($i * 100) / (sizeof($appointment->getTags()) - 1);
-                
-                $gradient .= ", #$color $percent%";
-            }
-            
-            $gradient .= ')';
-            $style = "background: $gradient;";
-        }
+        $style = getAppointmentStyle($appointment);
         
         // Store the buttons in the array
         for($i = 0; $i < $numberOfCells; $i++) {
@@ -82,14 +88,15 @@
     }
 ?>
 
+<?php
+require 'dialogCreateAppointment.php';
+require 'dialogEditAppointment.php';
+require 'dialogTags.php';
+require 'dialogShare.php';
+require '../templates/error/dialogError.php';
+?>
+
 <div id="container-calendar-desktop" class="container pl-0 mw-100">
-    <?php
-        require 'dialogCreateAppointment.php';
-        require 'dialogEditAppointment.php';
-        require 'dialogTags.php';
-        require 'dialogShare.php';
-        require '../templates/error/dialogError.php';
-    ?>
     <div class="row pb-4">
         <div class="col-4 px-5">
             <img src="/images/logo.png" class="card-img-top" alt="The Mondate Logo">
@@ -263,6 +270,19 @@
         echo "<div class=\"row pb-3\">";
         echo "<h2 class=\"font-weight-bold h4\">" . COLUMNS[$i] . " " . $current_date->format('d.m.Y') . "</h2>";
         echo "<div class=\"w-100 mobile-appointment-container\">";
+
+        foreach($appointments as $appointment) {
+            if($appointment->getDate() === $current_date->format("Y-m-d")) {
+                $appointmentId = $appointment->getId();
+                $text = $appointment->getName() . " (" .$appointment->getStart() . " - " . $appointment->getEnd() . ")";
+
+                $style = getAppointmentStyle($appointment);
+                $classes = "w-100 p-0 align-middle appointment appointment-top-bottom";
+                $classes .= " appointment-id-$appointmentId";
+                echo "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
+            }
+        }
+
         echo "</div>";
         echo "</div>";
     }

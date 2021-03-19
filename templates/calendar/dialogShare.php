@@ -1,5 +1,5 @@
 <div class="center-align invisible position-fixed" id="share">
-    <div class="card w-25 pt-5 shadow-sm">
+    <div class="dialog card pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Share
         </h1>
