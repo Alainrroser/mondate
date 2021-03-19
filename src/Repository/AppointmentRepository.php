@@ -124,4 +124,9 @@ class AppointmentRepository extends Repository {
         $this->execute($queryDeleteAppointment, 'i', $userId);
     }
 
+    
+    public function getStartAndEndFromId() {
+        $queryGetStartAndEnd = "SELECT start, end FROM appointment";
+        return $this->executeAndGetRows($queryGetStartAndEnd);
+    }
 }

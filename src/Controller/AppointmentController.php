@@ -13,28 +13,37 @@ use App\View\JsonView;
 class AppointmentController {
     public function create() {
         Authentication::restrictAuthenticated();
-
-        if($this->validateAppointmentData()) {
-            $date = $_POST['date'];
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-            $tags = $_POST['tags'];
-            $creatorId = $_SESSION['userId'];
-
-            $tagIds = !isset($tags) ? array() : array_keys($tags);
-            $emails = !isset($_POST['emails']) ? array() : $_POST['emails'];
-
-            $appointmentRepository = new AppointmentRepository();
-            $id = $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
-            $appointmentRepository->shareAppointment($id, $emails);
-
-            if($appointmentRepository->shareAppointment($id, $emails)) {
-                header('Location: /calendar');
+    
+        $appointmentRepository = new AppointmentRepository();
+        $rows = $appointmentRepository->getStartAndEndFromId();
+        foreach($rows as $row) {
+            if($_POST["start"] <= $row->start && $_POST["start"] >= $row->end && $_POST["end"] <= $row->start && $_POST["end"] >= $row->end) {
+                if($this->validateAppointmentData()) {
+                    $date = $_POST['date'];
+                    $start = $_POST['start'];
+                    $end = $_POST['end'];
+                    $name = $_POST['name'];
+                    $description = $_POST['description'];
+                    $tags = $_POST['tags'];
+                    $creatorId = $_SESSION['userId'];
+        
+                    $tagIds = !isset($tags) ? array() : array_keys($tags);
+                    $emails = !isset($_POST['emails']) ? array() : $_POST['emails'];
+        
+                    $appointmentRepository = new AppointmentRepository();
+                    $id = $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
+                    $appointmentRepository->shareAppointment($id, $emails);
+        
+                    if($appointmentRepository->shareAppointment($id, $emails)) {
+                        header('Location: /calendar');
+                    } else {
+                        $calendarController = new CalendarController();
+                        $calendarController->displayView(array("Can't share appointment with non-existing user."));
+                    }
+                }
             } else {
                 $calendarController = new CalendarController();
-                $calendarController->displayView(array("Can't share appointment with non-existing user."));
+                $calendarController->displayView(array("There already exists an appointment in this time frame."));
             }
         }
     }
