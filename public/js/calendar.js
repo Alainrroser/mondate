@@ -18,23 +18,13 @@ let appointmentButtons = document.querySelectorAll(".appointment")
 let appointmentSelected = false;
 let selectedAppointmentID = 0;
 
-function disableButtons() {
-    if (!appointmentSelected) {
-        document.querySelector("#btn-edit-appointment").disabled = true
-        document.querySelector("#btn-delete-appointment").disabled = true
-    }
-}
-
-function enableButtons() {
-    if (appointmentSelected) {
-        document.querySelector("#btn-edit-appointment").disabled = false
-        document.querySelector("#btn-delete-appointment").disabled = false
-    }
+function updateEditDeleteButtonStates() {
+    document.querySelector("#btn-edit-appointment").disabled = !appointmentSelected
+    document.querySelector("#btn-delete-appointment").disabled = !appointmentSelected
 }
 
 document.addEventListener("click", function() {
-    disableButtons()
-    enableButtons()
+    updateEditDeleteButtonStates()
 })
 
 for (let appointmentButton of appointmentButtons) {
@@ -319,4 +309,8 @@ document.querySelector("#save-changes").addEventListener("click", function () {
     selectedEmail.textContent = document.querySelector("#email").value
 })
 
-disableButtons()
+document.querySelector("#btn-close-error-dialog").addEventListener("click", function () {
+    document.querySelector("#dialog-error").classList.toggle("invisible")
+})
+
+updateEditDeleteButtonStates()

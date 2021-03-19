@@ -93,13 +93,28 @@ class AppointmentRepository extends Repository {
     }
 
     public function shareAppointment($id, $userEmails) {
+        // Delete all previous appointment_user entries for this appointment
+        $deleteAppointmentUsersQuery = "DELETE appointment_user FROM appointment
+                                        JOIN appointment_user ON appointment.id = appointment_user.appointment_id
+                                        WHERE appointment.id = ? AND appointment_user.user_id != appointment.creator_id";
+        $this->execute($deleteAppointmentUsersQuery, 'i', $id);
+
+        // Verify that all users actually exist
         foreach($userEmails as $userEmail) {
-            $query = "
-                INSERT INTO appointment_user (appointment_id, user_id) VALUES (
-                    ?, (SELECT id FROM user WHERE email = ?)
-                )";
+            $userExistsQuery = "SELECT * FROM user WHERE email = ? LIMIT 1";
+            if(!$this->executeAndGetRows($userExistsQuery, 's', $userEmail)) {
+                return false;
+            }
+        }
+
+        // Insert the appointment_user entries
+        foreach($userEmails as $userEmail) {
+            $query = "INSERT INTO appointment_user (appointment_id, user_id)
+                      VALUES (?, (SELECT id FROM user WHERE email = ?))";
             self::insertAndGetId($query, 'is', $id, $userEmail);
         }
+
+        return true;
     }
 
     public function deleteAppointmentsFromUser($userId) {

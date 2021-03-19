@@ -8,7 +8,6 @@
     function index_to_time($index) {
         return str_pad($index, 2, '0', STR_PAD_LEFT).":00";
     }
-
 ?>
 
 <?php
@@ -88,6 +87,7 @@
     require 'dialogEditAppointment.php';
     require 'dialogTags.php';
     require 'dialogShare.php';
+    require 'dialogError.php';
     ?>
     <div class="row pb-4">
         <div class="col-4">

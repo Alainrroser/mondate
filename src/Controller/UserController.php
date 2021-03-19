@@ -27,7 +27,7 @@
                 } else {
                     $view = new View('signUp/index');
                     $view->title = 'Sign Up';
-                    $view->errors = array("User already exists!");
+                    $view->errors = array("User already exists.");
                     $view->display();
                 }
             } else {
@@ -43,7 +43,7 @@
                 header("Location: /calendar");
             } else {
                 $errors = array();
-                $errors[] = "Incorrect password or non-existing user!";
+                $errors[] = "Incorrect password or non-existing user.";
 
                 $view = new View('signIn/index');
                 $view->title = 'Sign In';

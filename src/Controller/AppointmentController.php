@@ -23,14 +23,19 @@ class AppointmentController {
             $tags = $_POST['tags'];
             $creatorId = $_SESSION['userId'];
 
-            $tagIds = is_null($tags) ? array() : array_keys($tags);
-            $emails = is_null($_POST['emails']) ? array() : $_POST['emails'];
+            $tagIds = !isset($tags) ? array() : array_keys($tags);
+            $emails = !isset($_POST['emails']) ? array() : $_POST['emails'];
 
             $appointmentRepository = new AppointmentRepository();
             $id = $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
             $appointmentRepository->shareAppointment($id, $emails);
 
-            header('Location: /calendar');
+            if($appointmentRepository->shareAppointment($id, $emails)) {
+                header('Location: /calendar');
+            } else {
+                $calendarController = new CalendarController();
+                $calendarController->displayView(array("Can't share appointment with non-existing user."));
+            }
         }
     }
 
@@ -46,14 +51,18 @@ class AppointmentController {
             $description = $_POST['description'];
             $tags = $_POST['tags'];
 
-            $tagIds = is_null($tags) ? array() : array_keys($tags);
-            $emails = is_null($_POST['emails']) ? array() : $_POST['emails'];
+            $tagIds = !isset($tags) ? array() : array_keys($tags);
+            $emails = !isset($_POST['emails']) ? array() : $_POST['emails'];
 
             $appointmentRepository = new AppointmentRepository();
             $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
-            $appointmentRepository->shareAppointment($id, $emails);
 
-            header('Location: /calendar');
+            if($appointmentRepository->shareAppointment($id, $emails)) {
+                header('Location: /calendar');
+            } else {
+                $calendarController = new CalendarController();
+                $calendarController->displayView(array("Can't share appointment with non-existing user."));
+            }
         }
     }
 
