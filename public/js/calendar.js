@@ -1,18 +1,5 @@
 "use strict"
 
-const CELL_HEIGHT = 50
-
-let tableBody = document.querySelector("tbody")
-tableBody.scrollTop = 8 * CELL_HEIGHT;
-
-document.onkeydown = function (event) {
-    if (event.key === 'ArrowRight') {
-        window.location = '/calendar/next'
-    } else if (event.key === 'ArrowLeft') {
-        window.location = '/calendar/last'
-    }
-}
-
 let appointmentButtons = document.querySelectorAll(".appointment")
 
 let appointmentSelected = false;
@@ -38,7 +25,6 @@ for(let appointmentButton of appointmentButtons) {
         
         if(appointmentSelected && selectedAppointmentID === id) {
             showEditAppointmentDialog()
-            appointmentSelected = false
         } else {
             if(appointmentSelected) {
                 for(let otherAppointmentButton of appointmentButtons) {
@@ -62,7 +48,6 @@ for(let appointmentButton of appointmentButtons) {
 }
 
 let toggleCreateButtons = document.querySelectorAll(".toggleCreate")
-let toggleEditButtons = document.querySelectorAll(".toggleEdit")
 let toggleTagButtons = document.querySelectorAll(".toggleTag")
 let toggleShareButtons = document.querySelectorAll(".toggleShare")
 
@@ -310,6 +295,45 @@ document.querySelector("#save-changes").addEventListener("click", function () {
     selectedEmail.textContent = document.querySelector("#email").value
 })
 
-document.querySelector("#btn-close-error-dialog").addEventListener("click", function () {
-    document.querySelector("#dialog-error").classList.toggle("invisible")
+let btnCloseErrorDialog = document.querySelector("#btn-close-error-dialog")
+if(btnCloseErrorDialog) {
+    btnCloseErrorDialog.addEventListener("click", function () {
+        document.querySelector("#dialog-error").classList.toggle("invisible")
+    })
+}
+
+function setCookie(name, value) {
+    let date = new Date()
+    date.setTime(date.getTime() + 30 * 60 * 1000)
+    let expires = "expires=" + date.toUTCString()
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+function getCookie(name) {
+    let nameWithEquals = name + "="
+    let decodedCookie = decodeURIComponent(document.cookie)
+    let cookies = decodedCookie.split(";")
+
+    for(let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i].trim()
+        if(cookie.indexOf(nameWithEquals) === 0) {
+            return cookie.substring(nameWithEquals.length, cookie.length)
+        }
+    }
+
+    return ""
+}
+
+let tableBody = document.querySelector("tbody")
+tableBody.addEventListener("scroll", function() {
+    setCookie("scroll", tableBody.scrollTop)
 })
+
+let scrollCookie = getCookie("scroll")
+if(scrollCookie === "") {
+    const CELL_HEIGHT = 50
+
+    tableBody.scrollTop = 8 * CELL_HEIGHT
+} else {
+    tableBody.scrollTop = scrollCookie
+}
