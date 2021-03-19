@@ -289,8 +289,8 @@ function addEmailToList(email) {
     input.setAttribute("name", "emails[]")
     input.classList.add("shared-appointment-email")
     input.setAttribute("value", email)
-    document.querySelector("#createAppointment form").appendChild(input)
-    document.querySelector("#editAppointment form").appendChild(input)
+    document.querySelector("#createAppointment form").appendChild(input.cloneNode(true))
+    document.querySelector("#editAppointment form").appendChild(input.cloneNode(true))
     document.querySelector(".email-list").appendChild(emailButton)
     addEmailEventListener(emailButton)
 }
@@ -318,3 +318,5 @@ document.querySelector("#edit-email").addEventListener("click", function () {
 document.querySelector("#save-changes").addEventListener("click", function () {
     selectedEmail.textContent = document.querySelector("#email").value
 })
+
+disableButtons()

@@ -1,4 +1,14 @@
-<div class="center-align">
+<div class="d-flex flex-column center-align">
+    <?php if(sizeof($errors) > 0): ?>
+    <div class="alert alert-danger w-25">
+        <?php
+        foreach($errors as $error) {
+            echo "<span>$error</span>";
+        }
+        ?>
+    </div>
+    <?php endif; ?>
+
     <div class="card w-25 pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Sign In

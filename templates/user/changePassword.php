@@ -1,4 +1,4 @@
-<div class="center-align">
+<div class="d-flex flex-column center-align">
     <div class="card w-25 pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Change Password

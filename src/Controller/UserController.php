@@ -20,9 +20,16 @@
         
             if($passwordValid && $emailValid) {
                 $userRepository = new UserRepository();
-                $userRepository->signUp($email, $password);
-            
-                header("Location: /calendar");
+
+                if(!$userRepository->readByEmail($email)) {
+                    $userRepository->signUp($email, $password);
+                    header("Location: /calendar");
+                } else {
+                    $view = new View('signUp/index');
+                    $view->title = 'Sign Up';
+                    $view->errors = array("User already exists!");
+                    $view->display();
+                }
             } else {
                 header("Location: /signUp");
             }
@@ -35,7 +42,13 @@
             if(Authentication::login($email, $password)) {
                 header("Location: /calendar");
             } else {
-                header("Location: /signIn");
+                $errors = array();
+                $errors[] = "Incorrect password or non-existing user!";
+
+                $view = new View('signIn/index');
+                $view->title = 'Sign In';
+                $view->errors = $errors;
+                $view->display();
             }
         }
         

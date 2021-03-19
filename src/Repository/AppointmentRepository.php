@@ -3,10 +3,8 @@
 
 namespace App\Repository;
 
-use App\Database\ConnectionHandler;
 use App\Model\Appointment;
 use App\Model\Tag;
-use App\View\JsonView;
 use Exception;
 
 class AppointmentRepository extends Repository {
