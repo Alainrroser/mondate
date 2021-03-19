@@ -14,20 +14,9 @@
                     Add
                 </button>
             </div>
-            <div class="mb-5 d-flex justify-content-between">
-                <button type="button" id="remove-email" class="btn btn-secondary">
-                    Remove
-                </button>
-                <div>
-                    <button type="button" id="edit-email" class="btn btn-secondary">
-                        Edit
-                    </button>
-                    <button type="button" id="save-changes" class="btn btn-secondary">
-                        Save Changes
-                    </button>
-                </div>
-
-            </div>
+            <button type="button" id="remove-email" class="btn btn-secondary">
+                Remove
+            </button>
             <button type="button" class="btn btn-primary toggleShare">
                 Close
             </button>

@@ -17,17 +17,26 @@
         public function create() {
             Authentication::restrictAuthenticated();
             
+            $exists = false;
             $tagRepository = new TagRepository();
-            $tagId = $tagRepository->addTag($_POST["name"], substr($_POST["color"], 1));
-            
-            $response = [];
-            $response['id'] = $tagId;
-            $response['name'] = $_POST["name"];
-            $response['color'] = $_POST["color"];
-            
-            $view = new JsonView();
-            $view->setJsonObject($response);
-            $view->display();
+            $rows = $tagRepository->readAll();
+            foreach($rows as $row) {
+                if($row->name === $_POST["name"] || $row->color === substr($_POST["color"], 1)) {
+                    $exists = true;
+                }
+            }
+            if(!$exists) {
+                $tagId = $tagRepository->addTag($_POST["name"], substr($_POST["color"], 1));
+    
+                $response = [];
+                $response['id'] = $tagId;
+                $response['name'] = $_POST["name"];
+                $response['color'] = $_POST["color"];
+    
+                $view = new JsonView();
+                $view->setJsonObject($response);
+                $view->display();
+            }
         }
         
         function edit() {

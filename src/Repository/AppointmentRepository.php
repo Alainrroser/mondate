@@ -125,8 +125,8 @@
         }
         
         
-        public function getStartAndEndFromId() {
-            $queryGetStartAndEnd = "SELECT start, end FROM appointment";
+        public function getStartAndEndAndDateFromId() {
+            $queryGetStartAndEnd = "SELECT start, end, date FROM appointment";
             return $this->executeAndGetRows($queryGetStartAndEnd);
         }
     }

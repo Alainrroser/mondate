@@ -22,34 +22,22 @@
                         <label>
                             Name
                         </label>
-                        <input type="text" id="tag-name" name="name" class="tag-name form-control" required>
+                        <input type="text" id="tag-name" name="name" class="tag-name form-control">
                     </div>
                     <div class="form-group form">
                         <label>
                             Color
                         </label>
-                        <input type="color" id="tag-color" name="color" class="tag-color form-control" required>
+                        <input type="color" id="tag-color" name="color" class="tag-color form-control">
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <div class="form-group form">
-                            <button class="btn btn-secondary" id="btn-add-tag">
-                                Add
-                            </button>
-                        </div>
-                        <div class="form-group form">
-                            <button class="btn btn-secondary" id="btn-edit-tag">
-                                Edit
-                            </button>
-                        </div>
+                    <div class="form-group form">
+                        <button class="btn btn-secondary" id="btn-add-tag">
+                            Add
+                        </button>
                     </div>
-                    <div class="d-flex justify-content-between align-items-end">
-                        <div class="remove-tag form-group form">
-                            <button class="btn btn-secondary" id="btn-remove-tag">
-                                Remove
-                            </button>
-                        </div>
-                        <button type="button" class="btn btn-secondary" id="btn-save-tag">
-                            Save
+                    <div class="remove-tag form-group form align-items-end">
+                        <button class="btn btn-secondary" id="btn-remove-tag">
+                            Remove
                         </button>
                     </div>
                 </div>

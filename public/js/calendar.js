@@ -139,77 +139,61 @@ function addTagEventListener(tag) {
     })
 }
 
+function rgbToHex(rgb) {
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+    }
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+}
+
 document.querySelector("#btn-add-tag").addEventListener("click", function() {
-    let data = new FormData()
-    data.append("name", document.querySelector(".tag-name").value)
-    data.append("color", document.querySelector(".tag-color").value)
+    let exists = false
+    for(let tag of tags) {
+        if(tag.querySelector("span:last-child").textContent === document.querySelector("#tag-name").value ||
+           rgbToHex(tag.querySelector("span:first-child").style.backgroundColor) === document.querySelector("#tag-color").value) {
+            exists = true
+        }
+    }
+    if(exists) {
+        document.querySelector("#tag-name").setCustomValidity("A tag with this name or color already exists")
+        document.querySelector("#tag-name").reportValidity()
+    } else {
+        document.querySelector("#tag-name").setCustomValidity("")
+        let data = new FormData
+        data.append("name", document.querySelector(".tag-name").value)
+        data.append("color", document.querySelector(".tag-color").value)
     
-    let request = new XMLHttpRequest()
-    request.open("POST", "/tag/create", true)
-    request.onload = function() {
-        if(this.readyState === 4 && this.status === 200) {
-            let object = JSON.parse(this.responseText)
+        let request = new XMLHttpRequest()
+        request.open("POST", "/tag/create", true)
+        request.onload = function() {
+            if(this.readyState === 4 && this.status === 200) {
+                let object = JSON.parse(this.responseText)
             
-            let tagButton = document.createElement("button")
-            tagButton.id = "tag-" + object.id
-            tagButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
-            tagButton.innerHTML =
-                "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
-                "<span class=\"align-middle\">" + object.name + "</span>";
-            document.querySelector(".tag-list").appendChild(tagButton)
-            addTagEventListener(tagButton)
-            
-            for(let appointmentTag of document.querySelectorAll(".appointment-tags")) {
-                appointmentTag.innerHTML +=
-                    "<div class=\"tag-" + object.id + "align-items-center d-flex flex-row pl-1\">" +
-                    "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
+                let tagButton = document.createElement("button")
+                tagButton.id = "tag-" + object.id
+                tagButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
+                tagButton.innerHTML =
                     "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
-                    "<span class=\"align-middle\">" + object.name + "</span>" +
-                    "</div>"
+                    "<span class=\"align-middle\">" + object.name + "</span>";
+                document.querySelector(".tag-list").appendChild(tagButton)
+                addTagEventListener(tagButton)
+            
+                for(let appointmentTag of document.querySelectorAll(".appointment-tags")) {
+                    appointmentTag.innerHTML +=
+                        "<div class=\"tag-" + object.id + "align-items-center d-flex flex-row pl-1\">" +
+                        "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
+                        "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
+                        "<span class=\"align-middle\">" + object.name + "</span>" +
+                        "</div>"
+                }
+                document.querySelector("#tag-name").value = ""
+                document.querySelector("#tag-color").value = ""
             }
-            document.querySelector("#tag-name").value = ""
-            document.querySelector("#tag-color").value = ""
         }
+        request.send(data)
     }
-    request.send(data)
-})
-
-document.querySelector("#btn-edit-tag").addEventListener("click", function() {
-    let selectedTagId = selectedTag.id.split("-")[1]
-    let request = new XMLHttpRequest()
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
-            let object = JSON.parse(this.responseText)
-            document.querySelector(".tag-name").value = object.name
-            document.querySelector(".tag-color").value = "#" + object.color
-        }
-    };
-    request.open("GET", "/tag/get?id=" + selectedTagId, false)
-    request.send()
-})
-
-document.querySelector("#btn-save-tag").addEventListener("click", function() {
-    let selectedTagId = selectedTag.id.split("-")[1]
-    let data = new FormData
-    data.append("id", selectedTagId)
-    data.append("name", document.querySelector(".tag-name").value)
-    data.append("color", document.querySelector(".tag-color").value)
-    
-    let sendData = new XMLHttpRequest()
-    sendData.open("POST", "/tag/edit", false)
-    sendData.send(data)
-    
-    let request = new XMLHttpRequest()
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
-            let object = JSON.parse(this.responseText)
-            selectedTag.innerHTML =
-                "<span style=\"width:1rem;height:1rem;background-color: #" + object.color + "\" class=\"mr-2\"></span>" +
-                "<span class=\"align-middle\">" + object.name + "</span>";
-        }
-    }
-    request.open("GET", "/tag/get?id=" + selectedTagId, false)
-    request.send()
+    tags = document.querySelectorAll(".tag")
 })
 
 document.querySelector("#btn-remove-tag").addEventListener("click", function() {
@@ -231,6 +215,7 @@ document.querySelector("#btn-remove-tag").addEventListener("click", function() {
     document.querySelector(".tag-list").removeChild(selectedTag)
     selectedTag = tags[0]
     selectedTag.classList.add("active")
+    tags = document.querySelectorAll(".tag")
 })
 
 let emails = document.querySelectorAll(".share-entry")
@@ -259,7 +244,7 @@ function addEmailToList(email) {
     emailButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "share-entry")
     emailButton.type = "button"
     emailButton.textContent = email
-    
+
     let input = document.createElement("input")
     input.setAttribute("type", "hidden")
     input.setAttribute("name", "emails[]")
@@ -272,9 +257,21 @@ function addEmailToList(email) {
 }
 
 document.querySelector("#add-email").addEventListener("click", function() {
-    let email = document.querySelector("#email").value
-    addEmailToList(email)
-    document.querySelector("#email").value = ""
+    let exists = false
+    for(let email of emails) {
+        if(email.textContent === document.querySelector("#email").value) {
+            exists = true
+        }
+    }
+    if(exists) {
+        document.querySelector("#email").setCustomValidity("This email already exists")
+        document.querySelector("#email").reportValidity()
+    } else {
+        let email = document.querySelector("#email").value
+        addEmailToList(email)
+        document.querySelector("#email").value = ""
+        emails = document.querySelectorAll(".share-entry")
+    }
 })
 
 document.querySelector("#remove-email").addEventListener("click", function() {
@@ -285,14 +282,7 @@ document.querySelector("#remove-email").addEventListener("click", function() {
             input.remove()
         }
     }
-})
-
-document.querySelector("#edit-email").addEventListener("click", function() {
-    document.querySelector("#email").value = selectedEmail.textContent
-})
-
-document.querySelector("#save-changes").addEventListener("click", function() {
-    selectedEmail.textContent = document.querySelector("#email").value
+    emails = document.querySelectorAll(".share-entry")
 })
 
 function setCookie(name, value) {
