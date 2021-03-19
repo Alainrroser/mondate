@@ -1,14 +1,6 @@
 <div class="d-flex flex-column center-align">
-    <?php if(sizeof($errors) > 0): ?>
-        <div class="alert alert-danger w-25">
-            <?php
-                foreach($errors as $error) {
-                    echo "<span>$error</span>";
-                }
-            ?>
-        </div>
-    <?php endif; ?>
-    <div class="card w-25 pt-5 shadow-sm">
+    <?php require '../templates/error/dialogError.php'; ?>
+    <div class="account-screen card pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Sign Up
         </h1>
@@ -50,3 +42,4 @@
 </div>
 
 <script type="text/javascript" src="/js/signUp.js"></script>
+<script type="text/javascript" src="/js/error.js"></script>

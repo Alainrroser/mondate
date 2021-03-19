@@ -295,13 +295,6 @@ document.querySelector("#save-changes").addEventListener("click", function() {
     selectedEmail.textContent = document.querySelector("#email").value
 })
 
-let btnCloseErrorDialog = document.querySelector("#btn-close-error-dialog")
-if(btnCloseErrorDialog) {
-    btnCloseErrorDialog.addEventListener("click", function() {
-        document.querySelector("#dialog-error").classList.toggle("invisible")
-    })
-}
-
 function setCookie(name, value) {
     let date = new Date()
     date.setTime(date.getTime() + 30 * 60 * 1000)

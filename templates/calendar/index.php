@@ -88,7 +88,7 @@
         require 'dialogEditAppointment.php';
         require 'dialogTags.php';
         require 'dialogShare.php';
-        require 'dialogError.php';
+        require '../templates/error/dialogError.php';
     ?>
     <div class="row pb-4">
         <div class="col-4 px-5">
@@ -211,3 +211,4 @@
 </div>
 
 <script type="text/javascript" src="/js/calendar.js"></script>
+<script type="text/javascript" src="/js/error.js"></script>

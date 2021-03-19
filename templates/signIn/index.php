@@ -1,6 +1,6 @@
 <div class="d-flex flex-column center-align">
-    <?php require 'dialogError.php'; ?>
-    <div class="card w-25 pt-5 shadow-sm">
+    <?php require '../templates/error/dialogError.php'; ?>
+    <div class="account-screen card pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Sign In
         </h1>
@@ -33,4 +33,4 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/js/signIn.js"></script>
+<script type="text/javascript" src="/js/error.js"></script>
