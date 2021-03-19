@@ -81,7 +81,7 @@
     }
 ?>
 
-<div class="container mw-100">
+<div class="container pl-0 mw-100">
     <?php
     require 'dialogCreateAppointment.php';
     require 'dialogEditAppointment.php';
@@ -90,11 +90,11 @@
     require 'dialogError.php';
     ?>
     <div class="row pb-4">
-        <div class="col-4">
+        <div class="col-4 px-5">
             <img src="/images/logo.png"
                  class="card-img-top"
                  alt="The Mondate Logo"
-                 style="width: 100px">
+                 style="width: 80px">
         </div>
         <h1 class="col-4 text-center">
             Mondate
@@ -131,18 +131,19 @@
     </div>
     <div class="row">
         <div class="container col px-5">
-            <div class="row">
+            <div class="ml-0 row">
                 <button class="btn btn-secondary w-100 mb-2 toggleCreate">
                     Create Appointment
                 </button>
             </div>
-            <div class="row">
+            <div class="ml-0 row">
                 <button id="btn-edit-appointment"
-                        class="btn btn-secondary w-100 mb-2 toggleEdit">
+                        class="btn btn-secondary w-100 mb-2 toggleEdit"
+                        disabled>
                     Edit Appointment
                 </button>
             </div>
-            <div class="row">
+            <div class="ml-0 row">
                 <form action="/appointment/delete"
                       method="post"
                       class="w-100">
@@ -151,17 +152,18 @@
                            value=""
                            id="delete-appointment-id">
                     <button type="submit" id="btn-delete-appointment"
-                            class="btn btn-secondary w-100 mb-2">
+                            class="btn btn-secondary w-100 mb-2"
+                            disabled>
                         Delete Appointment
                     </button>
                 </form>
             </div>
-            <div class="row">
+            <div class="ml-0 row">
                 <button class="btn btn-secondary w-100 mb-2 refresh">
                     Refresh
                 </button>
             </div>
-            <div class="row mt-5">
+            <div class="ml-0 row mt-5">
                 <h2 class="h5">Tags</h2>
                 <div class="container">
                     <?php

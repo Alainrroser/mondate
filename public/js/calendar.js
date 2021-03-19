@@ -27,21 +27,22 @@ document.addEventListener("click", function() {
     updateEditDeleteButtonStates()
 })
 
-for (let appointmentButton of appointmentButtons) {
+for(let appointmentButton of appointmentButtons) {
     appointmentButton.addEventListener("click", function () {
         let id
-        for (let cssClass of appointmentButton.classList) {
+        for(let cssClass of appointmentButton.classList) {
             if (cssClass.startsWith("appointment-id-")) {
                 id = cssClass.split("-")[2]
             }
         }
         
-        if (appointmentSelected && selectedAppointmentID === id) {
+        if(appointmentSelected && selectedAppointmentID === id) {
+            showEditAppointmentDialog()
             appointmentSelected = false
         } else {
-            if (appointmentSelected) {
-                for (let otherAppointmentButton of appointmentButtons) {
-                    if (otherAppointmentButton.classList.contains("appointment-id-" + selectedAppointmentID)) {
+            if(appointmentSelected) {
+                for(let otherAppointmentButton of appointmentButtons) {
+                    if(otherAppointmentButton.classList.contains("appointment-id-" + selectedAppointmentID)) {
                         otherAppointmentButton.classList.toggle("appointment-selected")
                     }
                 }
@@ -54,7 +55,7 @@ for (let appointmentButton of appointmentButtons) {
             document.querySelector("#edit-appointment-id").setAttribute("value", selectedAppointmentID)
         }
         let relatedButtons = document.querySelectorAll(".appointment-id-" + id)
-        for (let relatedButton of relatedButtons) {
+        for(let relatedButton of relatedButtons) {
             relatedButton.classList.toggle("appointment-selected")
         }
     })
@@ -68,12 +69,6 @@ let toggleShareButtons = document.querySelectorAll(".toggleShare")
 for (let toggleCreateButton of toggleCreateButtons) {
     toggleCreateButton.addEventListener("click", function () {
         document.getElementById("createAppointment").classList.toggle("invisible")
-    })
-}
-
-for (let toggleEditButton of toggleEditButtons) {
-    toggleEditButton.addEventListener("click", function () {
-        document.getElementById("editAppointment").classList.toggle("invisible")
     })
 }
 
@@ -98,7 +93,7 @@ for (let refreshButton of refreshButtons) {
     })
 }
 
-document.querySelector("#btn-edit-appointment").addEventListener("click", function () {
+function showEditAppointmentDialog() {
     let request = new XMLHttpRequest()
     request.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -108,14 +103,14 @@ document.querySelector("#btn-edit-appointment").addEventListener("click", functi
             document.querySelector(".input-appointment-start").setAttribute("value", object.start)
             document.querySelector(".input-appointment-end").setAttribute("value", object.end)
             document.querySelector(".input-appointment-description").value = object.description
-            
+
             let appointmentTagsDivs = document.querySelectorAll(".appointment-tags")
-            
+
             for (let appointmentTags of appointmentTagsDivs) {
                 for (let tagDiv of appointmentTags.getElementsByTagName("div")) {
                     let tagCheckbox = tagDiv.getElementsByTagName("input")[0]
                     tagCheckbox.checked = false
-                    
+
                     for (let tag of object.tags) {
                         if (tagDiv.classList.contains("tag-" + tag)) {
                             tagCheckbox.checked = true
@@ -128,8 +123,14 @@ document.querySelector("#btn-edit-appointment").addEventListener("click", functi
             }
         }
     };
-    request.open("GET", "/appointment/get?id=" + selectedAppointmentID, false)
+    request.open("GET", "/appointment/get?id=" + selectedAppointmentID, true)
     request.send()
+
+    document.getElementById("editAppointment").classList.remove("invisible")
+}
+
+document.querySelector("#btn-edit-appointment").addEventListener("click", function () {
+    showEditAppointmentDialog()
 })
 
 let tags = document.querySelectorAll(".tag")
@@ -312,5 +313,3 @@ document.querySelector("#save-changes").addEventListener("click", function () {
 document.querySelector("#btn-close-error-dialog").addEventListener("click", function () {
     document.querySelector("#dialog-error").classList.toggle("invisible")
 })
-
-updateEditDeleteButtonStates()

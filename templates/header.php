@@ -16,7 +16,7 @@
     <title>
         Mondate
     </title>
-    <link rel="icon" href="/images/Logo.png" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.png" type="image/x-icon">
   </head>
     <div class="body-container">
         <body>
