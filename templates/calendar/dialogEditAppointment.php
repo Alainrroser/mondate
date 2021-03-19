@@ -106,7 +106,7 @@
                                 class="btn btn-primary">
                             Save
                         </button>
-                        <button class="btn btn-secondary toggleEdit" id="cancel-edit"
+                        <button class="btn btn-secondary toggleEdit refresh"
                                 type="button">
                             Cancel
                         </button>

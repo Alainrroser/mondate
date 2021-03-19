@@ -101,7 +101,7 @@
                                 class="btn btn-primary">
                             Create
                         </button>
-                        <button class="btn btn-secondary toggleCreate" id="cancel-create"
+                        <button class="btn btn-secondary toggleCreate refresh"
                                 type="button">
                             Cancel
                         </button>

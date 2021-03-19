@@ -76,8 +76,8 @@
             }
             
             $cellKey = $id + $i * SECONDS_PER_HOUR;
-            $cellId = "appointment-id-$appointmentId";
-            $cellContent[$cellKey] = "<div style=\"$style\" class=\"$classes\" id=\"$cellId\"><span>$text</span></div>";
+            $classes .= " appointment-id-$appointmentId";
+            $cellContent[$cellKey] = "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
         }
     }
 ?>
@@ -150,15 +150,14 @@
                            name="id"
                            value=""
                            id="delete-appointment-id">
-                    <button type="submit"
+                    <button type="submit" id="btn-delete-appointment"
                             class="btn btn-secondary w-100 mb-2">
                         Delete Appointment
                     </button>
                 </form>
             </div>
             <div class="row">
-                <button class="btn btn-secondary w-100 mb-2"
-                        id="reloadButton">
+                <button class="btn btn-secondary w-100 mb-2 refresh">
                     Refresh
                 </button>
             </div>

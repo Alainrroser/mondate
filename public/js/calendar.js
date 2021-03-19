@@ -18,17 +18,41 @@ let appointmentButtons = document.querySelectorAll(".appointment")
 let appointmentSelected = false;
 let selectedAppointmentID = 0;
 
+function disableButtons() {
+    if (!appointmentSelected) {
+        document.querySelector("#btn-edit-appointment").disabled = true
+        document.querySelector("#btn-delete-appointment").disabled = true
+    }
+}
+
+function enableButtons() {
+    if (appointmentSelected) {
+        document.querySelector("#btn-edit-appointment").disabled = false
+        document.querySelector("#btn-delete-appointment").disabled = false
+    }
+}
+
+document.addEventListener("click", function() {
+    disableButtons()
+    enableButtons()
+})
+
 for (let appointmentButton of appointmentButtons) {
     appointmentButton.addEventListener("click", function () {
-        let id = appointmentButton.id.split("-")[2]
+        let id
+        for (let cssClass of appointmentButton.classList) {
+            if (cssClass.startsWith("appointment-id-")) {
+                id = cssClass.split("-")[2]
+            }
+        }
         
         if (appointmentSelected && selectedAppointmentID === id) {
             appointmentSelected = false
         } else {
             if (appointmentSelected) {
                 for (let otherAppointmentButton of appointmentButtons) {
-                    if (appointmentButton.id.localeCompare("#appointment-id-" + selectedAppointmentID)) {
-                        otherAppointmentButton.classList.remove("appointment-selected")
+                    if (otherAppointmentButton.classList.contains("appointment-id-" + selectedAppointmentID)) {
+                        otherAppointmentButton.classList.toggle("appointment-selected")
                     }
                 }
             } else {
@@ -39,8 +63,7 @@ for (let appointmentButton of appointmentButtons) {
             document.querySelector("#delete-appointment-id").setAttribute("value", selectedAppointmentID)
             document.querySelector("#edit-appointment-id").setAttribute("value", selectedAppointmentID)
         }
-        
-        let relatedButtons = document.querySelectorAll("#appointment-id-" + id)
+        let relatedButtons = document.querySelectorAll(".appointment-id-" + id)
         for (let relatedButton of relatedButtons) {
             relatedButton.classList.toggle("appointment-selected")
         }
@@ -78,38 +101,33 @@ for (let toggleShareButton of toggleShareButtons) {
     })
 }
 
-document.querySelector("#reloadButton").addEventListener("click", function () {
-    location.reload()
-})
-
-document.querySelector("#cancel-create").addEventListener("click", function () {
-    location.reload()
-})
-
-document.querySelector("#cancel-edit").addEventListener("click", function () {
-    location.reload()
-})
+let refreshButtons = document.querySelectorAll(".refresh")
+for (let refreshButton of refreshButtons) {
+    refreshButton.addEventListener("click", function () {
+        location.reload()
+    })
+}
 
 document.querySelector("#btn-edit-appointment").addEventListener("click", function () {
     let request = new XMLHttpRequest()
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
+    request.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
             document.querySelector(".input-appointment-name").setAttribute("value", object.name)
             document.querySelector(".input-appointment-date").setAttribute("value", object.date)
             document.querySelector(".input-appointment-start").setAttribute("value", object.start)
             document.querySelector(".input-appointment-end").setAttribute("value", object.end)
             document.querySelector(".input-appointment-description").value = object.description
-
+            
             let appointmentTagsDivs = document.querySelectorAll(".appointment-tags")
-
-            for(let appointmentTags of appointmentTagsDivs) {
-                for(let tagDiv of appointmentTags.getElementsByTagName("div")) {
+            
+            for (let appointmentTags of appointmentTagsDivs) {
+                for (let tagDiv of appointmentTags.getElementsByTagName("div")) {
                     let tagCheckbox = tagDiv.getElementsByTagName("input")[0]
                     tagCheckbox.checked = false
-
-                    for(let tag of object.tags) {
-                        if(tagDiv.classList.contains("tag-" + tag)) {
+                    
+                    for (let tag of object.tags) {
+                        if (tagDiv.classList.contains("tag-" + tag)) {
                             tagCheckbox.checked = true
                         }
                     }
@@ -140,7 +158,7 @@ function setSelectedTag(tag) {
 }
 
 function addTagEventListener(tag) {
-    tag.addEventListener("click", function() {
+    tag.addEventListener("click", function () {
         setSelectedTag(tag)
     })
 }
@@ -152,10 +170,10 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
     
     let request = new XMLHttpRequest()
     request.open("POST", "/tag/create", true)
-    request.onload = function() {
+    request.onload = function () {
         if (this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
-
+            
             let tagButton = document.createElement("button")
             tagButton.id = "tag-" + object.id
             tagButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
@@ -164,8 +182,8 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
                 "<span class=\"align-middle\">" + object.name + "</span>";
             document.querySelector(".tag-list").appendChild(tagButton)
             addTagEventListener(tagButton)
-
-            for(let appointmentTag of document.querySelectorAll(".appointment-tags")) {
+            
+            for (let appointmentTag of document.querySelectorAll(".appointment-tags")) {
                 appointmentTag.innerHTML +=
                     "<div class=\"tag-" + object.id + "align-items-center d-flex flex-row pl-1\">" +
                     "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
@@ -180,11 +198,11 @@ document.querySelector("#btn-add-tag").addEventListener("click", function () {
     request.send(data)
 })
 
-document.querySelector("#btn-edit-tag").addEventListener("click", function() {
+document.querySelector("#btn-edit-tag").addEventListener("click", function () {
     let selectedTagId = selectedTag.id.split("-")[1]
     let request = new XMLHttpRequest()
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
+    request.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
             document.querySelector(".tag-name").value = object.name
             document.querySelector(".tag-color").value = "#" + object.color
@@ -194,7 +212,7 @@ document.querySelector("#btn-edit-tag").addEventListener("click", function() {
     request.send()
 })
 
-document.querySelector("#btn-save-tag").addEventListener("click", function() {
+document.querySelector("#btn-save-tag").addEventListener("click", function () {
     let selectedTagId = selectedTag.id.split("-")[1]
     let data = new FormData
     data.append("id", selectedTagId)
@@ -206,8 +224,8 @@ document.querySelector("#btn-save-tag").addEventListener("click", function() {
     sendData.send(data)
     
     let request = new XMLHttpRequest()
-    request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
+    request.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
             selectedTag.innerHTML =
                 "<span style=\"width:1rem;height:1rem;background-color: #" + object.color + "\" class=\"mr-2\"></span>" +
@@ -218,7 +236,7 @@ document.querySelector("#btn-save-tag").addEventListener("click", function() {
     request.send()
 })
 
-document.querySelector("#btn-remove-tag").addEventListener("click", function() {
+document.querySelector("#btn-remove-tag").addEventListener("click", function () {
     let data = new FormData()
     let selectedTagId = selectedTag.id.split("-")[1]
     data.append("id", selectedTagId)
@@ -255,8 +273,8 @@ function setSelectedEmail(email) {
 }
 
 function addEmailEventListener(email) {
-    email.addEventListener("click", function() {
-       setSelectedEmail(email)
+    email.addEventListener("click", function () {
+        setSelectedEmail(email)
     })
 }
 
@@ -277,26 +295,26 @@ function addEmailToList(email) {
     addEmailEventListener(emailButton)
 }
 
-document.querySelector("#add-email").addEventListener("click", function() {
+document.querySelector("#add-email").addEventListener("click", function () {
     let email = document.querySelector("#email").value
     addEmailToList(email)
     document.querySelector("#email").value = ""
 })
 
-document.querySelector("#remove-email").addEventListener("click", function() {
+document.querySelector("#remove-email").addEventListener("click", function () {
     document.querySelector(".email-list").removeChild(selectedEmail)
     let inputs = document.getElementsByTagName("input")
-    for(let input of inputs) {
-        if(input.classList.contains("shared-appointment-email")) {
+    for (let input of inputs) {
+        if (input.classList.contains("shared-appointment-email")) {
             input.remove()
         }
     }
 })
 
-document.querySelector("#edit-email").addEventListener("click", function() {
+document.querySelector("#edit-email").addEventListener("click", function () {
     document.querySelector("#email").value = selectedEmail.textContent
 })
 
-document.querySelector("#save-changes").addEventListener("click", function() {
-    selectedEmail.textContent =  document.querySelector("#email").value
+document.querySelector("#save-changes").addEventListener("click", function () {
+    selectedEmail.textContent = document.querySelector("#email").value
 })

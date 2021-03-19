@@ -13,7 +13,10 @@
           type="text/css"
           href="/css/style.css">
 
-    <title>Mondate</title>
+    <title>
+        Mondate
+    </title>
+    <link rel="icon" href="/images/Logo.png" type="image/x-icon">
   </head>
     <div class="body-container">
         <body>
