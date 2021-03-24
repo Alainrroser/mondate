@@ -211,7 +211,11 @@ main.container {
         display: block;
     }
 
-    #container-calendar-mobile {
+    .desktop-only {
+        display: block;
+    }
+
+    .mobile-only {
         display: none !important;
     }
 }
@@ -238,12 +242,12 @@ main.container {
         height: 100%;
     }
 
-    #container-calendar-mobile {
+    .mobile-only {
         display: block;
     }
 
-    #container-calendar-desktop {
-        display: none;
+    .desktop-only {
+        display: none !important;
     }
 
     .mobile-appointment-container {

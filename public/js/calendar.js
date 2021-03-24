@@ -41,7 +41,9 @@ for(let appointmentButton of appointmentButtons) {
             for(let input of document.querySelectorAll(".delete-appointment-id")) {
                 input.setAttribute("value", selectedAppointmentID)
             }
-            document.querySelector("#edit-appointment-id").setAttribute("value", selectedAppointmentID)
+            for(let input of document.querySelectorAll(".edit-appointment-id")) {
+                input.setAttribute("value", selectedAppointmentID)
+            }
         }
         let relatedButtons = document.querySelectorAll(".appointment-id-" + id)
         for(let relatedButton of relatedButtons) {
@@ -86,12 +88,21 @@ function showEditAppointmentDialog() {
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
-            document.querySelector(".input-appointment-name").setAttribute("value", object.name)
-            document.querySelector(".input-appointment-date").setAttribute("value", object.date)
-            document.querySelector(".input-appointment-start").setAttribute("value", object.start)
-            document.querySelector(".input-appointment-end").setAttribute("value", object.end)
-            document.querySelector(".input-appointment-description").value = object.description
-            
+            document.querySelectorAll(".input-appointment-name").forEach(function(input) {
+                input.setAttribute("value", object.name)
+            })
+            document.querySelectorAll(".input-appointment-date").forEach(function(input) {
+                input.setAttribute("value", object.date)
+            })
+            document.querySelectorAll(".input-appointment-start").forEach(function(input) {
+                input.setAttribute("value", object.start)
+            })
+            document.querySelectorAll(".input-appointment-end").forEach(function(input) {
+                input.setAttribute("value", object.end)
+            })
+            document.querySelectorAll(".input-appointment-description").forEach(function(input) {
+                input.setAttribute("value", object.description)
+            })
             let appointmentTagsDivs = document.querySelectorAll(".appointment-tags")
             
             for(let appointmentTags of appointmentTagsDivs) {
