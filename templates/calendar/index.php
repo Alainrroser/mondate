@@ -93,6 +93,7 @@ require 'dialogCreateAppointment.php';
 require 'dialogEditAppointment.php';
 require 'dialogTags.php';
 require 'dialogShare.php';
+require 'dialogDeleteAccount.php';
 require '../templates/error/dialogError.php';
 ?>
 
@@ -118,9 +119,9 @@ require '../templates/error/dialogError.php';
                     <a href="/user/changePassword" class="dropdown-item w-100">
                         Change Password
                     </a>
-                    <a href="/user/delete" type=submit class="dropdown-item w-100">
+                    <button type=submit id="delete-account" class="dropdown-item w-100">
                         Delete Account
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

@@ -159,7 +159,7 @@ main.container {
     border: 5px solid black;
 }
 
-#dialog-create-appointment, #dialog-edit-appointment, #dialog-manage-tags, #dialog-share, #dialog-error {
+#dialog-create-appointment, #dialog-edit-appointment, #dialog-manage-tags, #dialog-share, #dialog-error, #dialog-delete-account {
     z-index: 1;
 }
 
@@ -187,6 +187,12 @@ main.container {
 
 #container-calendar-mobile {
     height: 100%;
+}
+
+.center-buttons {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media only screen and (min-width: 1201px) {

@@ -328,3 +328,7 @@ if(scrollCookie === "") {
 } else {
     tableBody.scrollTop = parseInt(scrollCookie)
 }
+
+document.querySelector("#delete-account").addEventListener("click", function() {
+    document.querySelector("#dialog-delete-account").classList.toggle("invisible")
+})

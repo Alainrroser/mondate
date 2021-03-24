@@ -21,8 +21,8 @@
                 $date = $_POST['date'];
                 $start = $_POST['start'];
                 $end = $_POST['end'];
-                $name = $_POST['name'];
-                $description = $_POST['description'];
+                $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
+                $description = htmlspecialchars($_POST['description'], ENT_QUOTES,"UTF-8");
                 $creatorId = $_SESSION['userId'];
                 foreach($rows as $row) {
                     if((($start >= $row->getStart() && $start <= $row->getEnd()) || ($end >= $row->getStart() && $end <= $row->getEnd()))
@@ -62,8 +62,8 @@
                 $date = $_POST['date'];
                 $start = $_POST['start'];
                 $end = $_POST['end'];
-                $name = $_POST['name'];
-                $description = $_POST['description'];
+                $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
+                $description = htmlspecialchars($_POST['description'], ENT_QUOTES,"UTF-8");
                 foreach($rows as $row) {
                     if($id != $row->getId()) {
                         if((($start >= $row->getStart() && $start <= $row->getEnd()) || ($end >= $row->getStart() && $end <= $row->getEnd()))
