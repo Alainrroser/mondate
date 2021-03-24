@@ -9,7 +9,7 @@ function index_to_time($index) {
     return str_pad($index, 2, '0', STR_PAD_LEFT).":00";
 }
 
-function getAppointmentStyle($appointment) {
+function getAppointmentStyle($appointment, $first, $last) {
     $style = "background-color: gray;";
     if(sizeof($appointment->getTags()) == 1) {
         $color = '#'.$appointment->getTags()[0]->getColor();
@@ -29,6 +29,24 @@ function getAppointmentStyle($appointment) {
         $style = "background: $gradient;";
     }
 
+    if($first) {
+        $startInSeconds = DateTime::createFromFormat('H:i:s', $appointment->getStart())->getTimestamp();
+        $height = ($startInSeconds % SECONDS_PER_HOUR / SECONDS_PER_HOUR * 49);
+        if($height === 0) {
+            $height = 49;
+        }
+        $style .= "height: " . $height . "px; margin-top: " . (49 - $height) . "px;";
+    } else if($last) {
+        $endInSeconds = DateTime::createFromFormat('H:i:s', $appointment->getEnd())->getTimestamp();
+        $height = ($endInSeconds % SECONDS_PER_HOUR / SECONDS_PER_HOUR * 49);
+        if($height == 0) {
+            $height = 49;
+        }
+        $style .= "height: " . $height . "px;";
+    } else {
+        $style .= "height: 49px";
+    }
+
     return $style;
 }
 
@@ -37,6 +55,16 @@ function getAppointmentStyle($appointment) {
 <?php
 $columns = [];
 $cellContent = [];
+
+// Sort the appointments by time and date
+// (This will make our life much easier further down)
+function sortAppointmentsByTime($a, $b) {
+    $timeA = strtotime($a->getStart());
+    $timeB = strtotime($b->getStart());
+    return $timeA < $timeB ? -1 : 1;
+}
+
+usort($appointments, "sortAppointmentsByTime");
 
 // Create the column titles
 for($i = 0; $i < sizeof(COLUMNS); $i++) {
@@ -49,20 +77,29 @@ for($i = 0; $i < sizeof(COLUMNS); $i++) {
 foreach($appointments as $appointment) {
     $appointmentId = $appointment->getId();
 
-    // Convert appointment start date and time to seconds
-    $date_as_string = $appointment->getDate().' '.$appointment->getStart();
-    $id = DateTime::createFromFormat('Y-m-d H:i:s', $date_as_string)->getTimestamp();
+    // Convert appointment start and end to seconds
+    $startAsString = $appointment->getDate() . ' ' . $appointment->getStart();
+    $endAsString = $appointment->getDate() . ' ' . $appointment->getEnd();
+
+    $startInSeconds = DateTime::createFromFormat('Y-m-d H:i:s', $startAsString)->getTimestamp();
+    $endInSeconds = DateTime::createFromFormat('Y-m-d H:i:s', $endAsString)->getTimestamp();
 
     // Calculate the number of cells required based on the end time
-    $startInSeconds = DateTime::createFromFormat('H:i:s', $appointment->getStart())->getTimestamp();
-    $endInSeconds = DateTime::createFromFormat('H:i:s', $appointment->getEnd())->getTimestamp();
     $durationInSeconds = $endInSeconds - $startInSeconds;
-    $numberOfCells = max(ceil($durationInSeconds / SECONDS_PER_HOUR), 1);
+    $numberOfCells = $durationInSeconds / SECONDS_PER_HOUR;
 
-    $style = getAppointmentStyle($appointment);
+    // Tomorrow I won't understand why I added this line
+    // Actually, i don't understand it currently either
+    if(fmod($endInSeconds / SECONDS_PER_HOUR, 1) !== 0.00) {
+        $numberOfCells += 1;
+    }
+
+    $numberOfCells = floor($numberOfCells);
 
     // Store the buttons in the array
     for($i = 0; $i < $numberOfCells; $i++) {
+        $style = getAppointmentStyle($appointment, $i == 0, $i == $numberOfCells - 1);
+
         $text = "";
         if($i == 0) {
             $text = $appointment->getName();
@@ -81,7 +118,7 @@ foreach($appointments as $appointment) {
             }
         }
 
-        $cellKey = $id + $i * SECONDS_PER_HOUR;
+        $cellKey = $startInSeconds + $i * SECONDS_PER_HOUR;
         $classes .= " appointment-id-$appointmentId";
         $cellContent[$cellKey] = "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
     }
@@ -188,11 +225,11 @@ require '../templates/error/dialogError.php';
 
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
                         // Convert the current cell date and time to seconds
-                        $id = $startDate->getTimestamp() + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
+                        $dateTimeInSeconds = $startDate->getTimestamp() + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
 
                         // Get and display the cell content from the array
-                        $content = isset($cellContent[$id]) ? $cellContent[$id] : "";
-                        echo "<td class=\"cell-appointment p-0 align-middle\">$content</td>";
+                        $content = isset($cellContent[$dateTimeInSeconds]) ? $cellContent[$dateTimeInSeconds] : "";
+                        echo "<td class=\"cell-appointment p-0 align-top\">$content</td>";
                     }
 
                     echo "</tr>";
@@ -267,14 +304,6 @@ require '../templates/error/dialogError.php';
     </div>
     <div>
         <?php
-        function sortAppointmentsByTime($a, $b) {
-            $timeA = strtotime($a->getStart());
-            $timeB = strtotime($b->getStart());
-            return $timeA < $timeB ? -1 : 1;
-        }
-
-        usort($appointments, "sortAppointmentsByTime");
-
         for($i = 0; $i < sizeof(COLUMNS); $i++) {
             $current_date = clone $startDate;
             $current_date->add(date_interval_create_from_date_string($i . ' day'));
@@ -288,7 +317,7 @@ require '../templates/error/dialogError.php';
                     $appointmentId = $appointment->getId();
                     $text = $appointment->getName() . " (" .$appointment->getStart() . " - " . $appointment->getEnd() . ")";
 
-                    $style = getAppointmentStyle($appointment);
+                    $style = getAppointmentStyle($appointment, false, false);
                     $classes = "w-100 p-0 align-middle appointment appointment-top-bottom";
                     $classes .= " appointment-id-$appointmentId";
                     echo "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
@@ -300,6 +329,7 @@ require '../templates/error/dialogError.php';
         }
         ?>
     </div>
+
     <div class="ml-0 row mt-5 mb-5">
         <h2 class="h5">Tags</h2>
         <div class="container">
@@ -336,6 +366,6 @@ require '../templates/error/dialogError.php';
     </div>
 </div>
 
-<script type="text/javascript" src="/js/calendar/calendar.js"></script>
-<script type="text/javascript" src="/js/calendar/cookies.js"></script>
+<script type="text/javascript" src="/js/calendar.js"></script>
+<script type="text/javascript" src="/js/cookies.js"></script>
 <script type="text/javascript" src="/js/error.js"></script>

@@ -108,7 +108,6 @@ main.container {
 }
 
 .appointment {
-    height: 49px;
     border-radius: 0;
     border: none;
     display: flex;
