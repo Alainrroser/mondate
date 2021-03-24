@@ -13,15 +13,6 @@ function updateEditDeleteButtonStates() {
 
 document.addEventListener("click", function() {
     updateEditDeleteButtonStates()
-    let date = new Date()
-    let hour = date.getHours()
-    let minute = date.getMinutes()
-    minute += (minute < 10 ? "0" : "")
-    hour += (hour < 10 ? "0" : "")
-    document.querySelector(".input-appointment-start").value = hour + ":" + minute
-    date.setHours(date.getHours() + 1)
-    let endHour = date.getHours()
-    document.querySelector(".input-appointment-end").value = endHour + ":" + minute
 })
 
 for(let appointmentButton of appointmentButtons) {
@@ -68,6 +59,15 @@ let toggleShareButtons = document.querySelectorAll(".toggleShare")
 for(let toggleCreateButton of toggleCreateButtons) {
     toggleCreateButton.addEventListener("click", function() {
         document.getElementById("dialog-create-appointment").classList.toggle("invisible")
+        let date = new Date()
+        let hour = date.getHours()
+        let minute = date.getMinutes()
+        minute += (minute < 10 ? "0" : "")
+        hour += (hour < 10 ? "0" : "")
+        document.querySelector(".input-appointment-start").value = hour + ":" + minute
+        date.setHours(date.getHours() + 1)
+        let endHour = date.getHours()
+        document.querySelector(".input-appointment-end").value = endHour + ":" + minute
     })
 }
 
