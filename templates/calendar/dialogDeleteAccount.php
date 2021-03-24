@@ -5,7 +5,7 @@
         </h1>
         <div class="card-body text-center">
             <p>Do you really want to delete your account?</p>
-            <div class="d-flex flex-row w-50 center-buttons">
+            <div class="d-flex flex-row w-100 m-0 justify-content-center">
                 <a  href="/user/delete" class="btn btn-primary w-50">
                     Delete
                 </a>
