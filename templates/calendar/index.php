@@ -133,14 +133,14 @@ require '../templates/error/dialogError.php';
                 </button>
             </div>
             <div class="ml-0 row">
-                <button id="btn-edit-appointment" class="btn btn-secondary w-100 mb-2 toggleEdit" disabled>
+                <button class="btn-edit-appointment btn btn-secondary w-100 mb-2 toggleEdit" disabled>
                     Edit Appointment
                 </button>
             </div>
             <div class="ml-0 row">
                 <form action="/appointment/delete" method="post" class="w-100">
-                    <input type="hidden" name="id" value="" id="delete-appointment-id">
-                    <button type="submit" id="btn-delete-appointment" class="btn btn-secondary w-100 mb-2" disabled>
+                    <input type="hidden" name="id" value="" class="delete-appointment-id">
+                    <button type="submit" class="btn-delete-appointment btn btn-secondary w-100 mb-2" disabled>
                         Delete Appointment
                     </button>
                 </form>
@@ -156,11 +156,12 @@ require '../templates/error/dialogError.php';
                     <?php
                         foreach($tags as $tag) {
                             $color = '#'.$tag->color;
-                            echo
-                            "<div class=\"row mt-2 align-items-center\">
+                            echo "
+                            <div class=\"row mt-2 align-items-center\">
                                 <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
                                 <span class=\"align-middle\">$tag->name</span>
-                            </div>";
+                            </div>
+                            ";
                         }
                     ?>
                 </div>
@@ -231,14 +232,14 @@ require '../templates/error/dialogError.php';
         </button>
     </div>
     <div class="row">
-        <button id="btn-edit-appointment" class="btn btn-secondary w-100 mb-2 toggleEdit" disabled>
+        <button class="btn-edit-appointment btn btn-secondary w-100 mb-2 toggleEdit" disabled>
             Edit Appointment
         </button>
     </div>
     <div class="row">
         <form action="/appointment/delete" method="post" class="w-100">
-            <input type="hidden" name="id" value="" id="delete-appointment-id">
-            <button type="submit" id="btn-delete-appointment" class="btn btn-secondary w-100 mb-2" disabled>
+            <input type="hidden" name="id" value="" class="delete-appointment-id">
+            <button type="submit" class="btn-delete-appointment btn btn-secondary w-100 mb-2" disabled>
                 Delete Appointment
             </button>
         </form>
@@ -263,7 +264,17 @@ require '../templates/error/dialogError.php';
             Next
         </a>
     </div>
-    <?php for($i = 0; $i < sizeof(COLUMNS); $i++) {
+    <div>
+    <?php
+    function sortAppointmentsByTime($a, $b) {
+        $timeA = strtotime($a->getStart());
+        $timeB = strtotime($b->getStart());
+        return $timeA < $timeB ? -1 : 1;
+    }
+
+    usort($appointments, "sortAppointmentsByTime");
+
+    for($i = 0; $i < sizeof(COLUMNS); $i++) {
         $current_date = clone $startDate;
         $current_date->add(date_interval_create_from_date_string($i . ' day'));
 
@@ -287,6 +298,23 @@ require '../templates/error/dialogError.php';
         echo "</div>";
     }
     ?>
+    </div>
+    <div class="ml-0 row mt-5">
+        <h2 class="h5">Tags</h2>
+        <div class="container">
+            <?php
+            foreach($tags as $tag) {
+                $color = '#'.$tag->color;
+                echo "
+                <div class=\"row mt-2 align-items-center\">
+                    <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
+                    <span class=\"align-middle\">$tag->name</span>
+                </div>
+                ";
+            }
+            ?>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript" src="/js/calendar.js"></script>

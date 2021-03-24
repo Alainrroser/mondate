@@ -6,8 +6,9 @@ let appointmentSelected = false;
 let selectedAppointmentID = 0;
 
 function updateEditDeleteButtonStates() {
-    document.querySelector("#btn-edit-appointment").disabled = !appointmentSelected
-    document.querySelector("#btn-delete-appointment").disabled = !appointmentSelected
+    for(let btn of document.querySelectorAll(".btn-edit-appointment, .btn-delete-appointment")) {
+        btn.disabled = !appointmentSelected
+    }
 }
 
 document.addEventListener("click", function() {
@@ -37,7 +38,9 @@ for(let appointmentButton of appointmentButtons) {
             }
             
             selectedAppointmentID = id
-            document.querySelector("#delete-appointment-id").setAttribute("value", selectedAppointmentID)
+            for(let input of document.querySelectorAll(".delete-appointment-id")) {
+                input.setAttribute("value", selectedAppointmentID)
+            }
             document.querySelector("#edit-appointment-id").setAttribute("value", selectedAppointmentID)
         }
         let relatedButtons = document.querySelectorAll(".appointment-id-" + id)
@@ -53,20 +56,20 @@ let toggleShareButtons = document.querySelectorAll(".toggleShare")
 
 for(let toggleCreateButton of toggleCreateButtons) {
     toggleCreateButton.addEventListener("click", function() {
-        document.getElementById("createAppointment").classList.toggle("invisible")
+        document.getElementById("dialog-create-appointment").classList.toggle("invisible")
     })
 }
 
 for(let toggleTagButton of toggleTagButtons) {
     toggleTagButton.addEventListener("click", function(event) {
-        document.getElementById("tags").classList.toggle("invisible")
+        document.getElementById("dialog-manage-tags").classList.toggle("invisible")
         event.preventDefault()
     })
 }
 
 for(let toggleShareButton of toggleShareButtons) {
     toggleShareButton.addEventListener("click", function(event) {
-        document.getElementById("share").classList.toggle("invisible")
+        document.getElementById("dialog-share").classList.toggle("invisible")
         event.preventDefault()
     })
 }
@@ -103,20 +106,25 @@ function showEditAppointmentDialog() {
                     }
                 }
             }
-            for(let email of object.emails) {
-                addEmailToList(email)
+
+            if(object.emails) {
+                for(let email of object.emails) {
+                    addEmailToList(email)
+                }
             }
         }
     };
     request.open("GET", "/appointment/get?id=" + selectedAppointmentID, true)
     request.send()
     
-    document.getElementById("editAppointment").classList.remove("invisible")
+    document.getElementById("dialog-edit-appointment").classList.remove("invisible")
 }
 
-document.querySelector("#btn-edit-appointment").addEventListener("click", function() {
-    showEditAppointmentDialog()
-})
+for(let btn of document.querySelectorAll(".btn-edit-appointment")) {
+    btn.addEventListener("click", function() {
+        showEditAppointmentDialog()
+    })
+}
 
 let tags = document.querySelectorAll(".tag")
 let selectedTag = null
@@ -250,8 +258,8 @@ function addEmailToList(email) {
     input.setAttribute("name", "emails[]")
     input.classList.add("shared-appointment-email")
     input.setAttribute("value", email)
-    document.querySelector("#createAppointment form").appendChild(input.cloneNode(true))
-    document.querySelector("#editAppointment form").appendChild(input.cloneNode(true))
+    document.querySelector("#dialog-create-appointment form").appendChild(input.cloneNode(true))
+    document.querySelector("#dialog-edit-appointment form").appendChild(input.cloneNode(true))
     document.querySelector(".email-list").appendChild(emailButton)
     addEmailEventListener(emailButton)
 }
@@ -318,5 +326,5 @@ if(scrollCookie === "") {
     
     tableBody.scrollTop = 8 * CELL_HEIGHT
 } else {
-    tableBody.scrollTop = scrollCookie
+    tableBody.scrollTop = parseInt(scrollCookie)
 }

@@ -1,4 +1,4 @@
-<div class="center-align invisible position-fixed" id="tags">
+<div class="dialog-parent invisible" id="dialog-manage-tags">
     <div class="dialog card pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Tags

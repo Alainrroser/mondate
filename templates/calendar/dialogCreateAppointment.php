@@ -1,4 +1,4 @@
-<div class="center-align invisible position-fixed" id="createAppointment">
+<div class="dialog-parent invisible" id="dialog-create-appointment">
     <div class="dialog card pt-5 shadow-sm">
         <h1 class="text-center mb-3">
             Create Appointment
@@ -47,9 +47,9 @@
                             Tags
                         </label>
                         <div class="d-flex flex-row justify-content-between">
-                            <div class="d-flex flex-row w-25">
+                            <div class="w-25">
                                 <div class="dropdown w-100">
-                                    <button class="btn btn-secondary dropdown-toggle w-100" type="button"
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Select Tags...
                                     </button>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="d-flex justify-content-between">
                     <div class="d-flex flex-row w-50">
-                        <button type="submit" class="btn btn-primary w-50 mr-2">
+                        <button type="submit" class="btn btn-primary w-50">
                             Create
                         </button>
                         <button class="btn btn-secondary refresh w-50" type="button">
