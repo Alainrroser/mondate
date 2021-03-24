@@ -88,6 +88,7 @@
 </div>
 <div class="mobile-only card-body">
     <?php echo "<form action=\"$formAction\" method=\"post\">"; ?>
+        <input type="hidden" name="id" class="edit-appointment-id">
         <div class="form-group form">
             <label>
                 Name

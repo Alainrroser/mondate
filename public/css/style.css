@@ -25,6 +25,10 @@ main {
     padding-bottom: 80px !important;
 }
 
+textarea {
+    resize: none;
+}
+
 .footer {
     position: fixed;
     bottom: 0;

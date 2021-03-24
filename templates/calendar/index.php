@@ -119,7 +119,7 @@ require '../templates/error/dialogError.php';
                     <a href="/user/changePassword" class="dropdown-item w-100">
                         Change Password
                     </a>
-                    <a type=submit class="dropdown-item w-100" id="delete-account">
+                    <a type=submit class="dropdown-item w-100" id="delete-account" onclick="deleteAccount()">
                         Delete Account
                     </a>
                 </div>
@@ -300,7 +300,7 @@ require '../templates/error/dialogError.php';
         }
         ?>
     </div>
-    <div class="ml-0 row mt-5">
+    <div class="ml-0 row mt-5 mb-5">
         <h2 class="h5">Tags</h2>
         <div class="container">
             <?php
@@ -316,7 +316,26 @@ require '../templates/error/dialogError.php';
             ?>
         </div>
     </div>
+    <div class="dropdown float-right w-100 mb-5">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Account
+        </button>
+        <div class="dropdown-menu dropdown-menu-right w-100"
+             aria-labelledby="dropdownMenuButton">
+            <a href="/signOut" type=submit class="dropdown-item w-100">
+                Sign Out
+            </a>
+            <a href="/user/changePassword" class="dropdown-item w-100">
+                Change Password
+            </a>
+            <a class="dropdown-item w-100" id="delete-account" onclick="deleteAccount()">
+                Delete Account
+            </a>
+        </div>
+    </div>
 </div>
 
-<script type="text/javascript" src="/js/calendar.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/js/calendar/cookies.js"></script>
 <script type="text/javascript" src="/js/error.js"></script>
