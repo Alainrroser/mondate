@@ -12,7 +12,7 @@
                 <label>
                     Date
                 </label>
-                <input type="date" name="date" class="input-appointment-date form-control" required>
+                <input type="date" name="date" value="<?php echo date("Y")."-".date("m")."-".date("d"); ?>" class="input-appointment-date form-control" required>
             </div>
             <div class="d-flex flex-row w-50">
                 <div class="form-group form w-100">

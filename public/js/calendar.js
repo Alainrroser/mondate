@@ -2,8 +2,8 @@
 
 let appointmentButtons = document.querySelectorAll(".appointment")
 
-let appointmentSelected = false;
-let selectedAppointmentID = 0;
+let appointmentSelected = false
+let selectedAppointmentID = 0
 
 function updateEditDeleteButtonStates() {
     for(let btn of document.querySelectorAll(".btn-edit-appointment, .btn-delete-appointment")) {
@@ -13,6 +13,15 @@ function updateEditDeleteButtonStates() {
 
 document.addEventListener("click", function() {
     updateEditDeleteButtonStates()
+    let date = new Date()
+    let hour = date.getHours()
+    let minute = date.getMinutes()
+    minute += (minute < 10 ? "0" : "")
+    hour += (hour < 10 ? "0" : "")
+    document.querySelector(".input-appointment-start").value = hour + ":" + minute
+    date.setHours(date.getHours() + 1)
+    let endHour = date.getHours()
+    document.querySelector(".input-appointment-end").value = endHour + ":" + minute
 })
 
 for(let appointmentButton of appointmentButtons) {
@@ -124,7 +133,7 @@ function showEditAppointmentDialog() {
                 }
             }
         }
-    };
+    }
     request.open("GET", "/appointment/get?id=" + selectedAppointmentID, true)
     request.send()
     
@@ -159,11 +168,11 @@ function addTagEventListener(tag) {
 }
 
 function rgbToHex(rgb) {
-    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/)
     function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
+        return ("0" + parseInt(x).toString(16)).slice(-2)
     }
-    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3])
 }
 
 document.querySelector("#btn-add-tag").addEventListener("click", function() {
@@ -194,7 +203,7 @@ document.querySelector("#btn-add-tag").addEventListener("click", function() {
                 tagButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
                 tagButton.innerHTML =
                     "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
-                    "<span class=\"align-middle\">" + object.name + "</span>";
+                    "<span class=\"align-middle\">" + object.name + "</span>"
                 document.querySelector(".tag-list").appendChild(tagButton)
                 addTagEventListener(tagButton)
             
@@ -308,7 +317,7 @@ function setCookie(name, value) {
     let date = new Date()
     date.setTime(date.getTime() + 30 * 60 * 1000)
     let expires = "expires=" + date.toUTCString()
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    document.cookie = name + "=" + value + ";" + expires + ";path=/"
 }
 
 function getCookie(name) {
