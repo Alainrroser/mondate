@@ -3,7 +3,7 @@
         <h1 class="text-center mb-3">
             Change Password
         </h1>
-        <img src="/images/logo.png" class="card-img-top w-25 mx-auto" alt="The Mondate Logo">
+        <img src="/images/logo.png" class="card-img-top mx-auto" alt="The Mondate Logo">
         <div class="card-body">
             <form action="/user/doChangePassword" method="post">
                 <div class="form-group form">

@@ -172,7 +172,7 @@ main.container {
 }
 
 .card-img-top {
-    width: 80px;
+    width: 100px !important;
 }
 
 #container-calendar-mobile {

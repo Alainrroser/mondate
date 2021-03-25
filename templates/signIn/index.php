@@ -4,14 +4,15 @@
         <h1 class="text-center mb-3">
             Sign In
         </h1>
-        <img src="/images/logo.png" class="card-img-top w-25 mx-auto" alt="The Mondate Logo">
+        <img src="/images/logo.png" class="card-img-top mx-auto" alt="The Mondate Logo">
         <div class="card-body">
             <form action="/user/doSignIn" method="post">
                 <div class="form-group form">
                     <label for="email">
                         E-Mail
                     </label>
-                    <input type="email" name="email" class="form-control" placeholder="Enter your e-mail" required>
+                    <input id="input-email" type="email" name="email" class="form-control"
+                           placeholder="Enter your e-mail" required>
                 </div>
                 <div class="form-group form">
                     <label for="password">
@@ -20,8 +21,12 @@
                     <input type="password" name="password" class="form-control" placeholder="Enter your password"
                            required>
                 </div>
+                <div class="pb-3">
+                    <input id="input-remember-me" type="checkbox">
+                    <label for="input-remember-me">Remember Me</label>
+                </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
-                    <button class="btn btn-primary w-50 mb-2" type="submit">
+                    <button id="btn-submit" class="btn btn-primary w-50 mb-2" type="submit">
                         Sign In
                     </button>
                     <a href="/signUp/" class="btn btn-secondary w-50">
@@ -33,4 +38,5 @@
     </div>
 </div>
 
+<script type="text/javascript" src="/js/signIn.js"></script>
 <script type="text/javascript" src="/js/error.js"></script>
