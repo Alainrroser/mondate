@@ -326,8 +326,8 @@ require '../templates/error/dialogError.php';
     </div>
 </div>
 
-<script type="text/javascript" src="/js/calendar/calendar.js"></script>
 <script type="text/javascript" src="/js/calendar/tags.js"></script>
 <script type="text/javascript" src="/js/calendar/share.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar.js"></script>
 <script type="text/javascript" src="/js/calendar/cookies.js"></script>
 <script type="text/javascript" src="/js/error.js"></script>

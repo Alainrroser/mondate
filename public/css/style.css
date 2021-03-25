@@ -112,6 +112,7 @@ main.container {
 }
 
 .appointment {
+    max-width: 75vw;
     position: absolute;
     border: none;
     display: flex;
@@ -232,6 +233,8 @@ main.container {
     }
 
     .mobile-appointment-container {
+        display: flex;
+        justify-content: center;
         border: 1px solid black;
         min-height: 100px;
         border-radius: 10px;

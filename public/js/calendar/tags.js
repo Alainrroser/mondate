@@ -28,63 +28,59 @@ function rgbToHex(rgb) {
     return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3])
 }
 
-let manageTagDialogBodies = document.querySelectorAll("#dialog-manage-tags .card-body");
+let manageTagsDialogBodies = document.querySelectorAll("#dialog-manage-tags .card-body");
 
-for(let manageTagDialogBody of manageTagDialogBodies) {
-    for(let btnAddTag of manageTagDialogBody.querySelectorAll(".btn-add-tag")) {
-        btnAddTag.addEventListener("click", function() {
-            if(selectedTag) {
-                addTag(manageTagDialogBody)
-            }
-        })
-    }
+for(let manageTagsDialogBody of manageTagsDialogBodies) {
+    manageTagsDialogBody.querySelector(".btn-add-tag").addEventListener("click", function() {
+        addTag(manageTagsDialogBody)
+    })
 
-    for(let btnRemoveTag of manageTagDialogBody.querySelectorAll(".btn-remove-tag")) {
-        btnRemoveTag.addEventListener("click", function() {
-            if(selectedTag) {
-                removeTag()
-            }
-        })
-    }
+    manageTagsDialogBody.querySelector(".btn-remove-tag").addEventListener("click", function() {
+        if(selectedTag) {
+            removeTag()
+        }
+    })
 }
 
-function addTag(manageTagDialogBody) {
-    let tagNameElement = manageTagDialogBody.querySelector(".tag-name")
-    let tagColorElement = manageTagDialogBody.querySelector(".tag-color")
+function addTag(manageTagsDialogBody) {
+    let tagNameElement = manageTagsDialogBody.querySelector(".tag-name")
+    let tagColorElement = manageTagsDialogBody.querySelector(".tag-color")
 
-    let tagList = manageTagDialogBody.querySelector(".tag-list")
-    let inputValid = true
-
-    tagNameElement.setCustomValidity("")
-
-    if(tagNameElement.value) {
-        console.log(tagList.childNodes)
-
-        for(let tag of tagList.children) {
-            let tagName = tag.querySelector("span:last-child").textContent
-            let tagColor = rgbToHex(tag.querySelector("span:first-child").style.backgroundColor)
-
-            if(tagName === tagNameElement.value || tagColor === tagColorElement.value) {
-                tagNameElement.setCustomValidity("A tag with this name or color already exists")
-                tagNameElement.reportValidity()
-                inputValid = false
-            }
-        }
-    } else {
-        tagNameElement.setCustomValidity("The tag name cannot be null")
-        tagNameElement.reportValidity()
-        inputValid = false
-    }
+    let inputValid = validateTagInput(manageTagsDialogBody, tagNameElement, tagColorElement)
 
     if(inputValid) {
-        sendAddTag(tagNameElement.value, tagColorElement.value)
+        addTagToListAndSend(tagNameElement.value, tagColorElement.value)
 
         tagNameElement.value = ""
         tagColorElement.value = "#000000"
     }
 }
 
-function sendAddTag(tagName, tagColor) {
+function validateTagInput(manageTagsDialogBody, tagNameElement, tagColorElement) {
+    let tagList = manageTagsDialogBody.querySelector(".tag-list")
+    tagNameElement.setCustomValidity("")
+
+    if(!tagNameElement.value) {
+        tagNameElement.setCustomValidity("The tag name cannot be empty")
+        tagNameElement.reportValidity()
+        return false
+    }
+
+    for(let tag of tagList.children) {
+        let tagName = tag.querySelector("span:last-child").textContent
+        let tagColor = rgbToHex(tag.querySelector("span:first-child").style.backgroundColor)
+
+        if(tagName === tagNameElement.value || tagColor === tagColorElement.value) {
+            tagNameElement.setCustomValidity("This email already exists")
+            tagNameElement.reportValidity()
+            return false
+        }
+    }
+
+    return true
+}
+
+function addTagToListAndSend(tagName, tagColor) {
     let data = new FormData()
     data.append("name", tagName)
     data.append("color", tagColor)
@@ -148,9 +144,7 @@ function removeTag() {
                 }
             }
 
-            let tags = document.querySelectorAll(".tag")
-            selectedTag = tags[0]
-            selectedTag.classList.add("active")
+            selectedTag = null
         }
     }
 }

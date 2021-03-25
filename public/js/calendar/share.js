@@ -1,9 +1,8 @@
 "use strict"
 
-let emails = document.querySelectorAll(".share-entry")
 let selectedEmail = null
 
-for(let email of emails) {
+for(let email of document.querySelectorAll(".share-entry")) {
     addEmailEventListener(email)
 }
 
@@ -21,48 +20,90 @@ function addEmailEventListener(email) {
     })
 }
 
-function addEmailToList(email) {
-    let emailButton = document.createElement("button")
-    emailButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "share-entry")
-    emailButton.type = "button"
-    emailButton.textContent = email
+let shareDialogBodies = document.querySelectorAll("#dialog-share .card-body");
 
-    let input = document.createElement("input")
-    input.setAttribute("type", "hidden")
-    input.setAttribute("name", "emails[]")
-    input.classList.add("shared-appointment-email")
-    input.setAttribute("value", email)
-    document.querySelector("#dialog-create-appointment form").appendChild(input.cloneNode(true))
-    document.querySelector("#dialog-edit-appointment form").appendChild(input.cloneNode(true))
-    document.querySelector(".email-list").appendChild(emailButton)
-    addEmailEventListener(emailButton)
+for(let shareDialogBody of shareDialogBodies) {
+    shareDialogBody.querySelector(".btn-add-email").addEventListener("click", function() {
+        addEmail(shareDialogBody)
+    })
+
+    shareDialogBody.querySelector(".btn-remove-email").addEventListener("click", function() {
+        if(selectedEmail) {
+            removeEmail()
+        }
+    })
 }
 
-// document.querySelector("#add-email").addEventListener("click", function() {
-//     let exists = false
-//     for(let email of emails) {
-//         if(email.textContent === document.querySelector("#email").value) {
-//             exists = true
-//         }
-//     }
-//     if(exists) {
-//         document.querySelector("#email").setCustomValidity("This email already exists")
-//         document.querySelector("#email").reportValidity()
-//     } else {
-//         let email = document.querySelector("#email").value
-//         addEmailToList(email)
-//         document.querySelector("#email").value = ""
-//         emails = document.querySelectorAll(".share-entry")
-//     }
-// })
-//
-// document.querySelector("#remove-email").addEventListener("click", function() {
-//     document.querySelector(".email-list").removeChild(selectedEmail)
-//     let inputs = document.getElementsByTagName("input")
-//     for(let input of inputs) {
-//         if(input.classList.contains("shared-appointment-email")) {
-//             input.remove()
-//         }
-//     }
-//     emails = document.querySelectorAll(".share-entry")
-// })
+function addEmail(shareDialogBody) {
+    let emailElement = shareDialogBody.querySelector(".input-email")
+
+    let inputValid = validateEmailInput(shareDialogBody, emailElement)
+
+    if(inputValid) {
+        addEmailToList(emailElement.value)
+        shareDialogBody.querySelector(".input-email").value = ""
+    }
+}
+
+function validateEmailInput(shareDialogBody, emailElement) {
+    let emailList = shareDialogBody.querySelector(".email-list")
+    emailElement.setCustomValidity("")
+
+    if(!emailElement.value) {
+        emailElement.setCustomValidity("The email cannot be empty")
+        emailElement.reportValidity()
+        return false
+    }
+
+    for(let email of emailList.children) {
+        let emailName = email.textContent
+
+        if(emailName === emailElement.value) {
+            emailElement.setCustomValidity("A tag with this name or color already exists")
+            emailElement.reportValidity()
+            return false
+        }
+    }
+
+    return true
+}
+
+function addEmailToList(email) {
+    for(let shareDialogBody of shareDialogBodies) {
+        let emailButton = document.createElement("button")
+        emailButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "share-entry")
+        emailButton.type = "button"
+        emailButton.textContent = email
+
+        shareDialogBody.querySelector(".email-list").appendChild(emailButton)
+        addEmailEventListener(emailButton)
+    }
+
+    let forms = document.querySelectorAll("#dialog-create-appointment form, #dialog-edit-appointment form")
+    for(let form of forms) {
+        let input = document.createElement("input")
+        input.setAttribute("type", "hidden")
+        input.setAttribute("name", "emails[]")
+        input.classList.add("shared-appointment-email")
+        input.setAttribute("value", email)
+        form.appendChild(input)
+    }
+}
+
+function removeEmail() {
+    let email = selectedEmail.textContent;
+
+    for(let shareEntry of document.querySelectorAll(".share-entry")) {
+        if(shareEntry.textContent === email) {
+            shareEntry.remove()
+        }
+    }
+
+    for(let input of document.querySelectorAll(".shared-appointment-email")) {
+        if(input.value === email) {
+            input.remove()
+        }
+    }
+
+    selectedEmail = null
+}
