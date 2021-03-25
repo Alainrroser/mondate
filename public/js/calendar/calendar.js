@@ -52,21 +52,21 @@ for(let appointmentButton of appointmentButtons) {
     })
 }
 
-for(let toggleCreateButton of document.querySelectorAll(".toggleCreate")) {
+for(let toggleCreateButton of document.querySelectorAll(".toggle-create")) {
     toggleCreateButton.addEventListener("click", function() {
         document.getElementById("dialog-create-appointment").classList.toggle("invisible")
         setDateTimeToNow()
     })
 }
 
-for(let toggleTagButton of document.querySelectorAll(".toggleTag")) {
+for(let toggleTagButton of document.querySelectorAll(".toggle-tag")) {
     toggleTagButton.addEventListener("click", function(event) {
         document.getElementById("dialog-manage-tags").classList.toggle("invisible")
         event.preventDefault()
     })
 }
 
-for(let toggleShareButton of document.querySelectorAll(".toggleShare")) {
+for(let toggleShareButton of document.querySelectorAll(".toggle-share")) {
     toggleShareButton.addEventListener("click", function(event) {
         document.getElementById("dialog-share").classList.toggle("invisible")
         event.preventDefault()
@@ -146,9 +146,17 @@ function setDateTimeToNow() {
     document.querySelector(".input-appointment-end").value = endHour + ":" + minute
 }
 
-function deleteAccount() {
-    document.querySelector("#dialog-delete-account").classList.toggle("invisible")
+let deleteAccountLinks = document.querySelectorAll(".delete-account")
+for(let deleteAccountLink of deleteAccountLinks) {
+    deleteAccountLink.addEventListener("click", function() {
+        document.querySelector("#dialog-delete-account").classList.toggle("invisible")
+    })
 }
+
+document.querySelector("#delete-account").addEventListener("click", function() {
+    window.localStorage.removeItem("email")
+    window.localStorage.removeItem("rememberMe")
+})
 
 for(let inputWeekStart of document.querySelectorAll("input-week-start")) {
     inputWeekStart.addEventListener("input", function() {

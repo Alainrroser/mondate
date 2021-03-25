@@ -1,6 +1,6 @@
 "use strict"
 
-let password = document.querySelector("#password")
+let password = document.querySelector("#input-password")
 let confirmPassword = document.querySelector("#input-confirm-password")
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,20}$/

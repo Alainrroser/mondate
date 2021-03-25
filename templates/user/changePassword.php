@@ -40,5 +40,5 @@
     </div>
 </div>
 
-<script src="/js/confirmPassword.js"></script>
 <script src="/js/changePassword.js"></script>
+<script src="/js/confirmPassword.js"></script>

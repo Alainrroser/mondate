@@ -15,7 +15,7 @@
                 </button>
             </div>
             <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-primary toggleShare w-25">
+                <button type="button" class="btn btn-primary toggle-share w-25">
                     Close
                 </button>
                 <button type="button" class="btn-remove-email btn btn-secondary w-25">
@@ -35,7 +35,7 @@
             <button type="button" class="btn-remove-email btn btn-secondary mb-4 w-100">
                 Remove
             </button>
-            <button type="button" class="btn btn-primary toggleShare w-100">
+            <button type="button" class="btn btn-primary toggle-share w-100">
                 Close
             </button>
         </div>

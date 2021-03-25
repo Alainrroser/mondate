@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary toggleTag">
+            <button type="button" class="btn btn-primary toggle-tag">
                 Close
             </button>
         </div>
@@ -73,7 +73,7 @@
             <button class="btn btn-secondary mb-4 w-100 btn-remove-tag">
                 Remove
             </button>
-            <button type="button" class="btn btn-primary toggleTag w-100">
+            <button type="button" class="btn btn-primary toggle-tag w-100">
                 Close
             </button>
         </div>

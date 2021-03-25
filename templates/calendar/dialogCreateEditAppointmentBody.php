@@ -48,7 +48,7 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Select Tags...
                             </button>
-                            <div class="appointment-tags dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <div class="appointment-tags dropdown-menu" aria-labelledby="dropdown-menu-button">
                                 <?php
                                 foreach($tags as $tag) {
                                     $id = $tag->id;
@@ -64,7 +64,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-secondary toggleTag w-25" type="button">
+                    <button class="btn btn-secondary toggle-tag w-25" type="button">
                         Tags...
                     </button>
                 </div>
@@ -79,7 +79,7 @@
                     Cancel
                 </button>
             </div>
-            <button class="btn btn-secondary toggleShare w-25" type="button">
+            <button class="btn btn-secondary toggle-share w-25" type="button">
                 Share...
             </button>
         </div>
@@ -104,14 +104,14 @@
             <label>
                 Start Time
             </label>
-            <input type="time" name="start" class="input-appointment-start form-control" pattern="\d{1,2}:\d{1,2}(:\d{1,2})?"
+            <input type="time" name="start" class="input-appointment-start form-control"
                    required>
         </div>
         <div class="form-group form w-100">
             <label>
                 End Time
             </label>
-            <input type="time" name="end" class="input-appointment-end form-control" pattern="\d{1,2}:\d{1,2}(:\d{1,2})?"
+            <input type="time" name="end" class="input-appointment-end form-control"
                    required>
         </div>
         <div class="form-group form w-100">
@@ -131,7 +131,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Select Tags...
                         </button>
-                        <div class="appointment-tags dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+                        <div class="appointment-tags dropdown-menu w-100" aria-labelledby="dropdown-menu-button">
                             <?php
                             foreach($tags as $tag) {
                                 $id = $tag->id;
@@ -147,13 +147,13 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-secondary toggleTag w-100" type="button">
+                <button class="btn btn-secondary toggle-tag w-100" type="button">
                     Tags...
                 </button>
             </div>
         </div>
         <div class="w-100 mb-5">
-            <button class="btn btn-secondary toggleShare w-100" type="button">
+            <button class="btn btn-secondary toggle-share w-100" type="button">
                 Share...
             </button>
         </div>

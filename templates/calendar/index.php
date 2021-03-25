@@ -103,19 +103,19 @@ require '../templates/error/dialogError.php';
         </h1>
         <div class="col">
             <div class="dropdown float-right w-50">
-                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdownMenuButton"
+                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdown-menu-button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                 </button>
                 <div class="dropdown-menu dropdown-menu-right w-100"
-                     aria-labelledby="dropdownMenuButton">
-                    <a href="/signOut" type=submit class="dropdown-item w-100">
+                     aria-labelledby="dropdown-menu-button">
+                    <a href="/signOut" class="dropdown-item w-100">
                         Sign Out
                     </a>
                     <a href="/user/changePassword" class="dropdown-item w-100">
                         Change Password
                     </a>
-                    <a type=submit class="dropdown-item w-100" id="delete-account" onclick="deleteAccount()">
+                    <a class="dropdown-item w-100 delete-account">
                         Delete Account
                     </a>
                 </div>
@@ -125,12 +125,12 @@ require '../templates/error/dialogError.php';
     <div class="row">
         <div class="container col px-5">
             <div class="ml-0 row">
-                <button class="btn btn-secondary w-100 mb-2 toggleCreate">
+                <button class="btn btn-secondary w-100 mb-2 toggle-create">
                     Create Appointment
                 </button>
             </div>
             <div class="ml-0 row">
-                <button class="btn-edit-appointment btn btn-secondary w-100 mb-2 toggleEdit" disabled>
+                <button class="btn-edit-appointment btn btn-secondary w-100 mb-2" disabled>
                     Edit Appointment
                 </button>
             </div>
@@ -225,12 +225,12 @@ require '../templates/error/dialogError.php';
         <img src="/images/logo.png" class="card-img-top" alt="The Mondate Logo">
     </div>
     <div class="row">
-        <button class="btn btn-secondary w-100 mb-2 toggleCreate">
+        <button class="btn btn-secondary w-100 mb-2 toggle-create">
             Create Appointment
         </button>
     </div>
     <div class="row">
-        <button class="btn-edit-appointment btn btn-secondary w-100 mb-2 toggleEdit" disabled>
+        <button class="btn-edit-appointment btn btn-secondary w-100 mb-2 toggle-edit" disabled>
             Edit Appointment
         </button>
     </div>
@@ -312,14 +312,14 @@ require '../templates/error/dialogError.php';
             Account
         </button>
         <div class="dropdown-menu dropdown-menu-right w-100"
-             aria-labelledby="dropdownMenuButton">
-            <a href="/signOut" type=submit class="dropdown-item w-100">
+             aria-labelledby="dropdown-menu-button">
+            <a href="/signOut" class="dropdown-item w-100">
                 Sign Out
             </a>
             <a href="/user/changePassword" class="dropdown-item w-100">
                 Change Password
             </a>
-            <a class="dropdown-item w-100" id="delete-account" onclick="deleteAccount()">
+            <a class="dropdown-item w-100 delete-account">
                 Delete Account
             </a>
         </div>
