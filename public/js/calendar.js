@@ -172,76 +172,95 @@ function rgbToHex(rgb) {
     return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3])
 }
 
-document.querySelector("#btn-add-tag").addEventListener("click", function() {
-    let exists = false
-    for(let tag of tags) {
-        if(tag.querySelector("span:last-child").textContent === document.querySelector("#tag-name").value ||
-           rgbToHex(tag.querySelector("span:first-child").style.backgroundColor) === document.querySelector("#tag-color").value) {
-            exists = true
-        }
-    }
-    if(exists) {
-        document.querySelector("#tag-name").setCustomValidity("A tag with this name or color already exists")
-        document.querySelector("#tag-name").reportValidity()
-    } else {
-        document.querySelector("#tag-name").setCustomValidity("")
-        let data = new FormData
-        data.append("name", document.querySelector(".tag-name").value)
-        data.append("color", document.querySelector(".tag-color").value)
-    
-        let request = new XMLHttpRequest()
-        request.open("POST", "/tag/create", true)
-        request.onload = function() {
-            if(this.readyState === 4 && this.status === 200) {
-                let object = JSON.parse(this.responseText)
+let btnAddTags = document.querySelectorAll(".btn-add-tag")
+let tagNames = document.querySelectorAll(".tag-name")
+let tagColors = document.querySelectorAll(".tag-color")
+
+for(let btnAddTag of btnAddTags) {
+    btnAddTag.addEventListener("click", function() {
+        for(let tagName of tagNames) {
+            for(let tagColor of tagColors) {
+                tagName.setCustomValidity("")
+                if(tagName.value) {
+                    let exists = false
+                    for(let tag of tags) {
+                        if(tag.querySelector("span:last-child").textContent === tagName.value ||
+                           rgbToHex(tag.querySelector("span:first-child").style.backgroundColor) === tagColor.value) {
+                            exists = true
+                        }
+                    }
+                    if(exists) {
+                        tagName.setCustomValidity("A tag with this name or color already exists")
+                        tagName.reportValidity()
+                    } else {
+                        let data = new FormData
+                        data.append("name", tagName.value)
+                        data.append("color", tagColor.value)
             
-                let tagButton = document.createElement("button")
-                tagButton.id = "tag-" + object.id
-                tagButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
-                tagButton.innerHTML =
-                    "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
-                    "<span class=\"align-middle\">" + object.name + "</span>"
-                document.querySelector(".tag-list").appendChild(tagButton)
-                addTagEventListener(tagButton)
-            
-                for(let appointmentTag of document.querySelectorAll(".appointment-tags")) {
-                    appointmentTag.innerHTML +=
-                        "<div class=\"tag-" + object.id + "align-items-center d-flex flex-row pl-1\">" +
-                        "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
-                        "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
-                        "<span class=\"align-middle\">" + object.name + "</span>" +
-                        "</div>"
+                        let request = new XMLHttpRequest()
+                        request.open("POST", "/tag/create", true)
+                        request.onload = function() {
+                            if(this.readyState === 4 && this.status === 200) {
+                                let object = JSON.parse(this.responseText)
+                                let tagButton = document.createElement("button")
+                                tagButton.id = "tag-" + object.id
+                                tagButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
+                                tagButton.innerHTML =
+                                    "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
+                                    "<span class=\"align-middle\">" + object.name + "</span>"
+                                document.querySelector(".tag-list").appendChild(tagButton)
+                                addTagEventListener(tagButton)
+                    
+                                for(let appointmentTag of document.querySelectorAll(".appointment-tags")) {
+                                    appointmentTag.innerHTML +=
+                                        "<div class=\"tag-" + object.id + "align-items-center d-flex flex-row pl-1\">" +
+                                        "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
+                                        "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
+                                        "<span class=\"align-middle\">" + object.name + "</span>" +
+                                        "</div>"
+                                }
+                                tagName.value = ""
+                                tagColor.value = ""
+                            }
+                        }
+                        request.send(data)
+                    }
+                } else {
+                    tagName.setCustomValidity("The tag name cannot be null")
+                    tagName.reportValidity()
                 }
-                document.querySelector("#tag-name").value = ""
-                document.querySelector("#tag-color").value = ""
+                tags = document.querySelectorAll(".tag")
             }
         }
-        request.send(data)
-    }
-    tags = document.querySelectorAll(".tag")
-})
+    })
+}
 
-document.querySelector("#btn-remove-tag").addEventListener("click", function() {
-    let data = new FormData()
-    let selectedTagId = selectedTag.id.split("-")[1]
-    data.append("id", selectedTagId)
-    
-    let request = new XMLHttpRequest()
-    request.open("POST", "/tag/delete", true)
-    request.send(data)
-    
-    let appointmentTags = document.querySelectorAll(".appointment-tag")
-    for(let tag of appointmentTags) {
-        if(tag.classList.contains("tag-" + selectedTagId)) {
-            tag.remove()
+
+let btnRemoveTags = document.querySelectorAll(".btn-remove-tag")
+
+for(let btnRemoveTag of btnRemoveTags) {
+    btnRemoveTag.addEventListener("click", function() {
+        let data = new FormData()
+        let selectedTagId = selectedTag.id.split("-")[1]
+        data.append("id", selectedTagId)
+        
+        let request = new XMLHttpRequest()
+        request.open("POST", "/tag/delete", true)
+        request.send(data)
+        
+        let appointmentTags = document.querySelectorAll(".appointment-tag")
+        for(let tag of appointmentTags) {
+            if(tag.classList.contains("tag-" + selectedTagId)) {
+                tag.remove()
+            }
         }
-    }
-    
-    document.querySelector(".tag-list").removeChild(selectedTag)
-    selectedTag = tags[0]
-    selectedTag.classList.add("active")
-    tags = document.querySelectorAll(".tag")
-})
+        
+        document.querySelector(".tag-list").removeChild(selectedTag)
+        selectedTag = tags[0]
+        selectedTag.classList.add("active")
+        tags = document.querySelectorAll(".tag")
+    })
+}
 
 let emails = document.querySelectorAll(".share-entry")
 let selectedEmail = null
