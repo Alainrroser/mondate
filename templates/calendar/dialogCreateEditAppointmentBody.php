@@ -74,7 +74,7 @@
         <div class="d-flex justify-content-between">
             <div class="d-flex flex-row w-50">
                 <button type="submit" class="btn btn-primary w-50">
-                    Create
+                    <?= $submitButtonText ?>
                 </button>
                 <button class="btn btn-secondary refresh w-50" type="button">
                     Cancel
@@ -160,9 +160,7 @@
         </div>
         <div>
             <button type="submit" class="btn btn-primary w-100 mb-2">
-                <?php
-                echo $submitButtonText;
-                ?>
+                <?= $submitButtonText ?>
             </button>
             <button class="btn btn-secondary refresh w-100" type="button">
                 Cancel

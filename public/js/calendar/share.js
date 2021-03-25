@@ -49,6 +49,10 @@ function validateEmailInput(shareDialogBody, emailElement) {
     let emailList = shareDialogBody.querySelector(".email-list")
     emailElement.setCustomValidity("")
 
+    if(!emailElement.reportValidity()) {
+        return false
+    }
+
     if(!emailElement.value) {
         emailElement.setCustomValidity("The email cannot be empty")
         emailElement.reportValidity()

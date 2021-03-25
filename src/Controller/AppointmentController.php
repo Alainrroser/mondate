@@ -49,6 +49,17 @@ class AppointmentController {
                 $id = $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
                 $appointmentRepository->shareAppointment($id, $emails);
 
+                $userRepository = new UserRepository();
+                $myEmail = $userRepository->readById($_SESSION['userId'])->email;
+
+                foreach($emails as $email) {
+                    if($email == $myEmail) {
+                        $calendarController = new CalendarController();
+                        $calendarController->displayView(["Can't share appointment with yourself."]);
+                        return;
+                    }
+                }
+
                 if ($appointmentRepository->shareAppointment($id, $emails)) {
                     header('Location: /calendar');
                 } else {
@@ -132,6 +143,17 @@ class AppointmentController {
 
                 $appointmentRepository = new AppointmentRepository();
                 $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
+
+                $userRepository = new UserRepository();
+                $myEmail = $userRepository->readById($_SESSION['userId'])->email;
+
+                foreach($emails as $email) {
+                    if($email == $myEmail) {
+                        $calendarController = new CalendarController();
+                        $calendarController->displayView(["Can't share appointment with yourself."]);
+                        return;
+                    }
+                }
 
                 if ($appointmentRepository->shareAppointment($id, $emails)) {
                     header('Location: /calendar');
