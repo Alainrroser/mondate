@@ -1,3 +1,5 @@
+"use strict"
+
 function setCookie(name, value) {
     let date = new Date()
     date.setTime(date.getTime() + 30 * 60 * 1000)

@@ -62,7 +62,6 @@ for($i = 0; $i < sizeof(COLUMNS); $i++) {
 foreach($appointments as $appointment) {
     $appointmentId = $appointment->getId();
 
-    // Convert appointment start and end to seconds
     $startAsString = $appointment->getDate() . ' ' . $appointment->getStart();
     $endAsString = $appointment->getDate() . ' ' . $appointment->getEnd();
 
@@ -327,6 +326,8 @@ require '../templates/error/dialogError.php';
     </div>
 </div>
 
-<script type="text/javascript" src="/js/calendar.js"></script>
-<script type="text/javascript" src="/js/cookies.js"></script>
+<script type="text/javascript" src="/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/js/calendar/tags.js"></script>
+<script type="text/javascript" src="/js/calendar/share.js"></script>
+<script type="text/javascript" src="/js/calendar/cookies.js"></script>
 <script type="text/javascript" src="/js/error.js"></script>

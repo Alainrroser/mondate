@@ -10,7 +10,7 @@
                     foreach($tags as $tag) {
                         $color = '#'.$tag->color;
                         echo
-                        "<button id=\"tag-$tag->id\" class=\"tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
+                        "<button class=\"tag-$tag->id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
                             <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
                             <span class=\"align-middle\">$tag->name</span>
                         </button>";
@@ -52,10 +52,10 @@
                     foreach($tags as $tag) {
                         $color = '#'.$tag->color;
                         echo
-                        "<button id=\"tag-$tag->id\" class=\"tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
+                        "<button class=\"tag-$tag->id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
                         <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
                         <span class=\"align-middle\">$tag->name</span>
-                    </button>";
+                        </button>";
                     }
                 ?>
             </div>
