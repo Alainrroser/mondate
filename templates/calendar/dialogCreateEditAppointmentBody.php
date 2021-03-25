@@ -12,7 +12,8 @@
                 <label>
                     Date
                 </label>
-                <input type="date" name="date" value="<?php echo date("Y")."-".date("m")."-".date("d"); ?>" class="input-appointment-date form-control" required>
+                <input type="date" name="date" value="<?php echo date("Y")."-".date("m")."-".date("d"); ?>"
+                       class="input-appointment-date form-control" required>
             </div>
             <div class="d-flex flex-row w-50">
                 <div class="form-group form w-100">
@@ -54,10 +55,10 @@
                                     $color = '#'.$tag->color;
                                     echo
                                     "<div class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
-                                                            <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
-                                                            <span style=\"background-color: $color\" class=\"mr-1 color-block\"></span>
-                                                            <label class=\"align-middle mb-0\">$tag->name</label>
-                                                        </div>";
+                                        <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
+                                        <span style=\"background-color: $color\" class=\"mr-1 color-block\"></span>
+                                        <label class=\"align-middle mb-0\">$tag->name</label>
+                                    </div>";
                                 }
                                 ?>
                             </div>

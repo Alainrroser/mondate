@@ -61,4 +61,13 @@
             $_SESSION['startDate']->sub(date_interval_create_from_date_string('1 week'));
             header('Location: /calendar');
         }
+        
+        public function jumpToDate() {
+            Authentication::restrictAuthenticated();
+    
+            $this->setStartDateIfNotSet();
+            $_SESSION["startDate"] = new DateTime($_POST["weekStart"]);
+            $_SESSION["startDate"]->modify("last monday");
+            header('Location: /calendar');
+        }
     }

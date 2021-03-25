@@ -98,7 +98,7 @@ function showEditAppointmentDialog() {
                 input.setAttribute("value", object.end)
             })
             document.querySelectorAll(".input-appointment-description").forEach(function(input) {
-                input.setAttribute("value", object.description)
+                input.value = object.description;
             })
             let appointmentTagsDivs = document.querySelectorAll(".appointment-tags")
             
