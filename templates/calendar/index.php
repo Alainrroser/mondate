@@ -69,55 +69,18 @@ foreach($appointments as $appointment) {
     $startInSeconds = DateTime::createFromFormat('Y-m-d H:i:s', $startAsString)->getTimestamp();
     $endInSeconds = DateTime::createFromFormat('Y-m-d H:i:s', $endAsString)->getTimestamp();
 
-    $startHour = floor($startInSeconds / SECONDS_PER_HOUR);
-    $endHour = ceil($endInSeconds / SECONDS_PER_HOUR);
+    $height = 50 * ($endInSeconds - $startInSeconds) / SECONDS_PER_HOUR;
+    $margin = 50 * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
+    $style = getAppointmentStyle($appointment, $margin, $height);
+    $text = $appointment->getName();
 
-    // Calculate the number of cells required based on the end time
-    $numberOfCells = ceil($endHour - $startHour);
-
-    // Store the buttons in the array
-    for($i = 0; $i < $numberOfCells; $i++) {
-        $height = 49;
-        $margin = 0;
-
-        if($i == 0) {
-            $margin = ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR * 49;
-            $height = 49 - $margin;
-        } else if($i == $numberOfCells - 1) {
-            $height = ($endInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR * 49;
-            if($height == 0) {
-                $height = 49;
-            }
-        }
-
-        $style = getAppointmentStyle($appointment, $margin, $height);
-
-        $text = "";
-        if($i == 0) {
-            $text = $appointment->getName();
-        }
-
-        $classes = "w-100 p-0 align-middle appointment";
-        if($numberOfCells == 1) {
-            $classes .= " appointment-top-bottom";
-        } else {
-            if($i == 0) {
-                $classes .= " appointment-top";
-            } else if($i == $numberOfCells - 1) {
-                $classes .= " appointment-bottom";
-            } else {
-                $classes .= " appointment-between";
-            }
-        }
-
-        $cellKey = $startHour + $i;
-        $classes .= " appointment-id-$appointmentId";
-        $element = "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
-        if(!isset($cellContent[$cellKey])) {
-            $cellContent[$cellKey] = $element;
-        } else {
-            $cellContent[$cellKey] .= $element;
-        }
+    $cellKey = floor($startInSeconds / SECONDS_PER_HOUR);
+    $classes = "w-100 p-0 align-middle appointment appointment-id-$appointmentId";
+    $element = "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
+    if(!isset($cellContent[$cellKey])) {
+        $cellContent[$cellKey] = $element;
+    } else {
+        $cellContent[$cellKey] .= $element;
     }
 }
 ?>

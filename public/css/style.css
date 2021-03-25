@@ -113,12 +113,14 @@ main.container {
 
 .appointment {
     position: absolute;
-    border-radius: 0;
     border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    z-index: 1;
+    border-radius: 10px;
+    transition: border-radius 0.1s ease-in-out;
 }
 
 .appointment > span {
@@ -126,49 +128,21 @@ main.container {
     border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.15);
     display: inline-block;
-    transition: all 0.1s ease-in-out;
     padding: 0 10px;
     cursor: pointer;
     user-select: none;
 }
 
-.appointment-top {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+.appointment:hover {
+    border-radius: 20px;
 }
 
-.appointment-bottom {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.appointment-top-bottom {
-    border-radius: 10px;
-}
-
-.appointment-top.appointment-selected {
-    border-top: 5px solid black;
-    border-left: 5px solid black;
-    border-right: 5px solid black;
-}
-
-.appointment-between.appointment-selected {
-    border-left: 5px solid black;
-    border-right: 5px solid #000000;
-}
-
-.appointment-bottom.appointment-selected {
-    border-bottom: 5px solid black;
-    border-left: 5px solid black;
-    border-right: 5px solid black;
-}
-
-.appointment-top-bottom.appointment-selected {
+.appointment.appointment-selected {
     border: 5px solid black;
 }
 
 #dialog-create-appointment, #dialog-edit-appointment, #dialog-manage-tags, #dialog-share, #dialog-error, #dialog-delete-account {
-    z-index: 1;
+    z-index: 10;
 }
 
 .tag-list, .email-list {
