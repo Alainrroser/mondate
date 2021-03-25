@@ -149,3 +149,16 @@ function setDateTimeToNow() {
 function deleteAccount() {
     document.querySelector("#dialog-delete-account").classList.toggle("invisible")
 }
+
+for(let inputWeekStart of document.querySelectorAll("input-week-start")) {
+    inputWeekStart.addEventListener("input", function() {
+        let data = new FormData()
+        data.append("weekStart", this.value)
+
+        let request = new XMLHttpRequest()
+        request.open("POST", "/calendar/jumpToDate", true)
+        request.send(data)
+
+        location.reload()
+    })
+}

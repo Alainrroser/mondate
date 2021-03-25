@@ -199,21 +199,17 @@ require '../templates/error/dialogError.php';
             </table>
         </div>
     </div>
-    <div class="row float-right pt-3">
-        <form action="/calendar/jumpToDate" method="post">
-            <input type="date" name="weekStart" value="<?= $startDate->format('Y-m-d') ?>">
-            <button type="submit" class="btn btn-secondary">Jump</button>
-        </form>
-        <div class="col">
-            <a href="/calendar/last" class="btn btn-secondary px-5">
+    <div class="row float-right pt-3 w-100">
+        <div class="col w-100 d-flex flex-row justify-content-end align-items-center">
+            <a href="/calendar/last" class="btn btn-secondary px-5 mr-3">
                 Last
             </a>
-            <span class="scope-identifier">
-                <?php
-                    echo $startDate->format('d.m.Y').' - '.$endDate->format('d.m.Y');
-                ?>
+            <input type="date" class="input-week-start" value="<?= $startDate->format('Y-m-d') ?>">
+            <span class="ml-2 mr-2">-</span>
+            <span class="week-end">
+                <?= $endDate->format('d.m.Y') ?>
             </span>
-            <a href="/calendar/next" class="btn btn-secondary px-5">
+            <a href="/calendar/next" class="btn btn-secondary px-5 ml-3">
                 Next
             </a>
         </div>
@@ -252,10 +248,10 @@ require '../templates/error/dialogError.php';
         </button>
     </div>
     <div class="row d-flex justify-content-center mb-1">
-        <span class="scope-identifier">
-            <?php
-            echo $startDate->format('d.m.Y').' - '.$endDate->format('d.m.Y');
-            ?>
+        <input type="date" class="input-week-start" value="<?= $startDate->format('Y-m-d') ?>">
+        <span class="ml-2 mr-2">-</span>
+        <span class="week-end">
+            <?= $endDate->format('d.m.Y') ?>
         </span>
     </div>
     <div class="row d-flex justify-content-center mb-5">

@@ -179,6 +179,14 @@ main.container {
     height: 100%;
 }
 
+.input-week-start {
+    width: 150px;
+}
+
+.week-end {
+    width: 5.5rem;
+}
+
 @media only screen and (min-width: 1201px) {
     .account-screen {
         width: 500px;

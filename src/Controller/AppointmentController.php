@@ -14,8 +14,6 @@ class AppointmentController {
     public function create() {
         Authentication::restrictAuthenticated();
 
-        $appointmentRepository = new AppointmentRepository();
-        $rows = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
         if ($this->checkIfAppointmentDataPresent()) {
             $date = $_POST['date'];
             $start = $_POST['start'];
@@ -24,24 +22,7 @@ class AppointmentController {
             $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
             $creatorId = $_SESSION['userId'];
 
-            $collides = false;
-            foreach ($rows as $row) {
-                if ((($start >= $row->getStart() && $start <= $row->getEnd()) || ($end >= $row->getStart() && $end <= $row->getEnd()))
-                    && $row->getDate() === $date) {
-                    $collides = true;
-                }
-            }
-
-            if (strtotime($end) - strtotime($start) < 0) {
-                $calendarController = new CalendarController();
-                $calendarController->displayView(["An appointment can't end before it starts."]);
-                return;
-            }
-
-            if ($collides) {
-                $calendarController = new CalendarController();
-                $calendarController->displayView(["There already exists an appointment in this time frame."]);
-            } else {
+            if ($this->validateAppointmentTimes(null, $date, $start, $end)) {
                 $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
                 $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
 
@@ -49,22 +30,33 @@ class AppointmentController {
                 $id = $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
                 $appointmentRepository->shareAppointment($id, $emails);
 
-                $userRepository = new UserRepository();
-                $myEmail = $userRepository->readById($_SESSION['userId'])->email;
-
-                foreach($emails as $email) {
-                    if($email == $myEmail) {
-                        $calendarController = new CalendarController();
-                        $calendarController->displayView(["Can't share appointment with yourself."]);
-                        return;
-                    }
-                }
-
-                if ($appointmentRepository->shareAppointment($id, $emails)) {
+                if($this->validateAndShareAppointment($id, $emails)) {
                     header('Location: /calendar');
-                } else {
-                    $calendarController = new CalendarController();
-                    $calendarController->displayView(["Can't share appointment with non-existing user."]);
+                }
+            }
+        }
+    }
+
+    public function edit() {
+        Authentication::restrictAuthenticated();
+
+        if ($this->checkIfAppointmentDataPresent()) {
+            $id = $_POST['id'];
+            $date = $_POST['date'];
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
+            $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
+
+            if ($this->validateAppointmentTimes($id, $date, $start, $end)) {
+                $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
+                $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
+
+                $appointmentRepository = new AppointmentRepository();
+                $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
+
+                if($this->validateAndShareAppointment($id, $emails)) {
+                    header('Location: /calendar');
                 }
             }
         }
@@ -104,64 +96,54 @@ class AppointmentController {
         return true;
     }
 
-    public function edit() {
-        Authentication::restrictAuthenticated();
-
+    private function validateAppointmentTimes($id, $date, $start, $end) {
         $appointmentRepository = new AppointmentRepository();
         $rows = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
-        if ($this->checkIfAppointmentDataPresent()) {
-            $id = $_POST['id'];
-            $date = $_POST['date'];
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
-            $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
 
-            $collides = false;
+        foreach ($rows as $row) {
+            if (!$id || $id != $row->getId()) {
+                if($row->getDate() === $date) {
+                    $overlapTop = $start >= $row->getStart() && $start <= $row->getEnd();
+                    $overlapBottom = $end >= $row->getStart() && $end <= $row->getEnd();
 
-            foreach ($rows as $row) {
-                if ($id != $row->getId()) {
-                    if ((($start >= $row->getStart() && $start <= $row->getEnd()) || ($end >= $row->getStart() && $end <= $row->getEnd()))
-                        && $row->getDate() === $date) {
-                        $collides = true;
-                    }
-                }
-            }
-
-            if (strtotime($end) - strtotime($start) < 0) {
-                $calendarController = new CalendarController();
-                $calendarController->displayView(["An appointment can't end before it starts."]);
-                return;
-            }
-
-            if ($collides) {
-                $calendarController = new CalendarController();
-                $calendarController->displayView(["There already exists an appointment in this time frame."]);
-            } else {
-                $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
-                $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
-
-                $appointmentRepository = new AppointmentRepository();
-                $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
-
-                $userRepository = new UserRepository();
-                $myEmail = $userRepository->readById($_SESSION['userId'])->email;
-
-                foreach($emails as $email) {
-                    if($email == $myEmail) {
+                    if ($overlapTop || $overlapBottom) {
                         $calendarController = new CalendarController();
-                        $calendarController->displayView(["Can't share appointment with yourself."]);
-                        return;
+                        $calendarController->displayView(["There already exists an appointment in this time frame."]);
+                        return false;
                     }
                 }
-
-                if ($appointmentRepository->shareAppointment($id, $emails)) {
-                    header('Location: /calendar');
-                } else {
-                    $calendarController = new CalendarController();
-                    $calendarController->displayView(["Can't share appointment with non-existing user."]);
-                }
             }
+        }
+
+        if (strtotime($end) - strtotime($start) < 0) {
+            $calendarController = new CalendarController();
+            $calendarController->displayView(["An appointment can't end before it starts."]);
+            return false;
+        }
+
+        return true;
+    }
+
+    private function validateAndShareAppointment($id, $emails) {
+        $appointmentRepository = new AppointmentRepository();
+        $userRepository = new UserRepository();
+
+        $myEmail = $userRepository->readById($_SESSION['userId'])->email;
+
+        foreach($emails as $email) {
+            if($email == $myEmail) {
+                $calendarController = new CalendarController();
+                $calendarController->displayView(["Can't share appointment with yourself."]);
+                return false;
+            }
+        }
+
+        if ($appointmentRepository->shareAppointment($id, $emails)) {
+            return true;
+        } else {
+            $calendarController = new CalendarController();
+            $calendarController->displayView(["Can't share appointment with non-existing user."]);
+            return false;
         }
     }
 
