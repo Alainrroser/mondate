@@ -9,7 +9,7 @@ function index_to_time($index) {
     return str_pad($index, 2, '0', STR_PAD_LEFT).":00";
 }
 
-function getAppointmentStyle($appointment, $first, $last) {
+function getAppointmentStyle($appointment, $margin, $height) {
     $style = "background-color: gray;";
     if(sizeof($appointment->getTags()) == 1) {
         $color = '#'.$appointment->getTags()[0]->getColor();
@@ -29,23 +29,8 @@ function getAppointmentStyle($appointment, $first, $last) {
         $style = "background: $gradient;";
     }
 
-    if($first) {
-        $startInSeconds = DateTime::createFromFormat('H:i:s', $appointment->getStart())->getTimestamp();
-        $height = ($startInSeconds % SECONDS_PER_HOUR / SECONDS_PER_HOUR * 49);
-        if($height === 0) {
-            $height = 49;
-        }
-        $style .= "height: " . $height . "px; margin-top: " . (49 - $height) . "px;";
-    } else if($last) {
-        $endInSeconds = DateTime::createFromFormat('H:i:s', $appointment->getEnd())->getTimestamp();
-        $height = ($endInSeconds % SECONDS_PER_HOUR / SECONDS_PER_HOUR * 49);
-        if($height == 0) {
-            $height = 49;
-        }
-        $style .= "height: " . $height . "px;";
-    } else {
-        $style .= "height: 49px";
-    }
+    $style .= "margin-top: " . $margin . "px;";
+    $style .= "height: " . $height . "px;";
 
     return $style;
 }
@@ -84,21 +69,28 @@ foreach($appointments as $appointment) {
     $startInSeconds = DateTime::createFromFormat('Y-m-d H:i:s', $startAsString)->getTimestamp();
     $endInSeconds = DateTime::createFromFormat('Y-m-d H:i:s', $endAsString)->getTimestamp();
 
+    $startHour = floor($startInSeconds / SECONDS_PER_HOUR);
+    $endHour = ceil($endInSeconds / SECONDS_PER_HOUR);
+
     // Calculate the number of cells required based on the end time
-    $durationInSeconds = $endInSeconds - $startInSeconds;
-    $numberOfCells = $durationInSeconds / SECONDS_PER_HOUR;
-
-    // Tomorrow I won't understand why I added this line
-    // Actually, i don't understand it currently either
-    if(fmod($endInSeconds / SECONDS_PER_HOUR, 1) !== 0.00) {
-        $numberOfCells += 1;
-    }
-
-    $numberOfCells = floor($numberOfCells);
+    $numberOfCells = ceil($endHour - $startHour);
 
     // Store the buttons in the array
     for($i = 0; $i < $numberOfCells; $i++) {
-        $style = getAppointmentStyle($appointment, $i == 0, $i == $numberOfCells - 1);
+        $height = 49;
+        $margin = 0;
+
+        if($i == 0) {
+            $margin = ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR * 49;
+            $height = 49 - $margin;
+        } else if($i == $numberOfCells - 1) {
+            $height = ($endInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR * 49;
+            if($height == 0) {
+                $height = 49;
+            }
+        }
+
+        $style = getAppointmentStyle($appointment, $margin, $height);
 
         $text = "";
         if($i == 0) {
@@ -118,9 +110,14 @@ foreach($appointments as $appointment) {
             }
         }
 
-        $cellKey = $startInSeconds + $i * SECONDS_PER_HOUR;
+        $cellKey = $startHour + $i;
         $classes .= " appointment-id-$appointmentId";
-        $cellContent[$cellKey] = "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
+        $element = "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
+        if(!isset($cellContent[$cellKey])) {
+            $cellContent[$cellKey] = $element;
+        } else {
+            $cellContent[$cellKey] .= $element;
+        }
     }
 }
 ?>
@@ -226,10 +223,11 @@ require '../templates/error/dialogError.php';
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
                         // Convert the current cell date and time to seconds
                         $dateTimeInSeconds = $startDate->getTimestamp() + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
+                        $dateTimeInSeconds = floor($dateTimeInSeconds / SECONDS_PER_HOUR);
 
                         // Get and display the cell content from the array
                         $content = isset($cellContent[$dateTimeInSeconds]) ? $cellContent[$dateTimeInSeconds] : "";
-                        echo "<td class=\"cell-appointment p-0 align-top\">$content</td>";
+                        echo "<td class=\"appointment-cell cell-appointment p-0 align-top\">$content</td>";
                     }
 
                     echo "</tr>";
@@ -317,7 +315,7 @@ require '../templates/error/dialogError.php';
                     $appointmentId = $appointment->getId();
                     $text = $appointment->getName() . " (" .$appointment->getStart() . " - " . $appointment->getEnd() . ")";
 
-                    $style = getAppointmentStyle($appointment, false, false);
+                    $style = getAppointmentStyle($appointment, 0, 49);
                     $classes = "w-100 p-0 align-middle appointment appointment-top-bottom";
                     $classes .= " appointment-id-$appointmentId";
                     echo "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";

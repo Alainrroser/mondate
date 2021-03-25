@@ -107,7 +107,12 @@ main.container {
     margin-right: 10px;
 }
 
+.appointment-cell {
+    position: relative;
+}
+
 .appointment {
+    position: absolute;
     border-radius: 0;
     border: none;
     display: flex;
