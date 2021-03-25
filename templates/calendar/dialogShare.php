@@ -4,25 +4,27 @@
             Share
         </h1>
         <div class="desktop-only card-body">
-            <div class="email-list contacts card list-group shadow-sm w-100 mb-3"></div>
+            <div class="email-list card list-group shadow-sm w-100 mb-3"></div>
             <label>
                 E-Mail
             </label>
             <div class="d-flex justify-content-between">
-                <input type="email" class="input-email mb-2 mr-2 w-100">
-                <button type="button" class="btn-add-email btn btn-secondary mb-2">
+                <input type="email" class="input-email mb-2 w-75">
+                <button type="button" class="btn-add-email btn btn-secondary mb-2 w-25">
                     Add
                 </button>
             </div>
-            <button type="button" class="btn-remove-email btn btn-secondary">
-                Remove
-            </button>
-            <button type="button" class="btn btn-primary toggleShare">
-                Close
-            </button>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-primary toggleShare w-25">
+                    Close
+                </button>
+                <button type="button" class="btn-remove-email btn btn-secondary w-25">
+                    Remove
+                </button>
+            </div>
         </div>
         <div class="mobile-only card-body">
-            <div class="email-list contacts card list-group shadow-sm w-100 mb-3"></div>
+            <div class="email-list card list-group shadow-sm w-100 mb-3"></div>
             <label>
                 E-Mail
             </label>

@@ -180,7 +180,7 @@ require '../templates/error/dialogError.php';
                 <?php
                 for($i = 0; $i < 24; $i++) {
                     echo "<tr>";
-                    echo "<th scope=\"row\" class=\"p-0 align-middle\">".index_to_time($i)."</th>";
+                    echo "<th scope=\"row\" class=\"p-0 pt-1 align-top\">".index_to_time($i)."</th>";
 
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
                         // Convert the current cell date and time to seconds
@@ -204,7 +204,7 @@ require '../templates/error/dialogError.php';
             <a href="/calendar/last" class="btn btn-secondary px-5">
                 Last
             </a>
-            <span id="scope-identifier">
+            <span class="scope-identifier">
                 <?php
                 echo $startDate->format('d.m.Y').' - '.$endDate->format('d.m.Y');
                 ?>
@@ -248,7 +248,7 @@ require '../templates/error/dialogError.php';
         </button>
     </div>
     <div class="row d-flex justify-content-center mb-1">
-        <span id="scope-identifier">
+        <span class="scope-identifier">
                 <?php
                 echo $startDate->format('d.m.Y').' - '.$endDate->format('d.m.Y');
                 ?>

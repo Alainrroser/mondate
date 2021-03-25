@@ -19,15 +19,13 @@
                     <label>
                         Start Time
                     </label>
-                    <input type="time" name="start" class="input-appointment-start form-control" pattern="\d{1,2}:\d{1,2}(:\d{1,2})?"
-                           required>
+                    <input type="time" name="start" class="input-appointment-start form-control" required>
                 </div>
                 <div class="form-group form w-100">
                     <label>
                         End Time
                     </label>
-                    <input type="time" name="end" class="input-appointment-end form-control" pattern="\d{1,2}:\d{1,2}(:\d{1,2})?"
-                           required>
+                    <input type="time" name="end" class="input-appointment-end form-control" required>
                 </div>
             </div>
         </div>
@@ -66,7 +64,7 @@
                         </div>
                     </div>
                     <button class="btn btn-secondary toggleTag w-25" type="button">
-                        Manage Tags...
+                        Tags...
                     </button>
                 </div>
             </div>
@@ -149,7 +147,7 @@
                     </div>
                 </div>
                 <button class="btn btn-secondary toggleTag w-100" type="button">
-                    Manage Tags...
+                    Tags...
                 </button>
             </div>
         </div>
