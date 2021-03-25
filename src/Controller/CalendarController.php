@@ -67,7 +67,8 @@
     
             $this->setStartDateIfNotSet();
             $_SESSION["startDate"] = new DateTime($_POST["weekStart"]);
-            $_SESSION["startDate"]->modify("last monday");
-            header('Location: /calendar');
+            if($_SESSION["startDate"]->format("N") != 1) {
+                $_SESSION["startDate"]->modify("last monday");
+            }
         }
     }
