@@ -40,4 +40,5 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/js/signUp.js"></script>
+<script type="text/javascript" src="/js/confirmPassword.js"></script>
+<script type="text/javascript" src="/js/changePassword.js"></script>
