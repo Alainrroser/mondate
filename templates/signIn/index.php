@@ -8,17 +8,18 @@
         <div class="card-body">
             <form action="/user/doSignIn" method="post">
                 <div class="form-group form">
-                    <label for="email">
+                    <label for="input-email">
                         E-Mail
                     </label>
                     <input id="input-email" type="email" name="email" class="form-control"
                            placeholder="Enter your e-mail" required>
                 </div>
                 <div class="form-group form">
-                    <label for="password">
+                    <label for="input-password">
                         Password
                     </label>
                     <input type="password" name="password" class="form-control" placeholder="Enter your password"
+                           id="input-password"
                            required>
                 </div>
                 <div class="pb-3">
@@ -38,5 +39,5 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/js/signIn.js"></script>
-<script type="text/javascript" src="/js/error.js"></script>
+<script src="/js/signIn.js"></script>
+<script src="/js/error.js"></script>

@@ -16,5 +16,4 @@
             integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
             crossorigin="anonymous"></script>
     </body>
-</div>
 </html>

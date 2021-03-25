@@ -13,6 +13,5 @@
     </title>
     <link rel="icon" href="/images/favicon.png" type="image/x-icon">
 </head>
-    <div class="body-container">
-        <body>
-            <main class="container d-flex justify-content-center m-0 px-2 mw-100">
+    <body>
+        <main class="container d-flex justify-content-center m-0 pt-3 px-2 mw-100">

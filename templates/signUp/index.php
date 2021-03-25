@@ -8,24 +8,24 @@
         <div class="card-body">
             <form action="/user/doSignUp" method="post">
                 <div class="form-group form">
-                    <label for="e-mail">
+                    <label for="input-email">
                         E-Mail
                     </label>
-                    <input type="email" id="email" name="email" class="form-control"
+                    <input type="email" id="input-email" name="email" class="form-control"
                            placeholder="Enter an e-mail" required>
                 </div>
                 <div class="form-group form">
-                    <label for="password">
+                    <label for="input-password">
                         Password
                     </label>
-                    <input type="password" id="password" name="password" class="form-control"
+                    <input type="password" id="input-password" name="password" class="form-control"
                            placeholder="Enter a password" required>
                 </div>
                 <div class="form-group form">
-                    <label for="password">
+                    <label for="input-confirm-password">
                         Confirm Password
                     </label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                    <input type="password" id="input-confirm-password" name="confirmPassword" class="form-control"
                            placeholder="Confirm your password" required>
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
@@ -41,5 +41,5 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/js/confirmPassword.js"></script>
-<script type="text/javascript" src="/js/error.js"></script>
+<script src="/js/confirmPassword.js"></script>
+<script src="/js/error.js"></script>
