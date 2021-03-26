@@ -202,10 +202,12 @@ class AppointmentController {
             $appointment = $appointmentRepository->readById($id);
 
             if ($appointment) {
+                $startTimeDateSplit = explode(" ", $appointment->start);
+                $endTimeDateSplit = explode(" ", $appointment->end);
+
                 $response = [];
-                $response['date'] = $appointment->date;
-                $response['start'] = $appointment->start;
-                $response['end'] = $appointment->end;
+                $response['start'] = $startTimeDateSplit[0] . "T" . $startTimeDateSplit[1];
+                $response['end'] = $endTimeDateSplit[0] . "T" . $endTimeDateSplit[1];
                 $response['name'] = $appointment->name;
                 $response['description'] = $appointment->description;
                 $response['tags'] = [];

@@ -84,6 +84,7 @@ function showEditAppointmentDialog() {
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
+
             document.querySelectorAll(".input-appointment-name").forEach(function(input) {
                 input.setAttribute("value", object.name)
             })
