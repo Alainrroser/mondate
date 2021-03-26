@@ -2,6 +2,13 @@
 
 let selectedEmail = null
 
+for(let toggleShareButton of document.querySelectorAll(".toggle-share")) {
+    toggleShareButton.addEventListener("click", function(event) {
+        document.getElementById("dialog-share").classList.toggle("invisible")
+        event.preventDefault()
+    })
+}
+
 for(let email of document.querySelectorAll(".share-entry")) {
     addEmailEventListener(email)
 }

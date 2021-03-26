@@ -2,6 +2,13 @@
 
 let selectedTag = null
 
+for(let toggleTagButton of document.querySelectorAll(".toggle-tag")) {
+    toggleTagButton.addEventListener("click", function(event) {
+        document.getElementById("dialog-manage-tags").classList.toggle("invisible")
+        event.preventDefault()
+    })
+}
+
 for(let tag of document.querySelectorAll(".tag")) {
     addTagEventListener(tag)
 }

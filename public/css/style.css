@@ -138,12 +138,12 @@ main.container {
     z-index: 10;
 }
 
-.tag-list, .email-list, .search-results {
+.tag-list, .email-list, .search-result-list {
     overflow-y: scroll;
     max-height: 350px;
 }
 
-.search-results {
+.search-result-list {
     height: 300px;
 }
 

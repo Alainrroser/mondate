@@ -1,40 +1,33 @@
 <div class="desktop-only card-body">
-    <?php echo "<form action=\"$formAction\" method=\"post\">"; ?>
+    <form method=post action=<?= $formAction ?> >
         <input type="hidden" name="id" class="edit-appointment-id">
         <div class="form-group form">
-            <label>
+            <label for="appointment-name-desktop">
                 Name
             </label>
-            <input type="text" name="name" class="input-appointment-name form-control" required>
+            <input type="text" name="name" class="input-appointment-name form-control" id="appointment-name-desktop" required>
         </div>
         <div class="d-flex flex-row justify-content-between">
-            <div class="form-group form w-50">
-                <label>
-                    Date
+            <div class="form-group form w-100">
+                <label for="appointment-start-desktop">
+                    Start
                 </label>
-                <input type="date" name="date" value="<?php echo date("Y")."-".date("m")."-".date("d"); ?>"
-                       class="input-appointment-date form-control" required>
+                <input type="datetime-local" id="appointment-start-desktop" name="start"
+                       class="input-appointment-start form-control" required>
             </div>
-            <div class="d-flex flex-row w-50">
-                <div class="form-group form w-100">
-                    <label>
-                        Start Time
-                    </label>
-                    <input type="time" name="start" class="input-appointment-start form-control" required>
-                </div>
-                <div class="form-group form w-100">
-                    <label>
-                        End Time
-                    </label>
-                    <input type="time" name="end" class="input-appointment-end form-control" required>
-                </div>
+            <div class="form-group form w-100">
+                <label for="appointment-end-desktop">
+                    End
+                </label>
+                <input type="datetime-local" id="appointment-end-desktop" name="end"
+                       class="input-appointment-end form-control" required>
             </div>
         </div>
         <div class="form-group form">
-            <label>
+            <label for="appointment-description-desktop">
                 Description
             </label>
-            <textarea rows="5" name="description" class="input-appointment-description form-control"></textarea>
+            <textarea rows="5" id="appointment-description-desktop" name="description" class="input-appointment-description form-control"></textarea>
         </div>
         <div class="form-group form">
             <div class="form-group form">
@@ -86,39 +79,33 @@
     </form>
 </div>
 <div class="mobile-only card-body">
-    <?php echo "<form action=\"$formAction\" method=\"post\">"; ?>
+    <form method=post action=<?= $formAction ?>>
         <input type="hidden" name="id" class="edit-appointment-id">
         <div class="form-group form">
-            <label>
+            <label for="appointment-name-mobile">
                 Name
             </label>
-            <input type="text" name="name" class="input-appointment-name form-control" required>
+            <input type="text" id="appointment-name-mobile" name="name" class="input-appointment-name form-control" required>
         </div>
         <div class="form-group form w-100">
-            <label>
-                Date
+            <label for="appointment-start-mobile">
+                Start Date
             </label>
-            <input type="date" name="date" class="input-appointment-date form-control" required>
+            <input type="datetime-local" id="appointment-start-mobile" name="start"
+                   class="input-appointment-start form-control" required>
         </div>
         <div class="form-group form w-100">
-            <label>
-                Start Time
+            <label for="appointment-end-mobile">
+                End Date
             </label>
-            <input type="time" name="start" class="input-appointment-start form-control"
-                   required>
+            <input type="datetime-local" id="appointment-end-mobile" name="end"
+                   class="input-appointment-end form-control" required>
         </div>
         <div class="form-group form w-100">
-            <label>
-                End Time
-            </label>
-            <input type="time" name="end" class="input-appointment-end form-control"
-                   required>
-        </div>
-        <div class="form-group form w-100">
-            <label>
+            <label for="appointment-description-mobile">
                 Description
             </label>
-            <textarea rows="5" name="description" class="input-appointment-description form-control"></textarea>
+            <textarea rows="5" id="appointment-description-mobile" name="description" class="input-appointment-description form-control"></textarea>
         </div>
         <div class="form-group form w-100 mb-3">
             <label>

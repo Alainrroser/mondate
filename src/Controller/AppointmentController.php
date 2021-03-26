@@ -218,4 +218,32 @@ class AppointmentController {
             echo "Invalid input, appointment ID missing";
         }
     }
+    
+    public function getAppointmentsFromUser() {
+        Authentication::restrictAuthenticated();
+        
+        $appointmentRepository = new AppointmentRepository();
+        $appointments = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
+        
+        $response = [];
+        foreach($appointments as $appointment) {
+            $appointmentArray = [];
+            $tagArray = [];
+            foreach($appointment->getTags() as $tag) {
+                $tagArray[] = $tag;
+            }
+            $appointmentArray["name"] = $appointment->getName();
+            $appointmentArray["description"] = $appointment->getDescription();
+            $appointmentArray["date"] = $appointment->getDate();
+            $appointmentArray["start"] = $appointment->getStart();
+            $appointmentArray["end"] = $appointment->getEnd();
+            $appointmentArray["tags"] = $tagArray;
+            
+            $response[] = $appointmentArray;
+        }
+        
+        $view = new JsonView();
+        $view->setJsonObject($response);
+        $view->display();
+    }
 }

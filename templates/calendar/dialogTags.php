@@ -20,16 +20,16 @@
                 <div class="form-group form d-flex flex-column justify-content-between">
                     <div>
                         <div class="form-group form">
-                            <label>
+                            <label for="tag-name-desktop">
                                 Name
                             </label>
-                            <input type="text" name="name" class="tag-name form-control">
+                            <input type="text" name="name" class="tag-name form-control" id="tag-name-desktop">
                         </div>
                         <div class="form-group form">
-                            <label>
+                            <label for="tag-color-desktop">
                                 Color
                             </label>
-                            <input type="color" name="color" class="tag-color form-control">
+                            <input type="color" name="color" class="tag-color form-control" id="tag-color-desktop">
                         </div>
                     </div>
                     <div>
@@ -63,14 +63,14 @@
                     }
                 ?>
             </div>
-            <label>
+            <label for="tag-name-mobile">
                 Name
             </label>
-            <input type="text" name="name" class="tag-name form-control">
-            <label>
+            <input type="text" name="name" class="tag-name form-control" id="tag-name-mobile">
+            <label for="tag-color-mobile">
                 Color
             </label>
-            <input type="color" name="color" class="tag-color form-control mb-2">
+            <input type="color" name="color" class="tag-color form-control mb-2" id="tag-color-mobile">
             <button class="btn btn-secondary w-100 mb-4 btn-add-tag">
                 Add
             </button>

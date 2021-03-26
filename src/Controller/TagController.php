@@ -39,21 +39,21 @@
             }
         }
         
-        function edit() {
+        public function edit() {
             Authentication::restrictAuthenticated();
             
             $tagRepository = new TagRepository();
             $tagRepository->editTag($_POST["id"], $_POST["name"], substr($_POST["color"], 1));
         }
-        
-        function delete() {
+    
+        public function delete() {
             Authentication::restrictAuthenticated();
             
             $tagRepository = new TagRepository();
             $tagRepository->deleteById($_POST["id"]);
         }
-        
-        function get() {
+    
+        public function get() {
             $tagRepository = new TagRepository();
             $tag = $tagRepository->readById($_GET['id']);
             
@@ -65,5 +65,4 @@
             $view->setJsonObject($response);
             $view->display();
         }
-        
     }

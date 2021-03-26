@@ -67,20 +67,6 @@ for(let toggleCreateButton of document.querySelectorAll(".toggle-create")) {
     })
 }
 
-for(let toggleTagButton of document.querySelectorAll(".toggle-tag")) {
-    toggleTagButton.addEventListener("click", function(event) {
-        document.getElementById("dialog-manage-tags").classList.toggle("invisible")
-        event.preventDefault()
-    })
-}
-
-for(let toggleShareButton of document.querySelectorAll(".toggle-share")) {
-    toggleShareButton.addEventListener("click", function(event) {
-        document.getElementById("dialog-share").classList.toggle("invisible")
-        event.preventDefault()
-    })
-}
-
 for(let deleteButton of document.querySelectorAll(".btn-delete-appointment")) {
     appointmentSelected = null;
     updateEditDeleteButtonStates()
@@ -100,9 +86,6 @@ function showEditAppointmentDialog() {
             let object = JSON.parse(this.responseText)
             document.querySelectorAll(".input-appointment-name").forEach(function(input) {
                 input.setAttribute("value", object.name)
-            })
-            document.querySelectorAll(".input-appointment-date").forEach(function(input) {
-                input.setAttribute("value", object.date)
             })
             document.querySelectorAll(".input-appointment-start").forEach(function(input) {
                 input.setAttribute("value", object.start)
@@ -191,9 +174,6 @@ for(let appointmentCell of document.querySelectorAll(".appointment-cell")) {
         date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000)
 
         document.getElementById("dialog-create-appointment").classList.toggle("invisible")
-        document.querySelectorAll(".input-appointment-date").forEach(function(entry) {
-            entry.valueAsDate = date;
-        })
         document.querySelectorAll(".input-appointment-start").forEach(function(entry) {
             entry.valueAsDate = date;
         })
@@ -204,13 +184,3 @@ for(let appointmentCell of document.querySelectorAll(".appointment-cell")) {
         })
     })
 }
-
-let searchButtons = document.querySelectorAll(".toggle-search")
-let searchDialog = document.querySelector("#dialog-search")
-
-for(let searchButton of searchButtons) {
-    searchButton.addEventListener("click", function() {
-        searchDialog.classList.toggle("invisible")
-    })
-}
-
