@@ -23,14 +23,12 @@ class AppointmentController {
             $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
             $creatorId = $_SESSION['userId'];
 
-            if ($this->validateAppointmentTimes(null, $start, $end)) {
+            $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
+            $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
+
+            if ($this->validateAppointmentTimes(null, $startUTC, $endUTC)) {
                 $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
                 $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
-
-                $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
-                $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
-                $startUTC = DateTimeUtils::convertLocalToUTC($startUTC)->format("Y-m-d H:i");
-                $endUTC = DateTimeUtils::convertLocalToUTC($endUTC)->format("Y-m-d H:i");
 
                 $appointmentRepository = new AppointmentRepository();
                 $id = $appointmentRepository->createAppointment($startUTC, $endUTC, $name, $description, $creatorId, $tagIds);
@@ -57,14 +55,12 @@ class AppointmentController {
             $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
             $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
 
-            if ($this->validateAppointmentTimes($id, $start, $end)) {
+            $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
+            $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
+
+            if ($this->validateAppointmentTimes($id, $startUTC, $endUTC)) {
                 $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
                 $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
-
-                $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
-                $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
-                $startUTC = DateTimeUtils::convertLocalToUTC($startUTC)->format("Y-m-d H:i");
-                $endUTC = DateTimeUtils::convertLocalToUTC($endUTC)->format("Y-m-d H:i");
 
                 $appointmentRepository = new AppointmentRepository();
                 $appointmentRepository->editAppointment($id, $startUTC, $endUTC, $name, $description, $tagIds);
@@ -111,29 +107,27 @@ class AppointmentController {
     }
 
     private function validateAppointmentTimes($id, $start, $end) {
+        if ($end < $start) {
+            $calendarController = new CalendarController();
+            $calendarController->displayView(["An appointment can't end before it starts."]);
+            return false;
+        }
+
         $appointmentRepository = new AppointmentRepository();
         $rows = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
 
-//        foreach ($rows as $row) {
-//            if (!$id || $id != $row->getId()) {
-//                if($row->getDate() === $date) {
-//                    $overlapTop = $start >= $row->getStart() && $start <= $row->getEnd();
-//                    $overlapBottom = $end >= $row->getStart() && $end <= $row->getEnd();
-//
-//                    if ($overlapTop || $overlapBottom) {
-//                        $calendarController = new CalendarController();
-//                        $calendarController->displayView(["There already exists an appointment in this time frame."]);
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
-//
-//        if (strtotime($end) - strtotime($start) < 0) {
-//            $calendarController = new CalendarController();
-//            $calendarController->displayView(["An appointment can't end before it starts."]);
-//            return false;
-//        }
+        foreach ($rows as $row) {
+            if (!$id || $id != $row->getId()) {
+                $overlapTop = $start >= $row->getStartAsDateTime() && $start < $row->getEndAsDateTime();
+                $overlapBottom = $end > $row->getStartAsDateTime() && $end <= $row->getEndAsDateTime();
+
+                if ($overlapTop || $overlapBottom) {
+                    $calendarController = new CalendarController();
+                    $calendarController->displayView(["There already exists an appointment in this time frame."]);
+                    return false;
+                }
+            }
+        }
 
         return true;
     }
@@ -251,7 +245,6 @@ class AppointmentController {
             }
             $appointmentArray["name"] = $appointment->getName();
             $appointmentArray["description"] = $appointment->getDescription();
-            $appointmentArray["date"] = $appointment->getDate();
             $appointmentArray["start"] = $appointment->getStart();
             $appointmentArray["end"] = $appointment->getEnd();
             $appointmentArray["tags"] = $tagArray;

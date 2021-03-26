@@ -143,7 +143,6 @@ require '../templates/error/dialogError.php';
                     echo "</th>";
 
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
-                        // Convert the current cell date and time to seconds
                         $cellDate = clone $startDate;
                         $cellDate->add(date_interval_create_from_date_string($j . " days"));
 
@@ -156,22 +155,9 @@ require '../templates/error/dialogError.php';
                         $content = "";
 
                         foreach($appointments as $appointment) {
-                            if($appointment->getStartAsDateTime()->format("Y-m-d") == $cellDate->format("Y-m-d")) {
-                                if($appointment->getStartAsDateTime() >= $cellStart) {
-                                    if($appointment->getStartAsDateTime() <= $cellEnd) {
-                                        $appointmentId = $appointment->getId();
-                                        $startInSeconds = $appointment->getStartAsDateTime()->getTimestamp();
-                                        $endInSeconds = $appointment->getEndAsDateTime()->getTimestamp();
-
-                                        $height = 50 * ($endInSeconds - $startInSeconds) / SECONDS_PER_HOUR;
-                                        $margin = 50 * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
-                                        $style = getAppointmentStyle($appointment, $margin, $height);
-                                        $text = $appointment->getName();
-
-                                        $cellKey = floor($startInSeconds / SECONDS_PER_HOUR);
-                                        $classes = "w-100 p-0 align-middle appointment appointment-id-$appointmentId";
-                                        $content .= "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
-                                    }
+                            if($cellStart >= $appointment->getStartAsDateTime()) {
+                                if($cellEnd <= $appointment->getEndAsDateTime()) {
+                                    $content .= $appointment->getName();
                                 }
                             }
                         }

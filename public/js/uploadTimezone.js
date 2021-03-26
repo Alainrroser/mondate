@@ -1,7 +1,5 @@
-let timezoneOffset = new Date().getTimezoneOffset() * 60;
-
 let data = new FormData()
-data.append("timezoneOffset", timezoneOffset.toString())
+data.append("timezone", Intl.DateTimeFormat().resolvedOptions().timeZone)
 
 let request = new XMLHttpRequest()
 request.onload = function() {
@@ -9,5 +7,5 @@ request.onload = function() {
         location.replace("/calendar/")
     }
 }
-request.open("POST", "/calendar/uploadTimezoneOffset", false)
+request.open("POST", "/calendar/uploadTimezone", false)
 request.send(data)

@@ -36,11 +36,9 @@ class CalendarController {
     }
 
     public function index() {
-        if(!isset($_SESSION["timezoneOffset"])) {
-            header("Location: /calendar/requestTimezoneOffset");
+        if(!isset($_SESSION["timezone"])) {
+            header("Location: /calendar/requestTimezone");
         }
-
-        date_default_timezone_set("UTC");
 
         Authentication::restrictAuthenticated();
         $this->setStartDateIfNotSet();
@@ -50,20 +48,19 @@ class CalendarController {
     private function setStartDateIfNotSet() {
         if (!isset($_SESSION['startDate'])) {
             $_SESSION['startDate'] = new DateTime('monday this week');
-            echo $_SESSION['startDate']->getTimestamp();
         }
     }
 
-    public function requestTimezoneOffset() {
-        $view = new View('calendar/uploadTimezoneOffset');
-        $view->title = 'Uploading Timezone Offset...';
+    public function requestTimezone() {
+        $view = new View('calendar/uploadTimezone');
+        $view->title = 'Uploading Timezone...';
         $view->display();
     }
 
-    public function uploadTimezoneOffset() {
-        if(isset($_POST['timezoneOffset'])) {
-            echo $_POST['timezoneOffset'];
-            $_SESSION['timezoneOffset'] = $_POST['timezoneOffset'];
+    public function uploadTimezone() {
+        if(isset($_POST['timezone'])) {
+            date_default_timezone_set($_POST['timezone']);
+            $_SESSION['timezone'] = $_POST['timezone'];
         }
     }
 

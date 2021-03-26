@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Model\Appointment;
 use App\Model\Tag;
+use App\Util\DateTimeUtils;
 use Exception;
 
 class AppointmentRepository extends Repository {
@@ -63,6 +64,10 @@ class AppointmentRepository extends Repository {
     }
 
     public function createAppointment($start, $end, $name, $description, $creatorId, $tagIds) {
+        // Convert from local time to UTC string
+        $start = DateTimeUtils::convertLocalToUTC($start)->format("Y-m-d H:i");
+        $end = DateTimeUtils::convertLocalToUTC($end)->format("Y-m-d H:i");
+
         $queryAppointment = "INSERT INTO $this->tableName (start, end, name, description, creator_id)
                              VALUES (?, ?, ?, ?, ?)";
         $appointmentId = self::insertAndGetId($queryAppointment, 'ssssi', $start, $end, $name, $description, $creatorId);
@@ -79,6 +84,10 @@ class AppointmentRepository extends Repository {
     }
 
     public function editAppointment($id, $start, $end, $name, $description, $tagIds) {
+        // Convert from local time to UTC
+        $start = DateTimeUtils::convertLocalToUTC($start)->format("Y-m-d H:i");
+        $end = DateTimeUtils::convertLocalToUTC($end)->format("Y-m-d H:i");
+
         $queryDeleteAppointmentTag = "DELETE FROM appointment_tag WHERE appointment_id = ?";
         self::execute($queryDeleteAppointmentTag, "i", $id);
 

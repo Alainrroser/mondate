@@ -8,7 +8,7 @@
                 <div class="alert alert-danger w-100">
                     <?php
                         foreach($errors as $error) {
-                            echo "<span>$error</span>";
+                            echo "<span>$error</span><br>";
                         }
                     ?>
                 </div>

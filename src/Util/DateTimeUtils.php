@@ -5,22 +5,29 @@ namespace App\Util;
 use App\Repository\UserRepository;
 use Cassandra\Date;
 use DateTime;
+use DateTimeZone;
 
 class DateTimeUtils {
 
     public static function convertLocalToUTC($dateTime) {
-        $timezoneOffset = $_SESSION["timezoneOffset"];
+        $format = "Y-m-d H:i:s";
+        $localString = $dateTime->format($format);
+        $local = DateTime::createFromFormat($format, $localString, new DateTimeZone($_SESSION["timezone"]));
 
-        $result = new DateTime();
-        $result->setTimestamp($dateTime->getTimestamp() + $timezoneOffset);
+        $result = clone $local;
+        $result->setTimeZone(new DateTimeZone("UTC"));
+
         return $result;
     }
 
     public static function convertUTCToLocal($dateTime) {
-        $timezoneOffset = $_SESSION["timezoneOffset"];
+        $format = "Y-m-d H:i:s";
+        $utcString = $dateTime->format($format);
+        $utc = DateTime::createFromFormat($format, $utcString, new DateTimeZone("UTC"));
 
-        $result = new DateTime();
-        $result->setTimestamp($dateTime->getTimestamp() - $timezoneOffset);
+        $result = clone $utc;
+        $result->setTimeZone(new DateTimeZone($_SESSION["timezone"]));
+
         return $result;
     }
 
