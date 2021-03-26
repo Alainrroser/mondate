@@ -3,7 +3,6 @@
 const COLUMNS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const SECONDS_PER_HOUR = 60 * 60;
-const SECONDS_PER_DAY = SECONDS_PER_HOUR * 24;
 
 function index_to_time($index) {
     return str_pad($index, 2, '0', STR_PAD_LEFT).":00";
@@ -35,53 +34,6 @@ function getAppointmentStyle($appointment, $margin, $height) {
     return $style;
 }
 
-?>
-
-<?php
-$columns = [];
-$cellContent = [];
-
-// Sort the appointments by time and date
-// (This will make our life much easier further down)
-function sortAppointmentsByTime($a, $b) {
-    $timeA = strtotime($a->getStart());
-    $timeB = strtotime($b->getStart());
-    return $timeA < $timeB ? -1 : 1;
-}
-
-usort($appointments, "sortAppointmentsByTime");
-
-// Create the column titles
-for($i = 0; $i < sizeof(COLUMNS); $i++) {
-    $current_date = clone $startDate;
-    $current_date->add(date_interval_create_from_date_string($i . ' day'));
-
-    $columns[$i] = COLUMNS[$i] . "<br>" . $current_date->format('d.m.Y');
-}
-
-foreach($appointments as $appointment) {
-    $appointmentId = $appointment->getId();
-
-    $startAsString = $appointment->getDate() . ' ' . $appointment->getStart();
-    $endAsString = $appointment->getDate() . ' ' . $appointment->getEnd();
-
-    $startInSeconds = DateTime::createFromFormat('Y-m-d H:i:s', $startAsString)->getTimestamp();
-    $endInSeconds = DateTime::createFromFormat('Y-m-d H:i:s', $endAsString)->getTimestamp();
-
-    $height = 50 * ($endInSeconds - $startInSeconds) / SECONDS_PER_HOUR;
-    $margin = 50 * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
-    $style = getAppointmentStyle($appointment, $margin, $height);
-    $text = $appointment->getName();
-
-    $cellKey = floor($startInSeconds / SECONDS_PER_HOUR);
-    $classes = "w-100 p-0 align-middle appointment appointment-id-$appointmentId";
-    $element = "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
-    if(!isset($cellContent[$cellKey])) {
-        $cellContent[$cellKey] = $element;
-    } else {
-        $cellContent[$cellKey] .= $element;
-    }
-}
 ?>
 
 <?php
@@ -176,8 +128,12 @@ require '../templates/error/dialogError.php';
                 <tr>
                     <th scope="col"></th>
                     <?php
-                    foreach($columns as $column) {
-                        echo "<th scope=\"col\" class=\"text-center\">$column</th>";
+                    for($i = 0; $i < sizeof(COLUMNS); $i++) {
+                        $current_date = clone $startDate;
+                        $current_date->add(date_interval_create_from_date_string($i . ' day'));
+
+                        $content = COLUMNS[$i] . "<br>" . $current_date->format('d.m.Y');
+                        echo "<th scope=\"col\" class=\"text-center\">$content</th>";
                     }
                     ?>
                 </tr>
@@ -190,14 +146,39 @@ require '../templates/error/dialogError.php';
 
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
                         // Convert the current cell date and time to seconds
-                        $dateTimeInSeconds = $startDate->getTimestamp() + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
-                        $dateTimeInHours = floor($dateTimeInSeconds / SECONDS_PER_HOUR);
+                        $cellDate = clone $startDate;
+                        $cellDate->add(date_interval_create_from_date_string($j . " days"));
 
-                        // Get and display the cell content from the array
-                        $content = isset($cellContent[$dateTimeInHours]) ? $cellContent[$dateTimeInHours] : "";
+                        $cellStart = clone $cellDate;
+                        $cellStart->add(date_interval_create_from_date_string($i . " hours"));
 
-                        $id = "appointment-cell-" . $dateTimeInSeconds;
+                        $cellEnd = clone $cellStart;
+                        $cellEnd->add(date_interval_create_from_date_string("59 minutes"));
 
+                        $content = "";
+
+                        foreach($appointments as $appointment) {
+                            if($appointment->getDate() == $cellDate->format("Y-m-d")) {
+                                if($appointment->getStartAsDateTime() >= $cellStart) {
+                                    if($appointment->getStartAsDateTime() <= $cellEnd) {
+                                        $appointmentId = $appointment->getId();
+                                        $startInSeconds = $appointment->getStartAsDateTime()->getTimestamp();
+                                        $endInSeconds = $appointment->getEndAsDateTime()->getTimestamp();
+
+                                        $height = 50 * ($endInSeconds - $startInSeconds) / SECONDS_PER_HOUR;
+                                        $margin = 50 * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
+                                        $style = getAppointmentStyle($appointment, $margin, $height);
+                                        $text = $appointment->getName();
+
+                                        $cellKey = floor($startInSeconds / SECONDS_PER_HOUR);
+                                        $classes = "w-100 p-0 align-middle appointment appointment-id-$appointmentId";
+                                        $content .= "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
+                                    }
+                                }
+                            }
+                        }
+
+                        $id = "appointment-cell-" . $cellStart->getTimestamp();
                         echo "<td class=\"appointment-cell cell-appointment p-0 align-top\" id=\"$id\">$content</td>";
                     }
 
@@ -278,6 +259,15 @@ require '../templates/error/dialogError.php';
     </div>
     <div>
         <?php
+        // Sort the appointments by time and date
+        function sortAppointmentsByTime($a, $b) {
+            $timeA = strtotime($a->getStart());
+            $timeB = strtotime($b->getStart());
+            return $timeA < $timeB ? -1 : 1;
+        }
+
+        usort($appointments, "sortAppointmentsByTime");
+
         for($i = 0; $i < sizeof(COLUMNS); $i++) {
             $current_date = clone $startDate;
             $current_date->add(date_interval_create_from_date_string($i . ' day'));

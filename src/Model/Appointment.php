@@ -4,6 +4,9 @@
 namespace App\Model;
 
 
+use Cassandra\Date;
+use DateTime;
+
 class Appointment {
 
     private $id;
@@ -60,6 +63,18 @@ class Appointment {
 
     public function getTags() {
         return $this->tags;
+    }
+
+    public function getDateAsDateTime() {
+        return DateTime::createFromFormat("Y-m-d", $this->date);
+    }
+
+    public function getStartAsDateTime() {
+        return DateTime::createFromFormat("Y-m-d H:i:s", $this->date . " " . $this->start);
+    }
+
+    public function getEndAsDateTime() {
+        return DateTime::createFromFormat("Y-m-d H:i:s", $this->date . " " . $this->end);
     }
 
 }

@@ -11,12 +11,15 @@ function updateEditDeleteButtonStates() {
     }
 }
 
-document.addEventListener("click", function() {
-    updateEditDeleteButtonStates()
-})
+updateEditDeleteButtonStates()
 
 for(let appointmentButton of appointmentButtons) {
-    appointmentButton.addEventListener("click", function() {
+    appointmentButton.addEventListener("dblclick", function(event) {
+        event.preventDefault()
+        event.stopPropagation()
+    })
+
+    appointmentButton.addEventListener("click", function(event) {
         let id
         for(let cssClass of appointmentButton.classList) {
             if(cssClass.startsWith("appointment-id-")) {
@@ -49,6 +52,11 @@ for(let appointmentButton of appointmentButtons) {
         for(let relatedButton of relatedButtons) {
             relatedButton.classList.toggle("appointment-selected")
         }
+
+        updateEditDeleteButtonStates()
+
+        event.preventDefault()
+        event.stopPropagation()
     })
 }
 
@@ -71,6 +79,11 @@ for(let toggleShareButton of document.querySelectorAll(".toggle-share")) {
         document.getElementById("dialog-share").classList.toggle("invisible")
         event.preventDefault()
     })
+}
+
+for(let deleteButton of document.querySelectorAll(".btn-delete-appointment")) {
+    appointmentSelected = null;
+    updateEditDeleteButtonStates()
 }
 
 let refreshButtons = document.querySelectorAll(".refresh")
@@ -175,11 +188,18 @@ for(let appointmentCell of document.querySelectorAll(".appointment-cell")) {
     appointmentCell.addEventListener("dblclick", function() {
         let dateTimeInSeconds = appointmentCell.id.split("-")[2]
         let date = new Date(parseInt(dateTimeInSeconds) * 1000)
+        date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000)
 
         document.getElementById("dialog-create-appointment").classList.toggle("invisible")
+        document.querySelectorAll(".input-appointment-date").forEach(function(entry) {
+            entry.valueAsDate = date;
+        })
         document.querySelectorAll(".input-appointment-start").forEach(function(entry) {
-            let hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours()
-            let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+            entry.valueAsDate = date;
+        })
+
+        date.setHours(date.getHours() + 1)
+        document.querySelectorAll(".input-appointment-end").forEach(function(entry) {
             entry.valueAsDate = date;
         })
     })
