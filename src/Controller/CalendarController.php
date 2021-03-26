@@ -43,6 +43,7 @@
         private function setStartDateIfNotSet() {
             if(!isset($_SESSION['startDate'])) {
                 $_SESSION['startDate'] = new DateTime('monday this week');
+                echo $_SESSION['startDate']->getTimestamp();
             }
         }
         

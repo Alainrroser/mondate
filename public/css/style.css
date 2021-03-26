@@ -112,8 +112,6 @@ main.container {
 }
 
 .appointment {
-    max-width: 75vw;
-    position: absolute;
     border: none;
     display: flex;
     justify-content: center;
@@ -202,6 +200,10 @@ main.container {
 
     .mobile-only {
         display: none !important;
+    }
+
+    .appointment {
+        position: absolute;
     }
 }
 

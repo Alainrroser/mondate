@@ -71,7 +71,7 @@ function validateTagInput(manageTagsDialogBody, tagNameElement, tagColorElement)
         let tagColor = rgbToHex(tag.querySelector("span:first-child").style.backgroundColor)
 
         if(tagName === tagNameElement.value || tagColor === tagColorElement.value) {
-            tagNameElement.setCustomValidity("This email already exists")
+            tagNameElement.setCustomValidity("A tag with this name or color already exists")
             tagNameElement.reportValidity()
             return false
         }

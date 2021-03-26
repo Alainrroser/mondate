@@ -185,11 +185,14 @@ require '../templates/error/dialogError.php';
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
                         // Convert the current cell date and time to seconds
                         $dateTimeInSeconds = $startDate->getTimestamp() + ($j * SECONDS_PER_DAY) + ($i * SECONDS_PER_HOUR);
-                        $dateTimeInSeconds = floor($dateTimeInSeconds / SECONDS_PER_HOUR);
+                        $dateTimeInHours = floor($dateTimeInSeconds / SECONDS_PER_HOUR);
 
                         // Get and display the cell content from the array
-                        $content = isset($cellContent[$dateTimeInSeconds]) ? $cellContent[$dateTimeInSeconds] : "";
-                        echo "<td class=\"appointment-cell cell-appointment p-0 align-top\">$content</td>";
+                        $content = isset($cellContent[$dateTimeInHours]) ? $cellContent[$dateTimeInHours] : "";
+
+                        $id = "appointment-cell-" . $dateTimeInSeconds;
+
+                        echo "<td class=\"appointment-cell cell-appointment p-0 align-top\" id=\"$id\">$content</td>";
                     }
 
                     echo "</tr>";

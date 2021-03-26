@@ -173,7 +173,7 @@ class AppointmentController {
         $creatorId = $appointmentRepository->readById($appointmentId)->creator_id;
         if($_SESSION["userId"] !== $creatorId) {
             $calendarController = new CalendarController();
-            $calendarController->displayView(["You can't edit or delete appointments that you haven't created"]);
+            $calendarController->displayView(["You can't edit or delete appointments that you haven't created."]);
             return false;
         }
 

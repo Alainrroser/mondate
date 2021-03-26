@@ -158,7 +158,7 @@ document.querySelector("#delete-account").addEventListener("click", function() {
     window.localStorage.removeItem("rememberMe")
 })
 
-for(let inputWeekStart of document.querySelectorAll("input-week-start")) {
+for(let inputWeekStart of document.querySelectorAll(".input-week-start")) {
     inputWeekStart.addEventListener("input", function() {
         let data = new FormData()
         data.append("weekStart", this.value)
@@ -168,5 +168,19 @@ for(let inputWeekStart of document.querySelectorAll("input-week-start")) {
         request.send(data)
 
         location.reload()
+    })
+}
+
+for(let appointmentCell of document.querySelectorAll(".appointment-cell")) {
+    appointmentCell.addEventListener("dblclick", function() {
+        let dateTimeInSeconds = appointmentCell.id.split("-")[2]
+        let date = new Date(parseInt(dateTimeInSeconds) * 1000)
+
+        document.getElementById("dialog-create-appointment").classList.toggle("invisible")
+        document.querySelectorAll(".input-appointment-start").forEach(function(entry) {
+            let hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours()
+            let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+            entry.valueAsDate = date;
+        })
     })
 }

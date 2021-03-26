@@ -63,7 +63,7 @@ function validateEmailInput(shareDialogBody, emailElement) {
         let emailName = email.textContent
 
         if(emailName === emailElement.value) {
-            emailElement.setCustomValidity("A tag with this name or color already exists")
+            emailElement.setCustomValidity("This email is already in the list")
             emailElement.reportValidity()
             return false
         }
