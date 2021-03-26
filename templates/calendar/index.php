@@ -4,10 +4,6 @@ const COLUMNS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const SECONDS_PER_HOUR = 60 * 60;
 
-function index_to_time($index) {
-    return str_pad($index, 2, '0', STR_PAD_LEFT).":00";
-}
-
 function getAppointmentStyle($appointment, $margin, $height) {
     $style = "background-color: gray;";
     if(sizeof($appointment->getTags()) == 1) {
@@ -142,7 +138,9 @@ require '../templates/error/dialogError.php';
                 <?php
                 for($i = 0; $i < 24; $i++) {
                     echo "<tr>";
-                    echo "<th scope=\"row\" class=\"p-0 pt-1 align-top\">".index_to_time($i)."</th>";
+                    echo "<th scope=\"row\" class=\"p-0 pt-1 align-top\">";
+                    echo str_pad($i, 2, '0', STR_PAD_LEFT).":00";
+                    echo "</th>";
 
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
                         // Convert the current cell date and time to seconds

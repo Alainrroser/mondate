@@ -202,8 +202,13 @@ class AppointmentController {
             $appointment = $appointmentRepository->readById($id);
 
             if ($appointment) {
-                $startTimeDateSplit = explode(" ", $appointment->start);
-                $endTimeDateSplit = explode(" ", $appointment->end);
+                $startTimeDateUTC = DateTimeUtils::parseDatabaseDateTime($appointment->start);
+                $startTimeDateUTC = DateTimeUtils::convertUTCToLocal($startTimeDateUTC);
+                $endTimeDateUTC = DateTimeUtils::parseDatabaseDateTime($appointment->end);
+                $endTimeDateUTC = DateTimeUtils::convertUTCToLocal($endTimeDateUTC);
+
+                $startTimeDateSplit = explode(" ", $startTimeDateUTC->format("Y-m-d H:i"));
+                $endTimeDateSplit = explode(" ", $endTimeDateUTC->format("Y-m-d H:i"));
 
                 $response = [];
                 $response['start'] = $startTimeDateSplit[0] . "T" . $startTimeDateSplit[1];
