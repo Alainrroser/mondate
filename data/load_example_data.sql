@@ -17,13 +17,13 @@ VALUES ('Free Time', '56D6C1'),
        ('Weekend', 'F5D133');
 
 -- create appointments
-INSERT INTO appointment (date, start, end, name, description, creator_id)
-VALUES ('2021-03-09', '13:00:00', '15:00:00', 'Bowling', 'Wahoooo', @me),
-       ('2021-03-08', '08:00:00', '16:00:00', 'gibb', 'Noooo', @me),
-       ('2021-03-11', '15:00:00', '16:00:00', 'Dentist', 'Aaaaah', @me),
-	   ('2021-03-17', '16:00:00', '16:30:00', 'Buy Cookies', 'Greattt', @me),
-       ('2021-03-19', '13:00:00', '15:30:00', 'Cinema', 'Yeeee', @me),
-       ('2021-03-28', '00:00:00', '13:00:00', 'Limbo', 'Neutral', @me);
+INSERT INTO appointment (start, end, name, description, creator_id)
+VALUES ('2021-03-09 13:00:00', '2021-03-09 15:00:00', 'Bowling', 'Wahoooo', @me),
+       ('2021-03-08 08:00:00', '2021-03-08 16:00:00', 'gibb', 'Noooo', @me),
+       ('2021-03-11 15:00:00', '2021-03-11 16:00:00', 'Dentist', 'Aaaaah', @me),
+	   ('2021-03-17 16:00:00', '2021-03-17 16:30:00', 'Buy Cookies', 'Greattt', @me),
+       ('2021-03-19 13:00:00', '2021-03-19 15:30:00', 'Cinema', 'Yeeee', @me),
+       ('2021-03-28 00:00:00', '2021-03-28 13:00:00', 'Limbo', 'Neutral', @me);
 
 -- connect appointments to users
 INSERT INTO appointment_user (appointment_id, user_id)

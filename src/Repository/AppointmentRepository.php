@@ -18,7 +18,7 @@ class AppointmentRepository extends Repository {
      */
     public function getAppointmentsForUser($user_id) {
         $query = "SELECT
-                  a.id, a.date, a.start, a.end, a.name, a.description, a.creator_id,
+                  a.id, a.start, a.end, a.name, a.description, a.creator_id,
                   tag.name AS \"tag\", tag.color AS \"tag_color\"
                   FROM appointment AS a
                   JOIN appointment_user ON a.id = appointment_user.appointment_id
@@ -44,7 +44,6 @@ class AppointmentRepository extends Repository {
             if (is_null($currentAppointment)) {
                 $currentAppointment = new Appointment(
                     $id,
-                    $row->date,
                     $row->start,
                     $row->end,
                     $row->name,
@@ -63,10 +62,10 @@ class AppointmentRepository extends Repository {
         return $appointments;
     }
 
-    public function createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds) {
-        $queryAppointment = "INSERT INTO $this->tableName (date, start, end, name, description, creator_id)
-                  VALUES (?, ?, ?, ?, ?, ?)";
-        $appointmentId = self::insertAndGetId($queryAppointment, 'sssssi', $date, $start, $end, $name, $description, $creatorId);
+    public function createAppointment($start, $end, $name, $description, $creatorId, $tagIds) {
+        $queryAppointment = "INSERT INTO $this->tableName (start, end, name, description, creator_id)
+                             VALUES (?, ?, ?, ?, ?)";
+        $appointmentId = self::insertAndGetId($queryAppointment, 'ssssi', $start, $end, $name, $description, $creatorId);
 
         $queryAppointmentUser = "INSERT INTO appointment_user (appointment_id, user_id) VALUES (?, ?)";
         self::insertAndGetId($queryAppointmentUser, 'ii', $appointmentId, $creatorId);
@@ -79,12 +78,12 @@ class AppointmentRepository extends Repository {
         return $appointmentId;
     }
 
-    public function editAppointment($id, $date, $start, $end, $name, $description, $tagIds) {
+    public function editAppointment($id, $start, $end, $name, $description, $tagIds) {
         $queryDeleteAppointmentTag = "DELETE FROM appointment_tag WHERE appointment_id = ?";
         self::execute($queryDeleteAppointmentTag, "i", $id);
 
-        $query = "UPDATE $this->tableName SET date = ?, start = ?, end = ?, name = ?, description = ? WHERE id = ?";
-        $this->execute($query, 'sssssi', $date, $start, $end, $name, $description, $id);
+        $query = "UPDATE $this->tableName SET start = ?, end = ?, name = ?, description = ? WHERE id = ?";
+        $this->execute($query, 'ssssi', $start, $end, $name, $description, $id);
 
         foreach ($tagIds as $tagId) {
             $queryAppointmentTag = "INSERT INTO appointment_tag (appointment_id, tag_id) VALUES (?, ?)";

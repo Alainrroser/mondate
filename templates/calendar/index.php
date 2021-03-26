@@ -158,7 +158,7 @@ require '../templates/error/dialogError.php';
                         $content = "";
 
                         foreach($appointments as $appointment) {
-                            if($appointment->getDate() == $cellDate->format("Y-m-d")) {
+                            if($appointment->getStartAsDateTime()->format("Y-m-d") == $cellDate->format("Y-m-d")) {
                                 if($appointment->getStartAsDateTime() >= $cellStart) {
                                     if($appointment->getStartAsDateTime() <= $cellEnd) {
                                         $appointmentId = $appointment->getId();
@@ -277,7 +277,7 @@ require '../templates/error/dialogError.php';
             echo "<div class=\"w-100 mobile-appointment-container\">";
 
             foreach($appointments as $appointment) {
-                if($appointment->getDate() === $current_date->format("Y-m-d")) {
+                if($appointment->getStartAsDateTime()->format("Y-m-d") === $current_date->format("Y-m-d")) {
                     $appointmentId = $appointment->getId();
                     $text = $appointment->getName() . " (" .$appointment->getStart() . " - " . $appointment->getEnd() . ")";
 

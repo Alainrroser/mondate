@@ -1,50 +1,41 @@
-DROP
-DATABASE IF EXISTS mondate;
+DROP DATABASE IF EXISTS mondate;
 
-CREATE
-DATABASE mondate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE
-mondate;
+CREATE DATABASE mondate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE mondate;
 
-CREATE TABLE user
-(
-    id       INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    email    VARCHAR(200) NOT NULL,
+CREATE TABLE user (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    email VARCHAR(200) NOT NULL,
     password VARCHAR(255),
     UNIQUE KEY (email)
 );
 
-CREATE TABLE appointment
-(
-    id          INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    date        DATE        NOT NULL,
-    start       TIME        NOT NULL,
-    end         TIME,
-    name        VARCHAR(50) NOT NULL,
+CREATE TABLE appointment (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    start DATETIME NOT NULL,
+    end DATETIME,
+    name VARCHAR(50) NOT NULL,
     description TEXT(1000),
-    creator_id  INT         NOT NULL
+    creator_id INT NOT NULL
 );
 
-CREATE TABLE tag
-(
-    id    INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    name  VARCHAR(50) NOT NULL,
-    color CHAR(6)     NOT NULL
+CREATE TABLE tag (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    color CHAR(6) NOT NULL
 );
 
-CREATE TABLE appointment_user
-(
+CREATE TABLE appointment_user (
     appointment_id INT NOT NULL,
-    user_id        INT NOT NULL,
+    user_id INT NOT NULL,
     FOREIGN KEY (appointment_id) REFERENCES appointment (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (appointment_id, user_id)
 );
 
-CREATE TABLE appointment_tag
-(
+CREATE TABLE appointment_tag (
     appointment_id INT NOT NULL,
-    tag_id         INT NOT NULL,
+    tag_id INT NOT NULL,
     FOREIGN KEY (appointment_id) REFERENCES appointment (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tag (id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (appointment_id, tag_id)

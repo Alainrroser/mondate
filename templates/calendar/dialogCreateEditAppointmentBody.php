@@ -9,10 +9,10 @@
         </div>
         <div class="d-flex flex-row justify-content-between">
             <div class="form-group form w-100">
-                <label for="appointment-start-desktop">
+                <label for="appointment-start-<?= $type ?>-desktop">
                     Start
                 </label>
-                <input type="datetime-local" id="appointment-start-desktop" name="start"
+                <input type="datetime-local" id="appointment-start-<?= $type ?>-desktop" name="start"
                        class="input-appointment-start form-control" required>
             </div>
             <div class="form-group form w-100">

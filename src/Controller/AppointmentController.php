@@ -8,26 +8,32 @@ use App\Authentication\Authentication;
 use App\Repository\AppointmentRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
+use App\Util\DateTimeUtils;
 use App\View\JsonView;
+use DateTime;
 
 class AppointmentController {
     public function create() {
         Authentication::restrictAuthenticated();
 
         if ($this->checkIfAppointmentDataPresent()) {
-            $date = $_POST['date'];
             $start = $_POST['start'];
             $end = $_POST['end'];
             $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
             $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
             $creatorId = $_SESSION['userId'];
 
-            if ($this->validateAppointmentTimes(null, $date, $start, $end)) {
+            if ($this->validateAppointmentTimes(null, $start, $end)) {
                 $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
                 $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
 
+                $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
+                $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
+                $startUTC = DateTimeUtils::convertLocalToUTC($startUTC)->format("Y-m-d H:i");
+                $endUTC = DateTimeUtils::convertLocalToUTC($endUTC)->format("Y-m-d H:i");
+
                 $appointmentRepository = new AppointmentRepository();
-                $id = $appointmentRepository->createAppointment($date, $start, $end, $name, $description, $creatorId, $tagIds);
+                $id = $appointmentRepository->createAppointment($startUTC, $endUTC, $name, $description, $creatorId, $tagIds);
                 $appointmentRepository->shareAppointment($id, $emails);
 
                 if($this->validateAndShareAppointment($id, $emails)) {
@@ -46,18 +52,22 @@ class AppointmentController {
             }
 
             $id = $_POST['id'];
-            $date = $_POST['date'];
             $start = $_POST['start'];
             $end = $_POST['end'];
             $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
             $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
 
-            if ($this->validateAppointmentTimes($id, $date, $start, $end)) {
+            if ($this->validateAppointmentTimes($id, $start, $end)) {
                 $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
                 $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
 
+                $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
+                $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
+                $startUTC = DateTimeUtils::convertLocalToUTC($startUTC)->format("Y-m-d H:i");
+                $endUTC = DateTimeUtils::convertLocalToUTC($endUTC)->format("Y-m-d H:i");
+
                 $appointmentRepository = new AppointmentRepository();
-                $appointmentRepository->editAppointment($id, $date, $start, $end, $name, $description, $tagIds);
+                $appointmentRepository->editAppointment($id, $startUTC, $endUTC, $name, $description, $tagIds);
 
                 if($this->validateAndShareAppointment($id, $emails)) {
                     header('Location: /calendar');
@@ -67,12 +77,12 @@ class AppointmentController {
     }
 
     private function checkIfAppointmentDataPresent() {
-        if (!self::postKeysExist('date', 'start', 'end', 'name', 'description')) {
+        if (!self::postKeysExist('start', 'end', 'name', 'description')) {
             echo "Invalid input, missing data";
             return false;
         }
 
-        if (!self::postKeysNotEmpty('id', 'date', 'start', 'end', 'name', 'description')) {
+        if (!self::postKeysNotEmpty('id', 'start', 'end', 'name', 'description')) {
             echo "Invalid input, all fields must be filled out";
             return false;
         }
@@ -100,30 +110,30 @@ class AppointmentController {
         return true;
     }
 
-    private function validateAppointmentTimes($id, $date, $start, $end) {
+    private function validateAppointmentTimes($id, $start, $end) {
         $appointmentRepository = new AppointmentRepository();
         $rows = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
 
-        foreach ($rows as $row) {
-            if (!$id || $id != $row->getId()) {
-                if($row->getDate() === $date) {
-                    $overlapTop = $start >= $row->getStart() && $start <= $row->getEnd();
-                    $overlapBottom = $end >= $row->getStart() && $end <= $row->getEnd();
-
-                    if ($overlapTop || $overlapBottom) {
-                        $calendarController = new CalendarController();
-                        $calendarController->displayView(["There already exists an appointment in this time frame."]);
-                        return false;
-                    }
-                }
-            }
-        }
-
-        if (strtotime($end) - strtotime($start) < 0) {
-            $calendarController = new CalendarController();
-            $calendarController->displayView(["An appointment can't end before it starts."]);
-            return false;
-        }
+//        foreach ($rows as $row) {
+//            if (!$id || $id != $row->getId()) {
+//                if($row->getDate() === $date) {
+//                    $overlapTop = $start >= $row->getStart() && $start <= $row->getEnd();
+//                    $overlapBottom = $end >= $row->getStart() && $end <= $row->getEnd();
+//
+//                    if ($overlapTop || $overlapBottom) {
+//                        $calendarController = new CalendarController();
+//                        $calendarController->displayView(["There already exists an appointment in this time frame."]);
+//                        return false;
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (strtotime($end) - strtotime($start) < 0) {
+//            $calendarController = new CalendarController();
+//            $calendarController->displayView(["An appointment can't end before it starts."]);
+//            return false;
+//        }
 
         return true;
     }

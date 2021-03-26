@@ -6,6 +6,7 @@
         <?php
         $formAction = "/appointment/edit";
         $submitButtonText = "Save";
+        $type = "edit";
         require "dialogCreateEditAppointmentBody.php";
         ?>
     </div>
