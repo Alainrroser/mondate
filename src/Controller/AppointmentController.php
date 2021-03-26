@@ -41,6 +41,10 @@ class AppointmentController {
         Authentication::restrictAuthenticated();
 
         if ($this->checkIfAppointmentDataPresent()) {
+            if(!$this->validateEditingUserIsCreator($_POST["id"])) {
+                return;
+            }
+
             $id = $_POST['id'];
             $date = $_POST['date'];
             $start = $_POST['start'];
@@ -151,12 +155,29 @@ class AppointmentController {
         Authentication::restrictAuthenticated();
 
         if (isset($_POST["id"])) {
+            if(!$this->validateEditingUserIsCreator($_POST["id"])) {
+                return;
+            }
+
             $appointmentRepository = new AppointmentRepository();
             $appointmentRepository->deleteById($_POST["id"]);
             header('Location: /calendar');
         } else {
             echo "Invalid input, missing appointment ID";
         }
+    }
+
+    private function validateEditingUserIsCreator($appointmentId) {
+        $appointmentRepository = new AppointmentRepository();
+
+        $creatorId = $appointmentRepository->readById($appointmentId)->creator_id;
+        if($_SESSION["userId"] !== $creatorId) {
+            $calendarController = new CalendarController();
+            $calendarController->displayView(["You can't edit or delete appointments that you haven't created"]);
+            return false;
+        }
+
+        return true;
     }
 
     public function get() {

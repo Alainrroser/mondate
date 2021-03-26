@@ -17,32 +17,36 @@
                     }
                     ?>
                 </div>
-                <div class="form-group form d-flex flex-column">
-                    <div class="form-group form">
-                        <label>
-                            Name
-                        </label>
-                        <input type="text" name="name" class="tag-name form-control">
+                <div class="form-group form d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="form-group form">
+                            <label>
+                                Name
+                            </label>
+                            <input type="text" name="name" class="tag-name form-control">
+                        </div>
+                        <div class="form-group form">
+                            <label>
+                                Color
+                            </label>
+                            <input type="color" name="color" class="tag-color form-control">
+                        </div>
                     </div>
-                    <div class="form-group form">
-                        <label>
-                            Color
-                        </label>
-                        <input type="color" name="color" class="tag-color form-control">
-                    </div>
-                    <div class="form-group form">
-                        <button class="btn btn-secondary btn-add-tag">
-                            Add
-                        </button>
-                    </div>
-                    <div class="remove-tag form-group form align-items-end">
-                        <button class="btn btn-secondary btn-remove-tag">
-                            Remove
-                        </button>
+                    <div>
+                        <div class="form-group form">
+                            <button class="btn btn-secondary btn-add-tag w-50">
+                                Add
+                            </button>
+                        </div>
+                        <div class="remove-tag form-group form align-items-end">
+                            <button class="btn btn-secondary btn-remove-tag w-50">
+                                Remove
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary toggle-tag">
+            <button type="button" class="btn btn-primary toggle-tag w-25">
                 Close
             </button>
         </div>
