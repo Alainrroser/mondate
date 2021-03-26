@@ -184,3 +184,13 @@ for(let appointmentCell of document.querySelectorAll(".appointment-cell")) {
         })
     })
 }
+
+let searchButtons = document.querySelectorAll(".toggle-search")
+let searchDialog = document.querySelector("#dialog-search")
+
+for(let searchButton of searchButtons) {
+    searchButton.addEventListener("click", function() {
+        searchDialog.classList.toggle("invisible")
+    })
+}
+

@@ -90,6 +90,7 @@ require 'dialogEditAppointment.php';
 require 'dialogTags.php';
 require 'dialogShare.php';
 require 'dialogDeleteAccount.php';
+require 'dialogSearch.php';
 require '../templates/error/dialogError.php';
 ?>
 
@@ -141,6 +142,11 @@ require '../templates/error/dialogError.php';
                         Delete Appointment
                     </button>
                 </form>
+            </div>
+            <div class="ml-0 row">
+                <button class="btn btn-secondary w-100 mb-2 toggle-search">
+                    Search
+                </button>
             </div>
             <div class="ml-0 row">
                 <button class="btn btn-secondary w-100 mb-2 refresh">
@@ -244,6 +250,11 @@ require '../templates/error/dialogError.php';
                 Delete Appointment
             </button>
         </form>
+    </div>
+    <div class="row mb-3">
+        <button class="btn btn-secondary w-100 mb-2 toggle-search">
+            Search
+        </button>
     </div>
     <div class="row mb-3">
         <button class="btn btn-secondary w-100 mb-2 refresh">

@@ -134,13 +134,17 @@ main.container {
     border: 5px solid black;
 }
 
-#dialog-create-appointment, #dialog-edit-appointment, #dialog-manage-tags, #dialog-share, #dialog-error, #dialog-delete-account {
+#dialog-create-appointment, #dialog-edit-appointment, #dialog-manage-tags, #dialog-share, #dialog-error, #dialog-delete-account, #dialog-search {
     z-index: 10;
 }
 
-.tag-list, .email-list {
+.tag-list, .email-list, .search-results {
     overflow-y: scroll;
     max-height: 350px;
+}
+
+.search-results {
+    height: 300px;
 }
 
 .email-list {
