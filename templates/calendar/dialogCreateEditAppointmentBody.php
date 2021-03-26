@@ -2,10 +2,11 @@
     <form method=post action=<?= $formAction ?> >
         <input type="hidden" name="id" class="edit-appointment-id">
         <div class="form-group form">
-            <label for="appointment-name-desktop">
+            <label for="appointment-name-<?= $type ?>-desktop">
                 Name
             </label>
-            <input type="text" name="name" class="input-appointment-name form-control" id="appointment-name-desktop" required>
+            <input type="text" name="name" class="input-appointment-name form-control"
+                   id="appointment-name-<?= $type ?>-desktop" required>
         </div>
         <div class="d-flex flex-row justify-content-between">
             <div class="form-group form w-100">
@@ -16,18 +17,19 @@
                        class="input-appointment-start form-control" required>
             </div>
             <div class="form-group form w-100">
-                <label for="appointment-end-desktop">
+                <label for="appointment-end-<?= $type ?>-desktop">
                     End
                 </label>
-                <input type="datetime-local" id="appointment-end-desktop" name="end"
+                <input type="datetime-local" id="appointment-end-<?= $type ?>-desktop" name="end"
                        class="input-appointment-end form-control" required>
             </div>
         </div>
         <div class="form-group form">
-            <label for="appointment-description-desktop">
+            <label for="appointment-description-<?= $type ?>-desktop">
                 Description
             </label>
-            <textarea rows="5" id="appointment-description-desktop" name="description" class="input-appointment-description form-control"></textarea>
+            <textarea rows="5" id="appointment-description-<?= $type ?>-desktop" name="description"
+                      class="input-appointment-description form-control"></textarea>
         </div>
         <div class="form-group form">
             <div class="form-group form">
@@ -82,30 +84,32 @@
     <form method=post action=<?= $formAction ?>>
         <input type="hidden" name="id" class="edit-appointment-id">
         <div class="form-group form">
-            <label for="appointment-name-mobile">
+            <label for="appointment-name-<?= $type ?>-mobile">
                 Name
             </label>
-            <input type="text" id="appointment-name-mobile" name="name" class="input-appointment-name form-control" required>
+            <input type="text" id="appointment-name-<?= $type ?>-mobile" name="name"
+                   class="input-appointment-name form-control" required>
         </div>
         <div class="form-group form w-100">
-            <label for="appointment-start-mobile">
-                Start Date
+            <label for="appointment-start-<?= $type ?>-mobile">
+                Start
             </label>
-            <input type="datetime-local" id="appointment-start-mobile" name="start"
+            <input type="datetime-local" id="appointment-start-<?= $type ?>-mobile" name="start"
                    class="input-appointment-start form-control" required>
         </div>
         <div class="form-group form w-100">
-            <label for="appointment-end-mobile">
-                End Date
+            <label for="appointment-end-<?= $type ?>-mobile">
+                End
             </label>
-            <input type="datetime-local" id="appointment-end-mobile" name="end"
+            <input type="datetime-local" id="appointment-end-<?= $type ?>-mobile" name="end"
                    class="input-appointment-end form-control" required>
         </div>
         <div class="form-group form w-100">
-            <label for="appointment-description-mobile">
+            <label for="appointment-description-<?= $type ?>-mobile">
                 Description
             </label>
-            <textarea rows="5" id="appointment-description-mobile" name="description" class="input-appointment-description form-control"></textarea>
+            <textarea rows="5" id="appointment-description-<?= $type ?>-mobile" name="description"
+                      class="input-appointment-description form-control"></textarea>
         </div>
         <div class="form-group form w-100 mb-3">
             <label>
@@ -125,10 +129,10 @@
                                 $color = '#'.$tag->color;
                                 echo
                                 "<div class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
-                                                    <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
-                                                    <span style=\"background-color: $color\" class=\"mr-1 color-block\"></span>
-                                                    <label class=\"align-middle mb-0\">$tag->name</label>
-                                                </div>";
+                                    <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
+                                    <span style=\"background-color: $color\" class=\"mr-1 color-block\"></span>
+                                    <label class=\"align-middle mb-0\">$tag->name</label>
+                                </div>";
                             }
                             ?>
                         </div>

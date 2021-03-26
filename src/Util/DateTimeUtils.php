@@ -25,7 +25,7 @@ class DateTimeUtils {
     }
 
     public static function parseDatabaseDateTime($dateTimeString) {
-        return DateTime::createFromFormat("Y-m-d H:s:i", $dateTimeString);
+        return DateTime::createFromFormat("Y-m-d H:i:s", $dateTimeString);
     }
 
 }

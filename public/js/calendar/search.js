@@ -1,7 +1,7 @@
 let searchButtons = document.querySelectorAll(".toggle-search")
-let searchDialog = document.querySelector("#dialog-search")
 let searchResultLists = document.querySelectorAll(".search-result-list")
 let searchFields = document.querySelectorAll(".search")
+let searchDialog = document.querySelector("#dialog-search")
 
 let selectedSearchResult = null
 
@@ -9,7 +9,7 @@ function addSearchResultToSearchResultList(object) {
     for(let searchResultList of searchResultLists) {
         let searchResult = document.createElement("button")
         searchResult.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
-        searchResult.textContent = object.name + ": " + object.date + ", " + object.start + "-" + object.end + " " + object.description
+        searchResult.textContent = object.name + ": " + object.start + "-" + object.end + " " + object.description
         searchResultList.appendChild(searchResult)
         addSearchResultEventListener(searchResult)
     }

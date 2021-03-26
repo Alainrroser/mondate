@@ -79,6 +79,14 @@ for(let refreshButton of refreshButtons) {
     })
 }
 
+document.addEventListener("keydown", function(event) {
+    if(appointmentSelected) {
+        if(event.key === "Delete") {
+            document.querySelector(".btn-delete-appointment").click()
+        }
+    }
+})
+
 function showEditAppointmentDialog() {
     let request = new XMLHttpRequest()
     request.onreadystatechange = function() {
