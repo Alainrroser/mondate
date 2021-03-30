@@ -115,6 +115,11 @@ require '../templates/error/dialogError.php';
             <h1 class="col pl-0">
                 Mondate
             </h1>
+            <div class="col d-flex">
+                <label for="search-desktop"></label>
+                <input type="search" id="search-desktop" class="col search" placeholder="Search" autocomplete="off">
+                <div class="search-result-list invisible w-100"></div>
+            </div>
             <div class="dropdown w-25">
                 <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdown-menu-button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
