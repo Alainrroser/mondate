@@ -9,10 +9,11 @@
                     <?php
                     foreach($tags as $tag) {
                         $color = '#'.$tag->color;
+                        $name = htmlspecialchars($tag->name);
                         echo
                         "<button class=\"tag-$tag->id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
                             <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
-                            <span class=\"align-middle\">$tag->name</span>
+                            <span class=\"align-middle\">$name</span>
                         </button>";
                     }
                     ?>
@@ -24,7 +25,7 @@
                                 Name
                             </label>
                             <input type="text" name="name" class="tag-name form-control" id="tag-name-desktop"
-                                   maxlength="20">
+                                   maxlength="70">
                         </div>
                         <div class="form-group form">
                             <label for="tag-color-desktop">

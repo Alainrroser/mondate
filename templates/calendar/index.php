@@ -171,10 +171,11 @@ require '../templates/error/dialogError.php';
                     <?php
                     foreach($usedTags as $tag) {
                         $color = '#'.$tag->color;
+                        $name = htmlspecialchars($tag->name);
                         echo "
                             <div class=\"row mt-2 align-items-center\">
                                 <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
-                                <span class=\"align-middle\">$tag->name</span>
+                                <span class=\"align-middle\">$name</span>
                             </div>
                             ";
                     }
@@ -344,10 +345,11 @@ require '../templates/error/dialogError.php';
             <?php
             foreach($usedTags as $tag) {
                 $color = '#'.$tag->color;
+                $name = htmlspecialchars($tag->name);
                 echo "
                 <div class=\"row mt-2 align-items-center\">
                     <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
-                    <span class=\"align-middle\">$tag->name</span>
+                    <span class=\"align-middle\">$name</span>
                 </div>
                 ";
             }
