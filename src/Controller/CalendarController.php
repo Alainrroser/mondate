@@ -10,6 +10,7 @@ use App\Repository\TagRepository;
 use App\Util\DateTimeUtils;
 use App\View\View;
 use DateTime;
+use DateTimeZone;
 
 class CalendarController {
 
@@ -47,7 +48,8 @@ class CalendarController {
 
     private function setStartDateIfNotSet() {
         if (!isset($_SESSION['startDate'])) {
-            $_SESSION['startDate'] = new DateTime('monday this week');
+            $timezone = new DateTimeZone($_SESSION["timezone"]);
+            $_SESSION['startDate'] = new DateTime('monday this week', $timezone);
         }
     }
 

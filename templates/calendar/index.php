@@ -1,8 +1,10 @@
 <?php
 
-const COLUMNS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+use App\Util\DateTimeUtils;
 
+const COLUMNS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const SECONDS_PER_HOUR = 60 * 60;
+const APPOINTMENT_HEIGHT = 50;
 
 function getAppointmentStyle($appointment, $margin, $height) {
     $style = "background-color: gray;";
@@ -28,6 +30,69 @@ function getAppointmentStyle($appointment, $margin, $height) {
     $style .= "height: " . $height . "px;";
 
     return $style;
+}
+
+function createAppointmentContainer($appointment, $margin, $height) {
+    $appointmentId = $appointment->getId();
+    $style = getAppointmentStyle($appointment, $margin, $height);
+    $text = $appointment->getName();
+
+    $classes = "w-100 p-0 align-middle appointment appointment-id-$appointmentId";
+    return "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
+}
+
+function getCellContent($cellDate, $cellStart, $cellEnd, $appointments, $isFirstCellOfDay) {
+    $content = "";
+
+    foreach($appointments as $appointment) {
+        $appointmentStartDate = DateTimeUtils::extractDate($appointment->getStartAsDateTime());
+        $appointmentEndDate = DateTimeUtils::extractDate($appointment->getEndAsDateTime());
+
+        // Get the start in seconds relative to the current day
+        // For example: An appointment starting at 08:30 would result in a value of 8.5 * 60 * 60 = 30600
+        $startInSeconds = $appointment->getStartAsDateTime()->getTimestamp() - $appointmentStartDate->getTimestamp();
+        $endInSeconds = $appointment->getEndAsDateTime()->getTimestamp() - $appointmentEndDate->getTimestamp();
+
+        if($appointmentStartDate == $appointmentEndDate) {
+            // The appointment only lasts for one day
+
+            if($appointment->getStartAsDateTime() >= $cellStart && $appointment->getStartAsDateTime() < $cellEnd) {
+                // The appointment starts in the current cell
+
+                $height = APPOINTMENT_HEIGHT * ($endInSeconds - $startInSeconds) / SECONDS_PER_HOUR;
+                $margin = APPOINTMENT_HEIGHT * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
+                $content .= createAppointmentContainer($appointment, $margin, $height);
+            }
+        } else {
+            if($cellDate == $appointmentStartDate) {
+                // The appointment starts on the current date
+
+                if($appointment->getStartAsDateTime() >= $cellStart && $appointment->getStartAsDateTime() <= $cellEnd) {
+                    // The appointment starts in the current cell
+
+                    $margin = APPOINTMENT_HEIGHT * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
+                    $height = APPOINTMENT_HEIGHT * (24 - ($startInSeconds / SECONDS_PER_HOUR));
+                    $content .= createAppointmentContainer($appointment, $margin, $height);
+                }
+            } else if($cellDate > $appointmentStartDate && $cellDate < $appointmentEndDate) {
+                // The appointment starts before the current date and ends afterwards
+
+                if($isFirstCellOfDay) {
+                    $height = APPOINTMENT_HEIGHT * 24; // Make the appointment fill the entire day
+                    $content .= createAppointmentContainer($appointment, 0, $height);
+                }
+            } else if($cellDate == $appointmentEndDate) {
+                // The appointment ends on the current date
+
+                if($isFirstCellOfDay) {
+                    $height = APPOINTMENT_HEIGHT * ($endInSeconds / SECONDS_PER_HOUR);
+                    $content .= createAppointmentContainer($appointment, 0, $height);
+                }
+            }
+        }
+    }
+
+    return $content;
 }
 
 ?>
@@ -152,15 +217,8 @@ require '../templates/error/dialogError.php';
                         $cellEnd = clone $cellStart;
                         $cellEnd->add(date_interval_create_from_date_string("59 minutes"));
 
-                        $content = "";
-
-                        foreach($appointments as $appointment) {
-                            if($cellStart >= $appointment->getStartAsDateTime()) {
-                                if($cellEnd <= $appointment->getEndAsDateTime()) {
-                                    $content .= $appointment->getName();
-                                }
-                            }
-                        }
+                        $isFirstCellOfDay = $i == 0;
+                        $content = getCellContent($cellDate, $cellStart, $cellEnd, $appointments, $isFirstCellOfDay);
 
                         $id = "appointment-cell-" . $cellStart->getTimestamp();
                         echo "<td class=\"appointment-cell cell-appointment p-0 align-top\" id=\"$id\">$content</td>";

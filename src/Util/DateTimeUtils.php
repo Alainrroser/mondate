@@ -35,4 +35,10 @@ class DateTimeUtils {
         return DateTime::createFromFormat("Y-m-d H:i:s", $dateTimeString);
     }
 
+    public static function extractDate($dateTime) {
+        $string = $dateTime->format("Y-m-d");
+        $string .= " 00:00:00";
+        return DateTime::createFromFormat("Y-m-d H:i:s", $string, $dateTime->getTimeZone());
+    }
+
 }
