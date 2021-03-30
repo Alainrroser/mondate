@@ -11,12 +11,17 @@ use Exception;
 class AppointmentRepository extends Repository {
     protected $tableName = 'appointment';
 
-    /**
-     * @param $user_id
-     *
-     * @return array
-     * @throws Exception
-     */
+    private function convertDatabaseRowToAppointment($row) {
+        return new Appointment(
+            $row->id,
+            $row->start,
+            $row->end,
+            $row->name,
+            $row->description,
+            $row->creator_id
+        );
+    }
+
     public function getAppointmentsForUser($user_id) {
         $query = "SELECT
                   a.id, a.start, a.end, a.name, a.description, a.creator_id,
@@ -43,14 +48,7 @@ class AppointmentRepository extends Repository {
             }
 
             if (is_null($currentAppointment)) {
-                $currentAppointment = new Appointment(
-                    $id,
-                    $row->start,
-                    $row->end,
-                    $row->name,
-                    $row->description,
-                    $row->creator_id
-                );
+                $currentAppointment = $this->convertDatabaseRowToAppointment($row);
                 $appointments[] = $currentAppointment;
             }
 
@@ -58,6 +56,18 @@ class AppointmentRepository extends Repository {
                 $tag = new Tag($row->id, $row->tag, $row->tag_color);
                 $currentAppointment->addTag($tag);
             }
+        }
+
+        return $appointments;
+    }
+
+    public function readAll($max = 100) {
+        $query = "SELECT * FROM $this->tableName LIMIT 0, $max";
+        $rows = $this->executeAndGetRows($query);
+
+        $appointments = array();
+        foreach($rows as $row) {
+            $appointments[] = $this->convertDatabaseRowToAppointment($row);
         }
 
         return $appointments;

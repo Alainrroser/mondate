@@ -14,11 +14,6 @@ function updateEditDeleteButtonStates() {
 updateEditDeleteButtonStates()
 
 for(let appointmentButton of appointmentButtons) {
-    appointmentButton.addEventListener("dblclick", function(event) {
-        event.preventDefault()
-        event.stopPropagation()
-    })
-
     appointmentButton.addEventListener("click", function(event) {
         let id
         for(let cssClass of appointmentButton.classList) {
@@ -142,8 +137,8 @@ for(let btn of document.querySelectorAll(".btn-edit-appointment")) {
 function convertDateToDateTimeLocalValue(date) {
     let result = ''
     result += date.getFullYear().toString().padStart(4, "0") + "-"
-    result += date.getMonth().toString().padStart(2, "0") + "-"
-    result += date.getDay().toString().padStart(2, "0") + "T"
+    result += (date.getMonth() + 1).toString().padStart(2, "0") + "-"
+    result += date.getDate().toString().padStart(2, "0") + "T"
     result += date.getHours().toString().padStart(2, "0") + ":"
     result += date.getMinutes().toString().padStart(2, "0")
     return result
@@ -187,7 +182,7 @@ for(let inputWeekStart of document.querySelectorAll(".input-week-start")) {
 }
 
 for(let appointmentCell of document.querySelectorAll(".appointment-cell")) {
-    appointmentCell.addEventListener("dblclick", function() {
+    appointmentCell.addEventListener("click", function() {
         let dateTimeInSeconds = appointmentCell.id.split("-")[2]
         let date = new Date(parseInt(dateTimeInSeconds) * 1000)
 

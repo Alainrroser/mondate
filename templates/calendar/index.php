@@ -108,19 +108,14 @@ require '../templates/error/dialogError.php';
 
 <div class="desktop-only container pl-0 mw-100">
     <div class="row pb-4">
-        <div class="col-3 px-5">
+        <div class="col d-flex flex-row justify-content-center">
             <img src="/images/logo.png" class="card-img-top" alt="The Mondate Logo">
         </div>
-        <h1 class="col-4 text-center">
-            Mondate
-        </h1>
-        <div class="d-flex">
-            <label for="search-desktop"></label>
-            <input type="search" id="search-desktop" class="col search" placeholder="Search" autocomplete="off">
-            <div class="search-result-list invisible w-100"></div>
-        </div>
-        <div class="col">
-            <div class="dropdown float-right w-50">
+        <div class="pl-0 pr-5 col-10 d-flex flex-row align-items-center justify-content-between">
+            <h1 class="col pl-0">
+                Mondate
+            </h1>
+            <div class="dropdown w-25">
                 <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdown-menu-button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
@@ -182,8 +177,8 @@ require '../templates/error/dialogError.php';
                 </div>
             </div>
         </div>
-        <div class="col-10">
-            <table class="table">
+        <div class="col-10 p-0">
+            <table class="table p-0">
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -230,7 +225,7 @@ require '../templates/error/dialogError.php';
             </table>
         </div>
     </div>
-    <div class="row float-right pt-3 w-100">
+    <div class="row float-right pt-3 pr-4 w-100">
         <div class="col w-100 d-flex flex-row justify-content-end align-items-center">
             <a href="/calendar/last" class="btn btn-secondary px-5 mr-3">
                 Last

@@ -67,9 +67,7 @@ table {
 }
 
 td, th {
-    width: 9.5vw;
-    min-width: 9.5vw;
-    max-width: 9.5vw;
+    width: 10vw !important;
 }
 
 tr {
@@ -109,6 +107,15 @@ main.container {
 
 .appointment-cell {
     position: relative;
+    transition: all 0.1s ease-in-out;
+}
+
+.appointment-cell:hover {
+    background-color: #eeeeee;
+}
+
+.appointment {
+    transition: border-color 0.1s ease-in-out;
 }
 
 .appointment {
@@ -128,6 +135,12 @@ main.container {
     padding: 0 10px;
     cursor: pointer;
     user-select: none;
+    text-align: center;
+    transition: all 0.1s ease-in-out;
+}
+
+.appointment:hover > span {
+    font-size: 1.2rem;
 }
 
 .appointment.appointment-selected {
@@ -157,7 +170,7 @@ main.container {
 }
 
 .card-img-top {
-    width: 100px !important;
+    width: 80px !important;
 }
 
 #container-calendar-mobile {
