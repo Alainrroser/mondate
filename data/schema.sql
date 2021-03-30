@@ -5,8 +5,8 @@ USE mondate;
 
 CREATE TABLE user (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    email VARCHAR(200) NOT NULL,
-    password VARCHAR(255),
+    email VARCHAR(450) NOT NULL,
+    password VARCHAR(50),
     UNIQUE KEY (email)
 );
 

@@ -6,7 +6,7 @@
                 Name
             </label>
             <input type="text" name="name" class="input-appointment-name form-control"
-                   id="appointment-name-<?= $type ?>-desktop" required>
+                   id="appointment-name-<?= $type ?>-desktop" maxlength="20" required>
         </div>
         <div class="d-flex flex-row justify-content-between">
             <div class="form-group form w-100">
@@ -29,7 +29,8 @@
                 Description
             </label>
             <textarea rows="5" id="appointment-description-<?= $type ?>-desktop" name="description"
-                      class="input-appointment-description form-control"></textarea>
+                      class="input-appointment-description form-control"
+                      maxlength="1000"></textarea>
         </div>
         <div class="form-group form">
             <div class="form-group form">
@@ -88,7 +89,7 @@
                 Name
             </label>
             <input type="text" id="appointment-name-<?= $type ?>-mobile" name="name"
-                   class="input-appointment-name form-control" required>
+                   class="input-appointment-name form-control" maxlength="20" required>
         </div>
         <div class="form-group form w-100">
             <label for="appointment-start-<?= $type ?>-mobile">
@@ -109,7 +110,8 @@
                 Description
             </label>
             <textarea rows="5" id="appointment-description-<?= $type ?>-mobile" name="description"
-                      class="input-appointment-description form-control"></textarea>
+                      class="input-appointment-description form-control"
+                      maxlength="1000"></textarea>
         </div>
         <div class="form-group form w-100 mb-3">
             <label>

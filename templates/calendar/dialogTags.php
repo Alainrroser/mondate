@@ -23,7 +23,8 @@
                             <label for="tag-name-desktop">
                                 Name
                             </label>
-                            <input type="text" name="name" class="tag-name form-control" id="tag-name-desktop">
+                            <input type="text" name="name" class="tag-name form-control" id="tag-name-desktop"
+                                   maxlength="20">
                         </div>
                         <div class="form-group form">
                             <label for="tag-color-desktop">

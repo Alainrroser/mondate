@@ -12,15 +12,14 @@
                         E-Mail
                     </label>
                     <input id="input-email" type="email" name="email" class="form-control"
-                           placeholder="Enter your e-mail" required>
+                           placeholder="Enter your e-mail" maxlength="450" required>
                 </div>
                 <div class="form-group form">
                     <label for="input-password">
                         Password
                     </label>
                     <input type="password" name="password" class="form-control" placeholder="Enter your password"
-                           id="input-password"
-                           required>
+                           id="input-password" maxlength="50" required>
                 </div>
                 <div class="pb-3">
                     <input id="input-remember-me" type="checkbox">
