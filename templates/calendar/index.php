@@ -35,7 +35,7 @@ function getAppointmentStyle($appointment, $margin, $height) {
 function createAppointmentContainer($appointment, $margin, $height) {
     $appointmentId = $appointment->getId();
     $style = getAppointmentStyle($appointment, $margin, $height);
-    $text = $appointment->getName();
+    $text = htmlspecialchars($appointment->getName());
 
     $classes = "w-100 p-0 align-middle appointment appointment-id-$appointmentId";
     return "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
@@ -322,7 +322,8 @@ require '../templates/error/dialogError.php';
             foreach($appointments as $appointment) {
                 if($appointment->getStartAsDateTime()->format("Y-m-d") === $current_date->format("Y-m-d")) {
                     $appointmentId = $appointment->getId();
-                    $text = $appointment->getName() . " (" .$appointment->getStart() . " - " . $appointment->getEnd() . ")";
+                    $name = htmlspecialchars($appointment->getName());
+                    $text = $name . " (" .$appointment->getStart() . " - " . $appointment->getEnd() . ")";
 
                     $style = getAppointmentStyle($appointment, 0, 49);
                     $classes = "w-100 p-0 align-middle appointment appointment-top-bottom";
