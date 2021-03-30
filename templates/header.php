@@ -13,5 +13,7 @@
     </title>
     <link rel="icon" href="/images/favicon.png" type="image/x-icon">
 </head>
-    <body>
+    <body style="display: none">
+        <!-- Make body invisible until the page has finished loading-->
+        <script src="/js/loading.js"></script>
         <main class="container d-flex justify-content-center m-0 pt-3 px-2 mw-100">

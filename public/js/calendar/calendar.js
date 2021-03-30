@@ -62,8 +62,8 @@ for(let appointmentButton of appointmentButtons) {
 
 for(let toggleCreateButton of document.querySelectorAll(".toggle-create")) {
     toggleCreateButton.addEventListener("click", function() {
-        document.getElementById("dialog-create-appointment").classList.toggle("invisible")
         setDateTimeToNow()
+        document.getElementById("dialog-create-appointment").classList.toggle("invisible")
     })
 }
 
@@ -139,16 +139,26 @@ for(let btn of document.querySelectorAll(".btn-edit-appointment")) {
     })
 }
 
+function convertDateToDateTimeLocalValue(date) {
+    let result = ''
+    result += date.getFullYear().toString().padStart(4, "0") + "-"
+    result += date.getMonth().toString().padStart(2, "0") + "-"
+    result += date.getDay().toString().padStart(2, "0") + "T"
+    result += date.getHours().toString().padStart(2, "0") + ":"
+    result += date.getMinutes().toString().padStart(2, "0")
+    return result
+}
+
 function setDateTimeToNow() {
     let date = new Date()
-    let hour = date.getHours()
-    let minute = date.getMinutes()
-    minute += (minute < 10 ? "0" : "")
-    hour += (hour < 10 ? "0" : "")
-    document.querySelector(".input-appointment-start").value = hour + ":" + minute
+    document.querySelectorAll(".input-appointment-start").forEach(function(element) {
+        element.value = convertDateToDateTimeLocalValue(date)
+    })
+
     date.setHours(date.getHours() + 1)
-    let endHour = date.getHours()
-    document.querySelector(".input-appointment-end").value = endHour + ":" + minute
+    document.querySelectorAll(".input-appointment-end").forEach(function(element) {
+        element.value = convertDateToDateTimeLocalValue(date)
+    })
 }
 
 let deleteAccountLinks = document.querySelectorAll(".delete-account")
@@ -180,16 +190,16 @@ for(let appointmentCell of document.querySelectorAll(".appointment-cell")) {
     appointmentCell.addEventListener("dblclick", function() {
         let dateTimeInSeconds = appointmentCell.id.split("-")[2]
         let date = new Date(parseInt(dateTimeInSeconds) * 1000)
-        date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000)
 
-        document.getElementById("dialog-create-appointment").classList.toggle("invisible")
-        document.querySelectorAll(".input-appointment-start").forEach(function(entry) {
-            entry.valueAsDate = date;
+        document.querySelectorAll(".input-appointment-start").forEach(function(element) {
+            element.value = convertDateToDateTimeLocalValue(date)
         })
 
         date.setHours(date.getHours() + 1)
-        document.querySelectorAll(".input-appointment-end").forEach(function(entry) {
-            entry.valueAsDate = date;
+        document.querySelectorAll(".input-appointment-end").forEach(function(element) {
+            element.value = convertDateToDateTimeLocalValue(date)
         })
+
+        document.getElementById("dialog-create-appointment").classList.toggle("invisible")
     })
 }
