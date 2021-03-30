@@ -141,18 +141,18 @@ require '../templates/error/dialogError.php';
         </div>
     </div>
     <div class="row">
-        <div class="container col px-5">
-            <div class="ml-0 row">
+        <div class="container col px-4">
+            <div class="ml-0 row w-100">
                 <button class="btn btn-secondary w-100 mb-2 toggle-create">
                     Create Appointment
                 </button>
             </div>
-            <div class="ml-0 row">
+            <div class="ml-0 row w-100">
                 <button class="btn-edit-appointment btn btn-secondary w-100 mb-2" disabled>
                     Edit Appointment
                 </button>
             </div>
-            <div class="ml-0 row">
+            <div class="ml-0 row w-100">
                 <form action="/appointment/delete" method="post" class="w-100">
                     <input type="hidden" name="id" value="" class="delete-appointment-id">
                     <button type="submit" class="btn-delete-appointment btn btn-secondary w-100 mb-2" disabled>
@@ -160,7 +160,7 @@ require '../templates/error/dialogError.php';
                     </button>
                 </form>
             </div>
-            <div class="ml-0 row">
+            <div class="ml-0 row w-100">
                 <button class="btn btn-secondary w-100 mb-2 refresh">
                     Refresh
                 </button>
@@ -169,7 +169,7 @@ require '../templates/error/dialogError.php';
                 <div class="container card-body w-100">
                     <h2 class="h5 text-center w-100">Tags</h2>
                     <?php
-                    foreach($tags as $tag) {
+                    foreach($usedTags as $tag) {
                         $color = '#'.$tag->color;
                         echo "
                             <div class=\"row mt-2 align-items-center\">
@@ -342,7 +342,7 @@ require '../templates/error/dialogError.php';
         <div class="container card-body">
             <h2 class="h5 text-center">Tags</h2>
             <?php
-            foreach($tags as $tag) {
+            foreach($usedTags as $tag) {
                 $color = '#'.$tag->color;
                 echo "
                 <div class=\"row mt-2 align-items-center\">

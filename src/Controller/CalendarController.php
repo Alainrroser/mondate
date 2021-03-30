@@ -21,7 +21,8 @@ class CalendarController {
         $tagRepository = new TagRepository();
 
         $appointments = $appointmentRepository->getAppointmentsFromUser($userId);
-        $tags = $tagRepository->readAll();
+        $tags = $tagRepository->readAll($userId);
+        $usedTags = $tagRepository->getTagsFromUser($userId);
 
         $startDate = $_SESSION['startDate'];
         $endDate = clone $_SESSION['startDate'];
@@ -31,6 +32,7 @@ class CalendarController {
         $view->title = 'Calendar';
         $view->appointments = $appointments;
         $view->tags = $tags;
+        $view->usedTags = $usedTags;
         $view->startDate = $startDate;
         $view->endDate = $endDate;
         $view->errors = $errors;

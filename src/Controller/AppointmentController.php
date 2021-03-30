@@ -13,6 +13,17 @@ use App\View\JsonView;
 use DateTime;
 
 class AppointmentController {
+
+    private $MIN_APPOINTMENT_DURATION;
+    private $MIN_DATE;
+    private $MAX_DATE;
+
+    public function __construct() {
+        $this->MIN_APPOINTMENT_DURATION = 60 * 15;
+        $this->MIN_DATE = DateTime::createFromFormat("Y-m-d", "1970-01-01");
+        $this->MAX_DATE = DateTime::createFromFormat("Y-m-d", "2035-01-01");
+    }
+
     public function create() {
         Authentication::restrictAuthenticated();
 
@@ -34,38 +45,7 @@ class AppointmentController {
                 $id = $appointmentRepository->createAppointment($startUTC, $endUTC, $name, $description, $creatorId, $tagIds);
                 $appointmentRepository->shareAppointment($id, $emails);
 
-                if($this->validateAndShareAppointment($id, $emails)) {
-                    header('Location: /calendar');
-                }
-            }
-        }
-    }
-
-    public function edit() {
-        Authentication::restrictAuthenticated();
-
-        if ($this->checkIfAppointmentDataPresent()) {
-            if(!$this->validateEditingUserIsCreator($_POST["id"])) {
-                return;
-            }
-
-            $id = $_POST['id'];
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $name = $_POST['name'];
-            $description = $_POST['description'];
-
-            $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
-            $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
-
-            if ($this->validateAppointmentTimes($id, $startUTC, $endUTC)) {
-                $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
-                $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
-
-                $appointmentRepository = new AppointmentRepository();
-                $appointmentRepository->editAppointment($id, $startUTC, $endUTC, $name, $description, $tagIds);
-
-                if($this->validateAndShareAppointment($id, $emails)) {
+                if ($this->validateAndShareAppointment($id, $emails)) {
                     header('Location: /calendar');
                 }
             }
@@ -113,15 +93,34 @@ class AppointmentController {
             return false;
         }
 
+        if ($end->getTimestamp() - $start->getTimestamp() < $this->MIN_APPOINTMENT_DURATION) {
+            $minMinutes = $this->MIN_APPOINTMENT_DURATION / 60;
+
+            $calendarController = new CalendarController();
+            $calendarController->displayView(["An appointment can't be shorter than $minMinutes minutes."]);
+            return false;
+        }
+
+        if($end < $this->MIN_DATE || $end > $this->MAX_DATE || $start < $this->MIN_DATE || $start > $this->MAX_DATE) {
+            $minDate = $this->MIN_DATE->format("Y-m-d");
+            $maxDate = $this->MAX_DATE->format("Y-m-d");
+
+            $calendarController = new CalendarController();
+            $calendarController->displayView(["Appointments must lay between $minDate and $maxDate."]);
+            return false;
+        }
+
         $appointmentRepository = new AppointmentRepository();
         $rows = $appointmentRepository->getAppointmentsFromUser($_SESSION["userId"]);
 
         foreach ($rows as $row) {
             if (!$id || $id != $row->getId()) {
-                $overlapTop = $start >= $row->getStartAsDateTime() && $start < $row->getEndAsDateTime();
-                $overlapBottom = $end > $row->getStartAsDateTime() && $end <= $row->getEndAsDateTime();
+                $overlapStartA = $start >= $row->getStartAsDateTime() && $start < $row->getEndAsDateTime();
+                $overlapEndA = $end > $row->getStartAsDateTime() && $end < $row->getEndAsDateTime();
+                $overlapStartB = $row->getStartAsDateTime() >= $start && $row->getStartAsDateTime() < $end;
+                $overlapEndB = $row->getEndAsDateTime() > $start && $row->getEndAsDateTime() < $end;
 
-                if ($overlapTop || $overlapBottom) {
+                if ($overlapStartA || $overlapEndA || $overlapStartB || $overlapEndB) {
                     $calendarController = new CalendarController();
                     $calendarController->displayView(["There already exists an appointment in this time frame."]);
                     return false;
@@ -138,8 +137,8 @@ class AppointmentController {
 
         $myEmail = $userRepository->readById($_SESSION['userId'])->email;
 
-        foreach($emails as $email) {
-            if($email == $myEmail) {
+        foreach ($emails as $email) {
+            if ($email == $myEmail) {
                 $calendarController = new CalendarController();
                 $calendarController->displayView(["Can't share appointment with yourself."]);
                 return false;
@@ -155,11 +154,55 @@ class AppointmentController {
         }
     }
 
+    public function edit() {
+        Authentication::restrictAuthenticated();
+
+        if ($this->checkIfAppointmentDataPresent()) {
+            if (!$this->validateEditingUserIsCreator($_POST["id"])) {
+                return;
+            }
+
+            $id = $_POST['id'];
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+
+            $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
+            $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
+
+            if ($this->validateAppointmentTimes($id, $startUTC, $endUTC)) {
+                $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
+                $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
+
+                $appointmentRepository = new AppointmentRepository();
+                $appointmentRepository->editAppointment($id, $startUTC, $endUTC, $name, $description, $tagIds);
+
+                if ($this->validateAndShareAppointment($id, $emails)) {
+                    header('Location: /calendar');
+                }
+            }
+        }
+    }
+
+    private function validateEditingUserIsCreator($appointmentId) {
+        $appointmentRepository = new AppointmentRepository();
+
+        $creatorId = $appointmentRepository->readById($appointmentId)->creator_id;
+        if ($_SESSION["userId"] !== $creatorId) {
+            $calendarController = new CalendarController();
+            $calendarController->displayView(["You can't edit or delete appointments that you haven't created."]);
+            return false;
+        }
+
+        return true;
+    }
+
     public function delete() {
         Authentication::restrictAuthenticated();
 
         if (isset($_POST["id"])) {
-            if(!$this->validateEditingUserIsCreator($_POST["id"])) {
+            if (!$this->validateEditingUserIsCreator($_POST["id"])) {
                 return;
             }
 
@@ -169,19 +212,6 @@ class AppointmentController {
         } else {
             echo "Invalid input, missing appointment ID";
         }
-    }
-
-    private function validateEditingUserIsCreator($appointmentId) {
-        $appointmentRepository = new AppointmentRepository();
-
-        $creatorId = $appointmentRepository->readById($appointmentId)->creator_id;
-        if($_SESSION["userId"] !== $creatorId) {
-            $calendarController = new CalendarController();
-            $calendarController->displayView(["You can't edit or delete appointments that you haven't created."]);
-            return false;
-        }
-
-        return true;
     }
 
     public function get() {
@@ -211,7 +241,7 @@ class AppointmentController {
                 $response['description'] = $appointment->description;
                 $response['tags'] = [];
 
-                foreach ($tagRepository->getTagsForAppointment($id) as $tag) {
+                foreach ($tagRepository->getTagsFromAppointment($id) as $tag) {
                     $response['tags'][] = $tag->id;
                 }
 
@@ -229,18 +259,18 @@ class AppointmentController {
             echo "Invalid input, appointment ID missing";
         }
     }
-    
+
     public function getAppointmentsFromUser() {
         Authentication::restrictAuthenticated();
-        
+
         $appointmentRepository = new AppointmentRepository();
         $appointments = $appointmentRepository->getAppointmentsFromUser($_SESSION["userId"]);
-        
+
         $response = [];
-        foreach($appointments as $appointment) {
+        foreach ($appointments as $appointment) {
             $appointmentArray = [];
             $tagArray = [];
-            foreach($appointment->getTags() as $tag) {
+            foreach ($appointment->getTags() as $tag) {
                 $tagArray[] = $tag;
             }
             $appointmentArray["name"] = $appointment->getName();
@@ -248,10 +278,10 @@ class AppointmentController {
             $appointmentArray["start"] = $appointment->getStart();
             $appointmentArray["end"] = $appointment->getEnd();
             $appointmentArray["tags"] = $tagArray;
-            
+
             $response[] = $appointmentArray;
         }
-        
+
         $view = new JsonView();
         $view->setJsonObject($response);
         $view->display();
