@@ -21,7 +21,7 @@ class CalendarController {
         $tagRepository = new TagRepository();
 
         $appointments = $appointmentRepository->getAppointmentsFromUser($userId);
-        $tags = $tagRepository->readAll($userId);
+        $tags = $tagRepository->readAll();
         $usedTags = $tagRepository->getTagsFromUser($userId);
 
         $startDate = $_SESSION['startDate'];
