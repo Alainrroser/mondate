@@ -103,18 +103,22 @@ require 'dialogEditAppointment.php';
 require 'dialogTags.php';
 require 'dialogShare.php';
 require 'dialogDeleteAccount.php';
-require 'dialogSearch.php';
 require '../templates/error/dialogError.php';
 ?>
 
 <div class="desktop-only container pl-0 mw-100">
     <div class="row pb-4">
-        <div class="col-4 px-5">
+        <div class="col-3 px-5">
             <img src="/images/logo.png" class="card-img-top" alt="The Mondate Logo">
         </div>
         <h1 class="col-4 text-center">
             Mondate
         </h1>
+        <div class="d-flex">
+            <label for="search-desktop"></label>
+            <input type="search" id="search-desktop" class="col search" placeholder="Search" autocomplete="off">
+            <div class="search-result-list invisible w-100"></div>
+        </div>
         <div class="col">
             <div class="dropdown float-right w-50">
                 <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdown-menu-button"
@@ -155,11 +159,6 @@ require '../templates/error/dialogError.php';
                         Delete Appointment
                     </button>
                 </form>
-            </div>
-            <div class="ml-0 row">
-                <button class="btn btn-secondary w-100 mb-2 toggle-search">
-                    Search
-                </button>
             </div>
             <div class="ml-0 row">
                 <button class="btn btn-secondary w-100 mb-2 refresh">
@@ -275,11 +274,6 @@ require '../templates/error/dialogError.php';
         </form>
     </div>
     <div class="row mb-3">
-        <button class="btn btn-secondary w-100 mb-2 toggle-search">
-            Search
-        </button>
-    </div>
-    <div class="row mb-3">
         <button class="btn btn-secondary w-100 mb-2 refresh">
             Refresh
         </button>
@@ -291,13 +285,20 @@ require '../templates/error/dialogError.php';
             <?= $endDate->format('d.m.Y') ?>
         </span>
     </div>
-    <div class="row d-flex justify-content-center mb-5">
+    <div class="d-flex justify-content-center mb-3">
         <a href="/calendar/last" class="btn btn-secondary w-25 mr-2">
             Last
         </a>
         <a href="/calendar/next" class="btn btn-secondary w-25 ml-2">
             Next
         </a>
+    </div>
+    <div class="row search-parent">
+        <div class="d-flex justify-content-center mb-5 w-100">
+            <label for="search-mobile"></label>
+            <input type="search" id="search-mobile" class="w-100 search" placeholder="Search" autocomplete="off">
+            <div class="search-result-list invisible"></div>
+        </div>
     </div>
     <div>
         <?php

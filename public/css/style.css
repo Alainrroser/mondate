@@ -143,10 +143,6 @@ main.container {
     max-height: 350px;
 }
 
-.search-result-list {
-    height: 300px;
-}
-
 .email-list {
     height: 300px;
 }
@@ -174,6 +170,18 @@ main.container {
 
 .week-end {
     width: 5.5rem;
+}
+
+.search {
+    width: 300px;
+    max-width: 300px;
+    height: 25px;
+}
+
+.search-result-list {
+    max-width: 300px;
+    position: absolute;
+    z-index: 11;
 }
 
 @media only screen and (min-width: 1201px) {
@@ -208,6 +216,10 @@ main.container {
 
     .appointment {
         position: absolute;
+    }
+
+    .search-result-list {
+        top: 41px;
     }
 }
 
@@ -247,5 +259,20 @@ main.container {
         border: 1px solid black;
         min-height: 100px;
         border-radius: 10px;
+    }
+
+    .search-parent {
+        position: relative;
+    }
+
+    .search {
+        height: 25px;
+        max-width: 100%;
+    }
+
+    .search-result-list {
+        z-index: 11;
+        max-width: 100%;
+        margin-top: 25px;
     }
 }
