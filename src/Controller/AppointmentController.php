@@ -19,8 +19,8 @@ class AppointmentController {
         if ($this->checkIfAppointmentDataPresent()) {
             $start = $_POST['start'];
             $end = $_POST['end'];
-            $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
-            $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
+            $name = $_POST['name'];
+            $description = $_POST['description'];
             $creatorId = $_SESSION['userId'];
 
             $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
@@ -52,8 +52,8 @@ class AppointmentController {
             $id = $_POST['id'];
             $start = $_POST['start'];
             $end = $_POST['end'];
-            $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
-            $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
+            $name = $_POST['name'];
+            $description = $_POST['description'];
 
             $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
             $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
@@ -114,7 +114,7 @@ class AppointmentController {
         }
 
         $appointmentRepository = new AppointmentRepository();
-        $rows = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
+        $rows = $appointmentRepository->getAppointmentsFromUser($_SESSION["userId"]);
 
         foreach ($rows as $row) {
             if (!$id || $id != $row->getId()) {
@@ -234,7 +234,7 @@ class AppointmentController {
         Authentication::restrictAuthenticated();
         
         $appointmentRepository = new AppointmentRepository();
-        $appointments = $appointmentRepository->getAppointmentsForUser($_SESSION["userId"]);
+        $appointments = $appointmentRepository->getAppointmentsFromUser($_SESSION["userId"]);
         
         $response = [];
         foreach($appointments as $appointment) {

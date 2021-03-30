@@ -34,15 +34,19 @@ for(let searchField of searchFields) {
 
 document.addEventListener("click", function(event) {
     if(!event.target.classList.contains("search")) {
-        for(let searchResultList of searchResultLists) {
-            searchResultList.classList.add("invisible")
+        if(!event.target.classList.contains("search-result-list")) {
+            if(!event.target.classList.contains("search-result")) {
+                for(let searchResultList of searchResultLists) {
+                    searchResultList.classList.add("invisible")
+                }
+            }
         }
     }
 })
 
 function addSearchResultToSearchResultList(object, searchResultList) {
     let searchResult = document.createElement("button")
-    searchResult.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action")
+    searchResult.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "search-result")
     searchResult.textContent = object.name + ": " + object.start + "-" + object.end + " " + object.description
     searchResultList.appendChild(searchResult)
     addSearchResultEventListener(searchResult, object)

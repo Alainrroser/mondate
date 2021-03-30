@@ -22,7 +22,7 @@ class AppointmentRepository extends Repository {
         );
     }
 
-    public function getAppointmentsForUser($user_id) {
+    public function getAppointmentsFromUser($user_id) {
         $query = "SELECT
                   a.id, a.start, a.end, a.name, a.description, a.creator_id,
                   tag.name AS \"tag\", tag.color AS \"tag_color\"

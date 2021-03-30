@@ -117,7 +117,7 @@ require '../templates/error/dialogError.php';
             </h1>
             <div class="col d-flex">
                 <label for="search-desktop"></label>
-                <input type="search" id="search-desktop" class="col search" placeholder="Search" autocomplete="off">
+                <input type="search" id="search-desktop" class="search" placeholder="Search" autocomplete="off">
                 <div class="search-result-list invisible w-100"></div>
             </div>
             <div class="dropdown w-25">

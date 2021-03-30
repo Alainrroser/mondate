@@ -9,6 +9,7 @@ use App\Repository\AppointmentRepository;
 use App\Repository\TagRepository;
 use App\Util\DateTimeUtils;
 use App\View\View;
+use Cassandra\Date;
 use DateTime;
 use DateTimeZone;
 
@@ -19,7 +20,7 @@ class CalendarController {
         $appointmentRepository = new AppointmentRepository();
         $tagRepository = new TagRepository();
 
-        $appointments = $appointmentRepository->getAppointmentsForUser($userId);
+        $appointments = $appointmentRepository->getAppointmentsFromUser($userId);
         $tags = $tagRepository->readAll();
 
         $startDate = $_SESSION['startDate'];
@@ -86,7 +87,7 @@ class CalendarController {
         Authentication::restrictAuthenticated();
 
         $this->setStartDateIfNotSet();
-        $_SESSION["startDate"] = new DateTime($_POST["weekStart"]);
+        $_SESSION["startDate"] = new DateTime($_POST["weekStart"], new DateTimeZone($_SESSION["timezone"]));
         if ($_SESSION["startDate"]->format("N") != 1) {
             $_SESSION["startDate"]->modify("last monday");
         }
