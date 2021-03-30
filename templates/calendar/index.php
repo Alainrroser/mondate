@@ -165,9 +165,9 @@ require '../templates/error/dialogError.php';
                     Refresh
                 </button>
             </div>
-            <div class="ml-0 row mt-5">
-                <h2 class="h5">Tags</h2>
-                <div class="container">
+            <div class="row calendar-tag-list card list-group shadow-sm ml-0 mt-5 w-100">
+                <div class="container card-body w-100">
+                    <h2 class="h5 text-center w-100">Tags</h2>
                     <?php
                     foreach($tags as $tag) {
                         $color = '#'.$tag->color;
@@ -338,9 +338,9 @@ require '../templates/error/dialogError.php';
         ?>
     </div>
 
-    <div class="ml-0 row mt-5 mb-5">
-        <h2 class="h5">Tags</h2>
-        <div class="container">
+    <div class="row calendar-tag-list card list-group shadow-sm ml-0 mt-5 mb-5 w-100">
+        <div class="container card-body">
+            <h2 class="h5 text-center">Tags</h2>
             <?php
             foreach($tags as $tag) {
                 $color = '#'.$tag->color;

@@ -1,6 +1,5 @@
 let searchResultLists = document.querySelectorAll(".search-result-list")
 let searchFields = document.querySelectorAll(".search")
-let selectedSearchResult = null
 
 for(let searchField of searchFields) {
     searchField.addEventListener("click", function() {
@@ -47,7 +46,7 @@ document.addEventListener("click", function(event) {
 function addSearchResultToSearchResultList(object, searchResultList) {
     let searchResult = document.createElement("button")
     searchResult.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "search-result")
-    searchResult.textContent = object.name + ": " + object.start + "-" + object.end + " " + object.description
+    searchResult.textContent = object.name + ": " + object.start
     searchResultList.appendChild(searchResult)
     addSearchResultEventListener(searchResult, object)
 }
@@ -67,19 +66,8 @@ function showResults(searchResultList) {
     request.send()
 }
 
-function setSelectedSearchResult(searchResult) {
-    if(selectedSearchResult) {
-        selectedSearchResult.classList.remove("active")
-    }
-    selectedSearchResult = searchResult
-    selectedSearchResult.classList.add("active")
-}
-
 function addSearchResultEventListener(searchResult, object) {
     searchResult.addEventListener("click", function() {
-        setSelectedSearchResult(searchResult)
-    })
-    searchResult.addEventListener("dblclick", function() {
         let data = new FormData()
         data.append("weekStart", object.start)
     

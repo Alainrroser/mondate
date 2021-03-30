@@ -3,7 +3,7 @@
 let password = document.querySelector("#input-password")
 let confirmPassword = document.querySelector("#input-confirm-password")
 
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,20}$/
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,50}$/
 
 password.addEventListener("input", function() {
     password.setCustomValidity("")
