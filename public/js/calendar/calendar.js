@@ -82,7 +82,7 @@ document.addEventListener("keydown", function(event) {
     }
 })
 
-function showEditAppointmentDialog() {
+function requestAndFillInAppointmentData() {
     let request = new XMLHttpRequest()
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
@@ -101,12 +101,12 @@ function showEditAppointmentDialog() {
                 input.value = object.description;
             })
             let appointmentTagsDivs = document.querySelectorAll(".appointment-tags")
-            
+
             for(let appointmentTags of appointmentTagsDivs) {
                 for(let tagDiv of appointmentTags.getElementsByTagName("div")) {
                     let tagCheckbox = tagDiv.getElementsByTagName("input")[0]
                     tagCheckbox.checked = false
-                    
+
                     for(let tag of object.tags) {
                         if(tagDiv.classList.contains("tag-" + tag)) {
                             tagCheckbox.checked = true
@@ -124,7 +124,10 @@ function showEditAppointmentDialog() {
     }
     request.open("GET", "/appointment/get?id=" + selectedAppointmentID, true)
     request.send()
-    
+}
+
+function showEditAppointmentDialog() {
+    requestAndFillInAppointmentData()
     document.getElementById("dialog-edit-appointment").classList.remove("invisible")
 }
 
