@@ -288,3 +288,56 @@ main.container {
         margin-top: 25px;
     }
 }
+
+@keyframes page-transition-in {
+    from {
+        left: -200vw;
+        top: -200vh;
+    }
+
+    to {
+        left: 0;
+        top: 0;
+    }
+}
+
+@keyframes page-transition-out {
+    from {
+        left: -200vw;
+        top: -200vh;
+    }
+
+    to {
+        left: 0;
+        top: 0;
+    }
+}
+
+#transition-container {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.transition {
+    position: absolute;
+    width: 300vw;
+    height: 300vh;
+    background-size: 100%;
+    pointer-events: none;
+    animation-duration: 0.75s;
+    animation-timing-function: linear;
+}
+
+#transition-in {
+    background-image: url("/images/transition-in.png");
+    animation-name: page-transition-in;
+}
+
+#transition-out {
+    background-image: url("/images/transition-out.png");
+    animation-name: page-transition-out;
+}

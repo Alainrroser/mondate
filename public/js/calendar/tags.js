@@ -113,7 +113,7 @@ function addTagToListAndSend(tagName, tagColor) {
             
             for(let appointmentTag of document.querySelectorAll(".appointment-tags")) {
                 appointmentTag.innerHTML +=
-                    "<div class=\"tag-" + object.id + "align-items-center d-flex flex-row pl-1\">" +
+                    "<div class=\"tag-" + object.id + " appointment-tag align-items-center d-flex flex-row pl-1\">" +
                     "<input type=\"checkbox\" name=\"tags[" + object.id + "]\" class=\"align-middle mr-1\">" +
                     "<span style=\"width:1rem;height:1rem;background-color:" + object.color + "\" class=\"mr-2\"></span>" +
                     "<span class=\"align-middle\">" + object.name + "</span>" +
@@ -138,7 +138,7 @@ function removeTag() {
         }
     }
     
-    data.append("id", selectedTagId)
+    data.append("id", selectedTagId.toString())
     
     let request = new XMLHttpRequest()
     request.open("POST", "/tag/delete", true)

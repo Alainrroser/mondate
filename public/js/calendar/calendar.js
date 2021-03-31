@@ -34,7 +34,7 @@ for(let appointmentButton of appointmentButtons) {
             } else {
                 appointmentSelected = true
             }
-            
+
             selectedAppointmentID = id
             for(let input of document.querySelectorAll(".delete-appointment-id")) {
                 input.setAttribute("value", selectedAppointmentID)
@@ -42,10 +42,11 @@ for(let appointmentButton of appointmentButtons) {
             for(let input of document.querySelectorAll(".edit-appointment-id")) {
                 input.setAttribute("value", selectedAppointmentID)
             }
-        }
-        let relatedButtons = document.querySelectorAll(".appointment-id-" + id)
-        for(let relatedButton of relatedButtons) {
-            relatedButton.classList.toggle("appointment-selected")
+
+            let relatedButtons = document.querySelectorAll(".appointment-id-" + id)
+            for(let relatedButton of relatedButtons) {
+                relatedButton.classList.toggle("appointment-selected")
+            }
         }
         
         updateEditDeleteButtonStates()
@@ -86,7 +87,14 @@ function requestAndFillInAppointmentData() {
     let request = new XMLHttpRequest()
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
-            let object = JSON.parse(this.responseText)
+            let object = []
+
+            try {
+                object = JSON.parse(this.responseText)
+            } catch(e) {
+                console.log(this.responseText)
+                e.print()
+            }
             
             document.querySelectorAll(".input-appointment-name").forEach(function(input) {
                 input.setAttribute("value", object.name)
