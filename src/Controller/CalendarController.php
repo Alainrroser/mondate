@@ -27,6 +27,7 @@
             $endDate->add(date_interval_create_from_date_string('6 days'));
             
             $view = new View('calendar/index');
+            $view->transition = isset($_POST["transition"]) && $_POST["transition"] == "true";
             $view->title = 'Calendar';
             $view->appointments = $appointments;
             $view->tags = $tags;
@@ -41,7 +42,7 @@
             if(!isset($_SESSION["timezone"])) {
                 header("Location: /calendar/requestTimezone");
             }
-            
+
             Authentication::restrictAuthenticated();
             $this->setStartDateIfNotSet();
             $this->displayView([]);

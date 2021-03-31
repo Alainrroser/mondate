@@ -23,14 +23,3 @@ document.querySelector("form").addEventListener("submit", function() {
         window.localStorage.removeItem("rememberMe")
     }
 })
-
-document.querySelector("#btn-submit").addEventListener("click", function() {
-    setTimeout(function() {
-        document.querySelector("form").submit()
-    }, 750)
-
-    let transition = document.createElement("div")
-    transition.classList.add("transition")
-    transition.id = "transition-out";
-    document.querySelector("#transition-container").appendChild(transition);
-})

@@ -177,27 +177,29 @@
             <h1 class="col pl-0">
                 Mondate
             </h1>
-            <div class="col d-flex">
-                <label for="search-desktop"></label>
-                <input type="search" id="search-desktop" class="search" placeholder="Search" autocomplete="off">
-                <div class="search-result-list invisible w-100"></div>
-            </div>
-            <div class="dropdown w-25">
-                <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdown-menu-button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account
-                </button>
-                <div class="dropdown-menu dropdown-menu-right w-100"
-                     aria-labelledby="dropdown-menu-button">
-                    <a href="/signOut" class="dropdown-item w-100">
-                        Sign Out
-                    </a>
-                    <a href="/user/changePassword" class="dropdown-item w-100">
-                        Change Password
-                    </a>
-                    <a class="dropdown-item w-100 delete-account">
-                        Delete Account
-                    </a>
+            <div class="d-flex flex-row align-items-center w-50 justify-content-end">
+                <div class="d-flex search-container">
+                    <label for="search-desktop"></label>
+                    <input type="search" id="search-desktop" class="search pl-1" placeholder="Search" autocomplete="off">
+                    <div class="search-result-list invisible w-100"></div>
+                </div>
+                <div class="dropdown w-25 ml-4">
+                    <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="dropdown-menu-button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right w-100"
+                         aria-labelledby="dropdown-menu-button">
+                        <a href="/signOut" class="dropdown-item w-100">
+                            Sign Out
+                        </a>
+                        <a href="/user/changePassword" class="dropdown-item w-100">
+                            Change Password
+                        </a>
+                        <a class="dropdown-item w-100 delete-account">
+                            Delete Account
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -360,9 +362,9 @@
         </a>
     </div>
     <div class="row search-parent">
-        <div class="d-flex justify-content-center mb-5 w-100">
+        <div class="d-flex justify-content-center mb-5 w-100 search-container">
             <label for="search-mobile"></label>
-            <input type="search" id="search-mobile" class="w-100 search" placeholder="Search" autocomplete="off">
+            <input type="search" id="search-mobile" class="w-100 search pl-1" placeholder="Search" autocomplete="off">
             <div class="search-result-list invisible"></div>
         </div>
     </div>

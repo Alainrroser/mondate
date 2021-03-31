@@ -13,6 +13,7 @@
             }
             
             $view = new View('signUp/index');
+            $view->background = true;
             $view->title = 'Sign Up';
             $view->errors = [];
             $view->display();

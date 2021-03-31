@@ -12,6 +12,7 @@
             }
             
             $view = new View('signIn/index');
+            $view->background = true;
             $view->title = 'Sign In';
             $view->errors = [];
             $view->display();

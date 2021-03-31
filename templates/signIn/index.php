@@ -26,7 +26,7 @@
                     <label for="input-remember-me">Remember Me</label>
                 </div>
                 <div class="d-flex flex-column align-items-center justify-content-center">
-                    <button id="btn-submit" class="btn btn-primary w-50 mb-2" type="button">
+                    <button id="btn-submit" class="btn btn-primary w-50 mb-2" type="submit">
                         Sign In
                     </button>
                     <a href="/signUp/" class="btn btn-secondary w-50">

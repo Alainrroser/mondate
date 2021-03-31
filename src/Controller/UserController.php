@@ -74,6 +74,7 @@
             Authentication::restrictAuthenticated();
             
             $view = new View('user/changePassword');
+            $view->background = true;
             $view->title = 'Change Password';
             $view->errors = array();
             $view->display();
