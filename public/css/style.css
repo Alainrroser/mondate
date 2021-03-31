@@ -12,10 +12,6 @@ html {
     min-height: 100%;
 }
 
-body.with-background {
-    background-image: url("/images/background.jpg")
-}
-
 body, main, main > div {
     min-height: calc(100vh - 160px);
     max-height: 100%;
@@ -237,6 +233,10 @@ main.container {
 
     .appointment {
         position: absolute;
+    }
+
+    body.with-background {
+        background-image: url("/images/background.jpg");
     }
 }
 
