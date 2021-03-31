@@ -3,7 +3,6 @@
     namespace App\Authentication;
     
     use App\Repository\UserRepository;
-    use RuntimeException;
     
     class Authentication {
         public static function login($email, $password) {

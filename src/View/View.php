@@ -10,7 +10,7 @@
      * Der Controller entscheidet in jeder Funktion ob und wenn ja, welche View
      * gerendert werden soll. Hat der Controller Daten aus der Datenbank gehold oder
      * errechnet, so übergibt er diese der View damit sie dort dargestellt werden
-     * können. Konkret könnte dies folgendermassen aussehen.
+     * können. Konkret könnte dies folgendermaßen aussehen.
      *
      *   class ArtikelController
      *   {
@@ -74,6 +74,7 @@
             if(isset($this->properties[$key])) {
                 return $this->properties[$key];
             }
+            return null;
         }
         
         public function display() {

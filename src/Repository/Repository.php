@@ -125,8 +125,7 @@
          * Diese Funktion gibt ein array mit allen Datensätzen aus der Tabelle
          * zurück.
          *
-         * @param $max   Wie viele Datensätze höchstens zurückgegeben werden sollen
-         *               (optional. standard 100)
+         * @param $max Wie viele Datensätze höchstens zurückgegeben werden sollen (optional. standard 100)
          *
          * @return Ein array mit den gefundenen Datensätzen
          * @throws Exception falls das Ausführen des Statements fehlschlägt
@@ -169,13 +168,14 @@
                 throw new Exception($statement->error);
             }
         }
-        
+    
         /**
          * @param       $query
          * @param null  $types
          * @param mixed ...$vars
          *
          * @return false|\mysqli_stmt
+         * @throws \App\Exception\DatabaseConnectionException
          */
         protected function bindStatementParams($query, $types, ...$vars) {
             $statement = ConnectionHandler::getConnection()->prepare($query);

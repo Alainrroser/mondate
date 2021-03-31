@@ -41,8 +41,7 @@
             $uri = $_SERVER['REQUEST_URI'];
             $uri = strtok($uri, '?'); // Erstes ? und alles danach abschneiden
             $uri = trim($uri, '/'); // Alle / am Anfang und am Ende der URI abschneiden
-            $uriFragments = explode('/', $uri); // In Einzelteile zerlegen
             
-            return $uriFragments;
+            return explode('/', $uri);
         }
     }

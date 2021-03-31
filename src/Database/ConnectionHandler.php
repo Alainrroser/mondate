@@ -31,7 +31,7 @@
          * Der ConnectionHandler implementiert das sogenannte Singleton
          * Entwurfsmuster. Dieses hat zum Ziel, dass von einer Klasse immer nur eine
          * Instanz existiert. Dies wird erreicht, indem der Konstruktor private ist
-         * und die Methode getInstance die Instanzierung verwaltet.
+         * und die Methode getInstance die Instanziierung verwaltet.
          */
         private function __construct() {
             // Privater Konstruktor um die Verwendung von getInstance zu erzwingen.
@@ -43,7 +43,7 @@
          *
          * @return Die mySQLi Verbindung, welche für den Zugriff aud die Datenbank
          *             verwendet werden kann
-         * @throws Exception wenn der Verbindungsaufbau schiefgegeangen ist
+         * @throws Exception|\App\Exception\DatabaseConnectionException wenn der Verbindungsaufbau schiefgegeangen ist
          *
          */
         public static function getConnection() {

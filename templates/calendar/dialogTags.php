@@ -7,15 +7,15 @@
             <div class="d-flex flex-row">
                 <div class="tag-list card list-group w-50 mr-3 mb-3 shadow-sm">
                     <?php
-                    foreach($tags as $tag) {
-                        $color = '#'.$tag->color;
-                        $name = htmlspecialchars($tag->name);
-                        echo
-                        "<button class=\"tag-$tag->id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
-                            <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
-                            <span class=\"align-middle\">$name</span>
-                        </button>";
-                    }
+                        foreach($tags as $tag) {
+                            $color = '#'.$tag->color;
+                            $name = htmlspecialchars($tag->name);
+                            echo
+                            "<button class=\"tag-$tag->id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
+                                <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
+                                <span class=\"align-middle\">$name</span>
+                            </button>";
+                        }
                     ?>
                 </div>
                 <div class="form-group form d-flex flex-column justify-content-between">
@@ -59,8 +59,8 @@
                         $color = '#'.$tag->color;
                         echo
                         "<button class=\"tag-$tag->id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
-                        <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
-                        <span class=\"align-middle\">$tag->name</span>
+                            <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
+                            <span class=\"align-middle\">$tag->name</span>
                         </button>";
                     }
                 ?>

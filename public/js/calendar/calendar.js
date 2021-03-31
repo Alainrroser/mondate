@@ -47,9 +47,9 @@ for(let appointmentButton of appointmentButtons) {
         for(let relatedButton of relatedButtons) {
             relatedButton.classList.toggle("appointment-selected")
         }
-
+        
         updateEditDeleteButtonStates()
-
+        
         event.preventDefault()
         event.stopPropagation()
     })
@@ -87,7 +87,7 @@ function requestAndFillInAppointmentData() {
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             let object = JSON.parse(this.responseText)
-
+            
             document.querySelectorAll(".input-appointment-name").forEach(function(input) {
                 input.setAttribute("value", object.name)
             })
@@ -101,12 +101,12 @@ function requestAndFillInAppointmentData() {
                 input.value = object.description;
             })
             let appointmentTagsDivs = document.querySelectorAll(".appointment-tags")
-
+            
             for(let appointmentTags of appointmentTagsDivs) {
                 for(let tagDiv of appointmentTags.getElementsByTagName("div")) {
                     let tagCheckbox = tagDiv.getElementsByTagName("input")[0]
                     tagCheckbox.checked = false
-
+                    
                     for(let tag of object.tags) {
                         if(tagDiv.classList.contains("tag-" + tag)) {
                             tagCheckbox.checked = true
@@ -114,7 +114,7 @@ function requestAndFillInAppointmentData() {
                     }
                 }
             }
-
+            
             if(object.emails) {
                 for(let email of object.emails) {
                     addEmailToList(email)
@@ -149,10 +149,14 @@ function convertDateToDateTimeLocalValue(date) {
 
 function setDateTimeToNow() {
     let date = new Date()
+    setDateTime(date)
+}
+
+function setDateTime(date) {
     document.querySelectorAll(".input-appointment-start").forEach(function(element) {
         element.value = convertDateToDateTimeLocalValue(date)
     })
-
+    
     date.setHours(date.getHours() + 1)
     document.querySelectorAll(".input-appointment-end").forEach(function(element) {
         element.value = convertDateToDateTimeLocalValue(date)
@@ -175,11 +179,11 @@ for(let inputWeekStart of document.querySelectorAll(".input-week-start")) {
     inputWeekStart.addEventListener("input", function() {
         let data = new FormData()
         data.append("weekStart", this.value)
-
+        
         let request = new XMLHttpRequest()
         request.open("POST", "/calendar/jumpToDate", true)
         request.send(data)
-
+        
         location.reload()
     })
 }
@@ -188,16 +192,9 @@ for(let appointmentCell of document.querySelectorAll(".appointment-cell")) {
     appointmentCell.addEventListener("click", function() {
         let dateTimeInSeconds = appointmentCell.id.split("-")[2]
         let date = new Date(parseInt(dateTimeInSeconds) * 1000)
-
-        document.querySelectorAll(".input-appointment-start").forEach(function(element) {
-            element.value = convertDateToDateTimeLocalValue(date)
-        })
-
-        date.setHours(date.getHours() + 1)
-        document.querySelectorAll(".input-appointment-end").forEach(function(element) {
-            element.value = convertDateToDateTimeLocalValue(date)
-        })
-
+        
+        setDateTime(date)
+        
         document.getElementById("dialog-create-appointment").classList.toggle("invisible")
     })
 }

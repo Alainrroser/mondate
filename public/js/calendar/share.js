@@ -33,7 +33,7 @@ for(let shareDialogBody of shareDialogBodies) {
     shareDialogBody.querySelector(".btn-add-email").addEventListener("click", function() {
         addEmail(shareDialogBody)
     })
-
+    
     shareDialogBody.querySelector(".btn-remove-email").addEventListener("click", function() {
         if(selectedEmail) {
             removeEmail()
@@ -43,9 +43,9 @@ for(let shareDialogBody of shareDialogBodies) {
 
 function addEmail(shareDialogBody) {
     let emailElement = shareDialogBody.querySelector(".input-email")
-
+    
     let inputValid = validateEmailInput(shareDialogBody, emailElement)
-
+    
     if(inputValid) {
         addEmailToList(emailElement.value)
         shareDialogBody.querySelector(".input-email").value = ""
@@ -55,27 +55,27 @@ function addEmail(shareDialogBody) {
 function validateEmailInput(shareDialogBody, emailElement) {
     let emailList = shareDialogBody.querySelector(".email-list")
     emailElement.setCustomValidity("")
-
+    
     if(!emailElement.reportValidity()) {
         return false
     }
-
+    
     if(!emailElement.value) {
         emailElement.setCustomValidity("The email cannot be empty")
         emailElement.reportValidity()
         return false
     }
-
+    
     for(let email of emailList.children) {
         let emailName = email.textContent
-
+        
         if(emailName === emailElement.value) {
             emailElement.setCustomValidity("This email is already in the list")
             emailElement.reportValidity()
             return false
         }
     }
-
+    
     return true
 }
 
@@ -85,11 +85,11 @@ function addEmailToList(email) {
         emailButton.classList.add("align-items-center", "d-flex", "flex-row", "pl-1", "list-group-item", "list-group-item-action", "share-entry")
         emailButton.type = "button"
         emailButton.textContent = email
-
+        
         shareDialogBody.querySelector(".email-list").appendChild(emailButton)
         addEmailEventListener(emailButton)
     }
-
+    
     let forms = document.querySelectorAll("#dialog-create-appointment form, #dialog-edit-appointment form")
     for(let form of forms) {
         let input = document.createElement("input")
@@ -103,18 +103,18 @@ function addEmailToList(email) {
 
 function removeEmail() {
     let email = selectedEmail.textContent;
-
+    
     for(let shareEntry of document.querySelectorAll(".share-entry")) {
         if(shareEntry.textContent === email) {
             shareEntry.remove()
         }
     }
-
+    
     for(let input of document.querySelectorAll(".shared-appointment-email")) {
         if(input.value === email) {
             input.remove()
         }
     }
-
+    
     selectedEmail = null
 }

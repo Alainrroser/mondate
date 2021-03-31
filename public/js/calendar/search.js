@@ -70,11 +70,11 @@ function addSearchResultEventListener(searchResult, object) {
     searchResult.addEventListener("click", function() {
         let data = new FormData()
         data.append("weekStart", object.start)
-    
+        
         let request = new XMLHttpRequest()
         request.open("POST", "/calendar/jumpToDate", true)
         request.send(data)
-    
+        
         location.reload()
     })
 }

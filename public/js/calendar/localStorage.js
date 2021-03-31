@@ -5,7 +5,7 @@ window.addEventListener("load", function() {
     tableBody.addEventListener("scroll", function() {
         window.localStorage.setItem("scroll", tableBody.scrollTop.toString())
     })
-
+    
     let localStorageScroll = window.localStorage.getItem("scroll")
     if(!localStorageScroll) {
         const CELL_HEIGHT = 50
