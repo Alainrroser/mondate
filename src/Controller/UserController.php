@@ -63,7 +63,10 @@
                     Authentication::logout();
                 }
             } else {
-                header("Location: /user/changePassword");
+                $view = new View('user/changePassword');
+                $view->title = 'Change Password';
+                $view->errors = ["The old password is not correct."];
+                $view->display();
             }
         }
         
@@ -72,6 +75,7 @@
             
             $view = new View('user/changePassword');
             $view->title = 'Change Password';
+            $view->errors = array();
             $view->display();
         }
         

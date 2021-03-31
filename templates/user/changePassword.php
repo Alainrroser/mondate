@@ -1,3 +1,7 @@
+<?php
+    require '../templates/error/dialogError.php';
+?>
+
 <div class="d-flex flex-column center-align">
     <div class="account-screen card pt-5 shadow-sm">
         <h1 class="text-center mb-3">
@@ -40,5 +44,6 @@
     </div>
 </div>
 
-<script src="/js/changePassword.js"></script>
 <script src="/js/confirmPassword.js"></script>
+<script src="/js/changePassword.js"></script>
+<script src="/js/error.js"></script>

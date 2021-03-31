@@ -79,7 +79,7 @@ function validateTagInput(manageTagsDialogBody, tagNameElement, tagColorElement)
         let tagName = tag.querySelector("span:last-child").textContent
         let tagColor = rgbToHex(tag.querySelector("span:first-child").style.backgroundColor)
         
-        if(tagName === tagNameElement.value || tagColor === tagColorElement.value) {
+        if(tagName.toLowerCase() === tagNameElement.value.toLowerCase() || tagColor === tagColorElement.value) {
             tagNameElement.setCustomValidity("A tag with this name or color already exists")
             tagNameElement.reportValidity()
             return false
@@ -151,17 +151,13 @@ function removeTag() {
                 }
             }
             
-            for(let tag of document.querySelectorAll("#dialog-manage-tags button")) {
+            for(let tag of document.querySelectorAll(".tag-list button")) {
                 if(tag.classList.contains("tag-" + selectedTagId)) {
                     tag.remove()
                 }
             }
             
             selectedTag = null
-            
-            // The checkboxes for the tags are now all disabled because we've edited the DOM
-            // This is why we reload the data from the server
-            showEditAppointmentDialog()
         }
     }
 }

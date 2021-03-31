@@ -16,13 +16,9 @@ confirmPassword.addEventListener("input", function() {
 document.querySelector('#submit-button').addEventListener("click", function() {
     if(!password.value.match(passwordPattern)) {
         password.setCustomValidity("Requirements: 8-20 chars, 1 uppercase, 1 lowercase, 1 number, 1 symbol")
-    } else {
-        password.setCustomValidity("")
     }
     
     if(password.value.localeCompare(confirmPassword.value)) {
         confirmPassword.setCustomValidity("The passwords have to match")
-    } else {
-        confirmPassword.setCustomValidity("")
     }
 })

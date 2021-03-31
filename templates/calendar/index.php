@@ -434,7 +434,7 @@
 
 <script src="/js/calendar/tags.js"></script>
 <script src="/js/calendar/share.js"></script>
-<script src="/js/calendar/search.js"></script>
 <script src="/js/calendar/calendar.js"></script>
+<script src="/js/calendar/search.js"></script>
 <script src="/js/calendar/localStorage.js"></script>
 <script src="/js/error.js"></script>
