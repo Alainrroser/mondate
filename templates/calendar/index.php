@@ -303,7 +303,8 @@
             <a href="/calendar/last" class="btn btn-secondary px-5 mr-3">
                 Last
             </a>
-            <input type="date" class="input-week-start" value="<?=$startDate->format('Y-m-d')?>">
+            <label for="input-week-start-desktop"></label>
+            <input type="date" id="input-week-start-desktop" class="input-week-start" value="<?=$startDate->format('Y-m-d')?>">
             <span class="ml-2 mr-2">-</span>
             <span class="week-end">
                 <?=$endDate->format('d.m.Y')?>
@@ -347,7 +348,8 @@
         </button>
     </div>
     <div class="row d-flex justify-content-center mb-1">
-        <input type="date" class="input-week-start" value="<?=$startDate->format('Y-m-d')?>">
+        <label for="input-week-start-mobile"></label>
+        <input type="date" id="input-week-start-mobile" class="input-week-start" value="<?=$startDate->format('Y-m-d')?>">
         <span class="ml-2 mr-2">-</span>
         <span class="week-end">
             <?=$endDate->format('d.m.Y')?>
