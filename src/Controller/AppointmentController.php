@@ -170,14 +170,14 @@
                 
                 $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
                 $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
-                
+
                 if($this->validateAppointmentTimes($id, $startUTC, $endUTC)) {
                     $tagIds = !isset($_POST['tags']) ? [] : array_keys($_POST['tags']);
                     $emails = !isset($_POST['emails']) ? [] : $_POST['emails'];
-                    
+
                     $appointmentRepository = new AppointmentRepository();
                     $appointmentRepository->editAppointment($id, $startUTC, $endUTC, $name, $description, $tagIds);
-                    
+
                     if($this->validateAndShareAppointment($id, $emails)) {
                         header('Location: /calendar');
                     }

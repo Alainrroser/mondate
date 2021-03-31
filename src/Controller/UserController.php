@@ -25,6 +25,8 @@
                     $userRepository->signUp($email, $password);
                     header("Location: /calendar");
                 } else {
+                    http_response_code(412);
+
                     $view = new View('signUp/index');
                     $view->title = 'Sign Up';
                     $view->errors = ["User already exists."];
@@ -42,12 +44,11 @@
             if(Authentication::login($email, $password)) {
                 header("Location: /calendar");
             } else {
-                $errors = [];
-                $errors[] = "Incorrect password or non-existing user.";
-                
+                http_response_code(412);
+
                 $view = new View('signIn/index');
                 $view->title = 'Sign In';
-                $view->errors = $errors;
+                $view->errors = ["Incorrect password or non-existing user."];
                 $view->display();
             }
         }
@@ -63,6 +64,8 @@
                     Authentication::logout();
                 }
             } else {
+                http_response_code(412);
+
                 $view = new View('user/changePassword');
                 $view->title = 'Change Password';
                 $view->errors = ["The old password is not correct."];
@@ -76,7 +79,7 @@
             $view = new View('user/changePassword');
             $view->background = true;
             $view->title = 'Change Password';
-            $view->errors = array();
+            $view->errors = [];
             $view->display();
         }
         

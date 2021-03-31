@@ -178,6 +178,18 @@
          * @throws \App\Exception\DatabaseConnectionException
          */
         protected function bindStatementParams($query, $types, ...$vars) {
+            // Check if types match values
+            $typeArray = str_split($types);
+            for($i = 0; $i < sizeof($typeArray); $i++) {
+                $type = $typeArray[$i];
+
+                if($type == 'i') {
+                    if(!is_numeric($vars[$i])) {
+                        throw new Exception("Invalid statement parameter type");
+                    }
+                }
+            }
+
             $statement = ConnectionHandler::getConnection()->prepare($query);
             
             if(isset($types) && isset($vars)) {

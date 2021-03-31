@@ -21,7 +21,7 @@
             );
         }
         
-        public function getAppointmentsFromUser($user_id) {
+        public function getAppointmentsFromUser($userId) {
             $query = "SELECT
                   a.id, a.start, a.end, a.name, a.description, a.creator_id,
                   tag.name AS \"tag\", tag.color AS \"tag_color\"
@@ -31,7 +31,7 @@
                   LEFT JOIN tag ON appointment_tag.tag_id = tag.id
                   WHERE appointment_user.user_id = ?";
             
-            $rows = parent::executeAndGetRows($query, 'i', $user_id);
+            $rows = parent::executeAndGetRows($query, 'i', $userId);
             
             $appointments = [];
             
