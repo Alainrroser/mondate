@@ -6,16 +6,16 @@ USE mondate;
 CREATE TABLE user (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     email VARCHAR(450) NOT NULL,
-    password VARCHAR(50),
+    password VARCHAR(255),
     UNIQUE KEY (email)
 );
 
 CREATE TABLE appointment (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     start DATETIME NOT NULL,
-    end DATETIME,
+    end DATETIME NOT NULL,
     name VARCHAR(50) NOT NULL,
-    description TEXT(1000),
+    description TEXT(1000) NOT NULL,
     creator_id INT NOT NULL
 );
 
