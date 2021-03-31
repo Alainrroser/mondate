@@ -20,7 +20,7 @@
         
         public function __construct() {
             $this->MIN_APPOINTMENT_DURATION = 60 * 15;
-            $this->MIN_DATE = DateTime::createFromFormat("Y-m-d", "1970-01-01");
+            $this->MIN_DATE = DateTime::createFromFormat("Y-m-d", "1975-01-01");
             $this->MAX_DATE = DateTime::createFromFormat("Y-m-d", "2035-01-01");
         }
         
