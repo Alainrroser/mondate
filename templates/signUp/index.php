@@ -42,4 +42,5 @@
 </div>
 
 <script src="/js/confirmPassword.js"></script>
+<script src="/js/signUp.js"></script>
 <script src="/js/error.js"></script>
