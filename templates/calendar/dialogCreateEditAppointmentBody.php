@@ -47,13 +47,14 @@
                             <div class="appointment-tags dropdown-menu" aria-labelledby="dropdown-menu-button">
                                 <?php
                                     foreach($tags as $tag) {
-                                        $id = $tag->id;
-                                        $color = '#'.$tag->color;
+                                        $id = $tag->getId();
+                                        $name = $tag->getName();
+                                        $color = '#'.$tag->getColor();
                                         echo
                                         "<div class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
                                             <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
                                             <span style=\"background-color: $color\" class=\"mr-1 color-block\"></span>
-                                            <label class=\"align-middle mb-0\">$tag->name</label>
+                                            <label class=\"align-middle mb-0\">$name</label>
                                         </div>";
                                     }
                                 ?>
@@ -127,13 +128,14 @@
                         <div class="appointment-tags dropdown-menu w-100" aria-labelledby="dropdown-menu-button">
                             <?php
                                 foreach($tags as $tag) {
-                                    $id = $tag->id;
-                                    $color = '#'.$tag->color;
+                                    $id = $tag->getId();
+                                    $name = $tag->getName();
+                                    $color = '#'.$tag->getColor();
                                     echo
                                     "<div class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
                                         <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
                                         <span style=\"background-color: $color\" class=\"mr-1 color-block\"></span>
-                                        <label class=\"align-middle mb-0\">$tag->name</label>
+                                        <label class=\"align-middle mb-0\">$name</label>
                                     </div>";
                                 }
                             ?>

@@ -235,8 +235,8 @@
                     <?php
                         if(!empty($usedTags)) {
                             foreach($usedTags as $tag) {
-                                $color = '#'.$tag->color;
-                                $name = htmlspecialchars($tag->name);
+                                $color = '#'.$tag->getColor();
+                                $name = htmlspecialchars($tag->getName());
                                 echo "
                                       <div class=\"row mt-2 align-items-center\">
                                           <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
@@ -401,8 +401,8 @@
             <?php
                 if(!empty($usedTags)) {
                     foreach($usedTags as $tag) {
-                        $color = '#'.$tag->color;
-                        $name = htmlspecialchars($tag->name);
+                        $color = '#'.$tag->getColor();
+                        $name = htmlspecialchars($tag->getName());
                         echo "
                         <div class=\"row mt-2 align-items-center\">
                             <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>

@@ -1,71 +1,61 @@
 <?php
-    
-    
-    namespace App\Repository;
-    
-    use App\Database\ConnectionHandler;
-    use Exception;
-    use stdClass;
-    
-    class UserRepository extends Repository {
-        
-        protected $tableName = 'user';
-        
-        /**
-         * @param $email
-         * @param $password
-         *
-         * @return int
-         * @throws Exception
-         */
-        public function signUp($email, $password) {
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-            $query = "INSERT INTO $this->tableName (email, password) VALUES (?, ?)";
-            return parent::insertAndGetId($query, 'ss', $email, $passwordHash);
+
+
+namespace App\Repository;
+
+use App\Model\User;
+
+class UserRepository extends Repository {
+
+    protected $tableName = 'user';
+
+    private function convertRowToUser($row) {
+        if(!$row) {
+            return false;
         }
-        
-        /**
-         * @param $email
-         *
-         * @return object|stdClass
-         * @throws Exception
-         */
-        public function readByEmail($email) {
-            $query = "SELECT * FROM $this->tableName WHERE email = ?";
-            
-            $statement = ConnectionHandler::getConnection()->prepare($query);
-            $statement->bind_param('s', $email);
-            
-            $statement->execute();
-            $result = $statement->get_result();
-            
-            if(!$result) {
-                throw new Exception($statement->error);
-            }
-            
-            return $result->fetch_object();
-        }
-        
-        public function changePassword($id, $password) {
-            $password_hash = password_hash($password, PASSWORD_DEFAULT);
-            
-            $query = "UPDATE $this->tableName SET password=? WHERE id=?";
-            
-            $statement = ConnectionHandler::getConnection()->prepare($query);
-            $statement->bind_param("si", $password_hash, $id);
-            
-            $execution_result = $statement->execute();
-            if(!$execution_result) {
-                throw new Exception($statement->error);
-            }
-        }
-        
-        public function getNonCreatorUsersForAppointment($appointment_id) {
-            $query = "SELECT * FROM $this->tableName
+
+        return new User($row->id, $row->email, $row->password);;
+    }
+
+    public function signUp($email, $password) {
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $query = "INSERT INTO $this->tableName (email, password) VALUES (?, ?)";
+
+        return parent::executeAndGetInsertId($query, 'ss', $email, $passwordHash);
+    }
+
+    public function getById($id) {
+        $query = "SELECT * FROM $this->tableName WHERE id = ?";
+        $row = $this->executeAndGetRows($query, 'i', $id)[0];
+        return $this->convertRowToUser($row);
+    }
+
+    public function getByEmail($email) {
+        $query = "SELECT * FROM $this->tableName WHERE email = ?";
+        $row = $this->executeAndGetRows($query, 's', $email)[0];
+        return $this->convertRowToUser($row);
+    }
+
+    public function changePassword($id, $password) {
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+        $query = "UPDATE $this->tableName SET password=? WHERE id=?";
+        $this->execute($query, 'si', $passwordHash, $id);
+    }
+
+    public function getNonCreatorUsersForAppointment($appointment_id) {
+        $query = "SELECT * FROM $this->tableName
                       JOIN appointment_user ON $this->tableName.id = appointment_user.user_id
                       JOIN appointment ON appointment_user.appointment_id = appointment.id
                       WHERE appointment_user.appointment_id = ? AND appointment.creator_id != $this->tableName.id";
-            
-            return parent::executeAndGetRows($query, 'i', $appointment_id);
+        $rows = parent::executeAndGetRows($query, 'i', $appointment_id);
+
+        $users = [];
+        foreach($rows as $row) {
+            $users[] = $this->convertRowToUser($row);
         }
+
+        return $users;
     }
+
+}
