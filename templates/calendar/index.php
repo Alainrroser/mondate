@@ -196,9 +196,9 @@
                         <a href="/user/changePassword" class="dropdown-item w-100">
                             Change Password
                         </a>
-                        <a class="dropdown-item w-100 delete-account">
+                        <button class="dropdown-item w-100 delete-account">
                             Delete Account
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -429,9 +429,9 @@
             <a href="/user/changePassword" class="dropdown-item w-100">
                 Change Password
             </a>
-            <a class="dropdown-item w-100 delete-account">
+            <button class="dropdown-item w-100 delete-account">
                 Delete Account
-            </a>
+            </button>
         </div>
     </div>
 </div>
