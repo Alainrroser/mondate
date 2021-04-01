@@ -1,5 +1,5 @@
 <?php
-    require '../templates/error/dialogError.php';
+require '../templates/error/dialogError.php';
 ?>
 
 <div class="d-flex flex-column center-align">

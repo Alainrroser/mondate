@@ -7,16 +7,16 @@
             <div class="d-flex flex-row">
                 <div class="tag-list card list-group w-50 mr-3 mb-3 shadow-sm">
                     <?php
-                        foreach($tags as $tag) {
-                            $id = $tag->getId();
-                            $color = '#'.$tag->getColor();
-                            $name = htmlspecialchars($tag->getName());
-                            echo
-                            "<button class=\"tag-$id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
+                    foreach($tags as $tag) {
+                        $id = $tag->getId();
+                        $color = '#'.$tag->getColor();
+                        $name = htmlspecialchars($tag->getName());
+                        echo
+                        "<button class=\"tag-$id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
                                 <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
                                 <span class=\"align-middle\">$name</span>
                             </button>";
-                        }
+                    }
                     ?>
                 </div>
                 <div class="form-group form d-flex flex-column justify-content-between">
@@ -56,16 +56,16 @@
         <div class="mobile-only card-body">
             <div class="tag-list card list-group w-100 mr-3 mb-3 shadow-sm">
                 <?php
-                    foreach($tags as $tag) {
-                        $id = $tag->getId();
-                        $color = '#'.$tag->getColor();
-                        $name = htmlspecialchars($tag->getName());
-                        echo
-                        "<button class=\"tag-$id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
+                foreach($tags as $tag) {
+                    $id = $tag->getId();
+                    $color = '#'.$tag->getColor();
+                    $name = htmlspecialchars($tag->getName());
+                    echo
+                    "<button class=\"tag-$id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
                             <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
                             <span class=\"align-middle\">$name</span>
                         </button>";
-                    }
+                }
                 ?>
             </div>
             <label for="tag-name-mobile">

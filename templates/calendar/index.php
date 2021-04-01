@@ -1,171 +1,171 @@
 <?php
-    
-    use App\Util\DateTimeUtils;
-    
-    const COLUMNS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    const SECONDS_PER_HOUR = 60 * 60;
-    const APPOINTMENT_HEIGHT = 50;
-    
-    function getAppointmentStyle($appointment, $margin, $height) {
-        $style = "background-color: gray;";
-        if(sizeof($appointment->getTags()) == 1) {
-            // Use the background-color property when there is only one color
-            // because a linear gradient is not required in this case
-            $color = '#'.$appointment->getTags()[0]->getColor();
-            $style = "background-color: $color;";
-        } else if(sizeof($appointment->getTags()) > 1) {
-            $gradient = 'linear-gradient(90deg';
+
+use App\Util\DateTimeUtils;
+
+const COLUMNS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const SECONDS_PER_HOUR = 60 * 60;
+const APPOINTMENT_HEIGHT = 50;
+
+function getAppointmentStyle($appointment, $margin, $height) {
+    $style = "background-color: gray;";
+    if(sizeof($appointment->getTags()) == 1) {
+        // Use the background-color property when there is only one color
+        // because a linear gradient is not required in this case
+        $color = '#'.$appointment->getTags()[0]->getColor();
+        $style = "background-color: $color;";
+    } else if(sizeof($appointment->getTags()) > 1) {
+        $gradient = 'linear-gradient(90deg';
+        
+        for($i = 0; $i < sizeof($appointment->getTags()); $i++) {
+            $tag = $appointment->getTags()[$i];
+            $color = $tag->getColor();
+            $percent = ($i * 100) / (sizeof($appointment->getTags()) - 1);
             
-            for($i = 0; $i < sizeof($appointment->getTags()); $i++) {
-                $tag = $appointment->getTags()[$i];
-                $color = $tag->getColor();
-                $percent = ($i * 100) / (sizeof($appointment->getTags()) - 1);
-                
-                $gradient .= ", #$color $percent%";
-            }
-            
-            $gradient .= ')';
-            $style = "background: $gradient;";
+            $gradient .= ", #$color $percent%";
         }
         
-        $style .= "margin-top: ".$margin."px;";
-        $style .= "height: ".$height."px;";
-        
-        return $style;
+        $gradient .= ')';
+        $style = "background: $gradient;";
     }
     
-    function createAppointmentUI($appointment, $margin, $height) {
-        $appointmentId = $appointment->getId();
-        $style = getAppointmentStyle($appointment, $margin, $height);
-        $text = htmlspecialchars($appointment->getName());
-        
-        $classes = "w-100 p-0 align-middle appointment appointment-id-$appointmentId";
-        return "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
-    }
+    $style .= "margin-top: ".$margin."px;";
+    $style .= "height: ".$height."px;";
     
-    function getDesktopCellContent($cellDate, $cellStart, $cellEnd, $appointments, $isFirstCellOfDay) {
-        $content = "";
+    return $style;
+}
+
+function createAppointmentUI($appointment, $margin, $height) {
+    $appointmentId = $appointment->getId();
+    $style = getAppointmentStyle($appointment, $margin, $height);
+    $text = htmlspecialchars($appointment->getName());
+    
+    $classes = "w-100 p-0 align-middle appointment appointment-id-$appointmentId";
+    return "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
+}
+
+function getDesktopCellContent($cellDate, $cellStart, $cellEnd, $appointments, $isFirstCellOfDay) {
+    $content = "";
+    
+    foreach($appointments as $appointment) {
+        $appointmentStartDate = DateTimeUtils::extractDate($appointment->getStartAsDateTime());
+        $appointmentEndDate = DateTimeUtils::extractDate($appointment->getEndAsDateTime());
         
-        foreach($appointments as $appointment) {
-            $appointmentStartDate = DateTimeUtils::extractDate($appointment->getStartAsDateTime());
-            $appointmentEndDate = DateTimeUtils::extractDate($appointment->getEndAsDateTime());
+        // Get the start in seconds relative to the current day
+        // For example: An appointment starting at 08:30 would result in a value of 8.5 * 60 * 60 = 30600
+        $startInSeconds = $appointment->getStartAsDateTime()->getTimestamp() - $appointmentStartDate->getTimestamp();
+        $endInSeconds = $appointment->getEndAsDateTime()->getTimestamp() - $appointmentEndDate->getTimestamp();
+        
+        if($appointmentStartDate == $appointmentEndDate) {
+            // The appointment only lasts for one day
             
-            // Get the start in seconds relative to the current day
-            // For example: An appointment starting at 08:30 would result in a value of 8.5 * 60 * 60 = 30600
-            $startInSeconds = $appointment->getStartAsDateTime()->getTimestamp() - $appointmentStartDate->getTimestamp();
-            $endInSeconds = $appointment->getEndAsDateTime()->getTimestamp() - $appointmentEndDate->getTimestamp();
-            
-            if($appointmentStartDate == $appointmentEndDate) {
-                // The appointment only lasts for one day
+            if($appointment->getStartAsDateTime() >= $cellStart && $appointment->getStartAsDateTime() < $cellEnd) {
+                // The appointment starts in the current cell
                 
-                if($appointment->getStartAsDateTime() >= $cellStart && $appointment->getStartAsDateTime() < $cellEnd) {
+                $height = APPOINTMENT_HEIGHT * ($endInSeconds - $startInSeconds) / SECONDS_PER_HOUR;
+                $margin = APPOINTMENT_HEIGHT * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
+                $content .= createAppointmentUI($appointment, $margin, $height);
+            }
+        } else {
+            if($cellDate == $appointmentStartDate) {
+                // The appointment starts on the current date
+                
+                if($appointment->getStartAsDateTime() >= $cellStart && $appointment->getStartAsDateTime() <= $cellEnd) {
                     // The appointment starts in the current cell
                     
-                    $height = APPOINTMENT_HEIGHT * ($endInSeconds - $startInSeconds) / SECONDS_PER_HOUR;
                     $margin = APPOINTMENT_HEIGHT * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
+                    $height = APPOINTMENT_HEIGHT * (24 - ($startInSeconds / SECONDS_PER_HOUR));
                     $content .= createAppointmentUI($appointment, $margin, $height);
                 }
-            } else {
-                if($cellDate == $appointmentStartDate) {
-                    // The appointment starts on the current date
-                    
-                    if($appointment->getStartAsDateTime() >= $cellStart && $appointment->getStartAsDateTime() <= $cellEnd) {
-                        // The appointment starts in the current cell
-                        
-                        $margin = APPOINTMENT_HEIGHT * ($startInSeconds % SECONDS_PER_HOUR) / SECONDS_PER_HOUR;
-                        $height = APPOINTMENT_HEIGHT * (24 - ($startInSeconds / SECONDS_PER_HOUR));
-                        $content .= createAppointmentUI($appointment, $margin, $height);
-                    }
-                } else if($cellDate > $appointmentStartDate && $cellDate < $appointmentEndDate) {
-                    // The appointment starts before the current date and ends afterwards
-                    
-                    if($isFirstCellOfDay) {
-                        $height = APPOINTMENT_HEIGHT * 24; // Make the appointment fill the entire day
-                        $content .= createAppointmentUI($appointment, 0, $height);
-                    }
-                } else if($cellDate == $appointmentEndDate) {
-                    // The appointment ends on the current date
-                    
-                    if($isFirstCellOfDay) {
-                        $height = APPOINTMENT_HEIGHT * ($endInSeconds / SECONDS_PER_HOUR);
-                        $content .= createAppointmentUI($appointment, 0, $height);
-                    }
+            } else if($cellDate > $appointmentStartDate && $cellDate < $appointmentEndDate) {
+                // The appointment starts before the current date and ends afterwards
+                
+                if($isFirstCellOfDay) {
+                    $height = APPOINTMENT_HEIGHT * 24; // Make the appointment fill the entire day
+                    $content .= createAppointmentUI($appointment, 0, $height);
                 }
+            } else if($cellDate == $appointmentEndDate) {
+                // The appointment ends on the current date
+                
+                if($isFirstCellOfDay) {
+                    $height = APPOINTMENT_HEIGHT * ($endInSeconds / SECONDS_PER_HOUR);
+                    $content .= createAppointmentUI($appointment, 0, $height);
+                }
+            }
+        }
+    }
+    
+    return $content;
+}
+
+function convertDateTimeStringToTimeString($dateTimeString) {
+    // Split by space to cut off the date (2021-03-31 09:34:00 -> 09:34:00)
+    $timeString = explode(" ", $dateTimeString)[1];
+    
+    // Remove the seconds (09:34:00 -> 09:34)
+    $timeString = substr($timeString, 0, strrpos($timeString, ":"));
+    
+    return $timeString;
+}
+
+function getMobileCellContent($cellDate, $appointments) {
+    $content = "";
+    
+    foreach($appointments as $appointment) {
+        $appointmentStartDate = DateTimeUtils::extractDate($appointment->getStartAsDateTime());
+        $appointmentEndDate = DateTimeUtils::extractDate($appointment->getEndAsDateTime());
+        
+        $start = "";
+        $end = "";
+        
+        if($appointmentStartDate == $appointmentEndDate) {
+            // The appointment only lasts for one day
+            
+            $start = convertDateTimeStringToTimeString($appointment->getStart());
+            $end = convertDateTimeStringToTimeString($appointment->getEnd());
+        } else {
+            if($cellDate == $appointmentStartDate) {
+                // The appointment starts on the current date
+                
+                $start = convertDateTimeStringToTimeString($appointment->getStart());
+                $end = "23:59";
+            } else if($cellDate > $appointmentStartDate && $cellDate < $appointmentEndDate) {
+                // The appointment starts before the current date and ends afterwards
+                
+                $start = "00:00";
+                $end = "23:59";
+            } else if($cellDate == $appointmentEndDate) {
+                // The appointment ends on the current date
+                
+                $start = "00:00";
+                $end = convertDateTimeStringToTimeString($appointment->getEnd());
             }
         }
         
-        return $content;
-    }
-
-    function convertDateTimeStringToTimeString($dateTimeString) {
-        // Split by space to cut off the date (2021-03-31 09:34:00 -> 09:34:00)
-        $timeString = explode(" ", $dateTimeString)[1];
-
-        // Remove the seconds (09:34:00 -> 09:34)
-        $timeString = substr($timeString, 0, strrpos($timeString, ":"));
-
-        return $timeString;
-    }
-
-    function getMobileCellContent($cellDate, $appointments) {
-        $content = "";
-
-        foreach($appointments as $appointment) {
-            $appointmentStartDate = DateTimeUtils::extractDate($appointment->getStartAsDateTime());
-            $appointmentEndDate = DateTimeUtils::extractDate($appointment->getEndAsDateTime());
-
-            $start = "";
-            $end = "";
-
-            if($appointmentStartDate == $appointmentEndDate) {
-                // The appointment only lasts for one day
-
-                $start = convertDateTimeStringToTimeString($appointment->getStart());
-                $end = convertDateTimeStringToTimeString($appointment->getEnd());
-            } else {
-                if($cellDate == $appointmentStartDate) {
-                    // The appointment starts on the current date
-
-                    $start = convertDateTimeStringToTimeString($appointment->getStart());
-                    $end = "23:59";
-                } else if($cellDate > $appointmentStartDate && $cellDate < $appointmentEndDate) {
-                    // The appointment starts before the current date and ends afterwards
-
-                    $start = "00:00";
-                    $end = "23:59";
-                } else if($cellDate == $appointmentEndDate) {
-                    // The appointment ends on the current date
-
-                    $start = "00:00";
-                    $end = convertDateTimeStringToTimeString($appointment->getEnd());
-                }
-            }
-
-            if($cellDate >= DateTimeUtils::extractDate($appointment->getStartAsDateTime()) &&
-                $cellDate <= DateTimeUtils::extractDate($appointment->getEndAsDateTime())) {
-                $appointmentId = $appointment->getId();
-                $name = htmlspecialchars($appointment->getName());
-                $text = "$name ($start - $end)";
-
-                $style = getAppointmentStyle($appointment, 0, 49);
-                $classes = "w-100 p-0 align-middle appointment appointment-top-bottom";
-                $classes .= " appointment-id-$appointmentId";
-                $content .= "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
-            }
+        if($cellDate >= DateTimeUtils::extractDate($appointment->getStartAsDateTime()) &&
+           $cellDate <= DateTimeUtils::extractDate($appointment->getEndAsDateTime())) {
+            $appointmentId = $appointment->getId();
+            $name = htmlspecialchars($appointment->getName());
+            $text = "$name ($start - $end)";
+            
+            $style = getAppointmentStyle($appointment, 0, 49);
+            $classes = "w-100 p-0 align-middle appointment appointment-top-bottom";
+            $classes .= " appointment-id-$appointmentId";
+            $content .= "<div style=\"$style\" class=\"$classes\"><span>$text</span></div>";
         }
-
-        return $content;
     }
+    
+    return $content;
+}
 
 ?>
 
 <?php
-    require 'dialogCreateAppointment.php';
-    require 'dialogEditAppointment.php';
-    require 'dialogTags.php';
-    require 'dialogShare.php';
-    require 'dialogDeleteAccount.php';
-    require '../templates/error/dialogError.php';
+require 'dialogCreateAppointment.php';
+require 'dialogEditAppointment.php';
+require 'dialogTags.php';
+require 'dialogShare.php';
+require 'dialogDeleteAccount.php';
+require '../templates/error/dialogError.php';
 ?>
 
 <div class="desktop-only container pl-0 mw-100">
@@ -233,20 +233,20 @@
                 <div class="container card-body w-100">
                     <h2 class="h5 text-center w-100">Tags</h2>
                     <?php
-                        if(!empty($usedTags)) {
-                            foreach($usedTags as $tag) {
-                                $color = '#'.$tag->getColor();
-                                $name = htmlspecialchars($tag->getName());
-                                echo "
+                    if(!empty($usedTags)) {
+                        foreach($usedTags as $tag) {
+                            $color = '#'.$tag->getColor();
+                            $name = htmlspecialchars($tag->getName());
+                            echo "
                                       <div class=\"row mt-2 align-items-center\">
                                           <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
                                           <span class=\"align-middle\">$name</span>
                                       </div>
                                     ";
-                            }
-                        } else {
-                            echo "<p class=\"center-align\">No tags yet.</p>";
                         }
+                    } else {
+                        echo "<p class=\"center-align\">No tags yet.</p>";
+                    }
                     ?>
                 </div>
             </div>
@@ -257,42 +257,42 @@
                 <tr>
                     <th scope="col"></th>
                     <?php
-                        for($i = 0; $i < sizeof(COLUMNS); $i++) {
-                            $currentDate = clone $startDate;
-                            $currentDate->add(date_interval_create_from_date_string($i.' day'));
-            
-                            $content = COLUMNS[$i] . "<br>" . $currentDate->format('d.m.Y');
-                            echo "<th scope=\"col\" class=\"text-center\">$content</th>";
-                        }
+                    for($i = 0; $i < sizeof(COLUMNS); $i++) {
+                        $currentDate = clone $startDate;
+                        $currentDate->add(date_interval_create_from_date_string($i.' day'));
+        
+                        $content = COLUMNS[$i]."<br>".$currentDate->format('d.m.Y');
+                        echo "<th scope=\"col\" class=\"text-center\">$content</th>";
+                    }
                     ?>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                    for($i = 0; $i < 24; $i++) {
-                        echo "<tr>";
-                        echo "<th scope=\"row\" class=\"p-0 pt-1 align-top\">";
-                        echo str_pad($i, 2, '0', STR_PAD_LEFT).":00";
-                        echo "</th>";
+                for($i = 0; $i < 24; $i++) {
+                    echo "<tr>";
+                    echo "<th scope=\"row\" class=\"p-0 pt-1 align-top\">";
+                    echo str_pad($i, 2, '0', STR_PAD_LEFT).":00";
+                    echo "</th>";
+    
+                    for($j = 0; $j < sizeof(COLUMNS); $j++) {
+                        $cellDate = clone $startDate;
+                        $cellDate->add(date_interval_create_from_date_string($j." days"));
         
-                        for($j = 0; $j < sizeof(COLUMNS); $j++) {
-                            $cellDate = clone $startDate;
-                            $cellDate->add(date_interval_create_from_date_string($j." days"));
-            
-                            $cellStart = clone $cellDate;
-                            $cellStart->add(date_interval_create_from_date_string($i." hours"));
-            
-                            $cellEnd = clone $cellStart;
-                            $cellEnd->add(date_interval_create_from_date_string("59 minutes"));
-            
-                            $isFirstCellOfDay = $i == 0;
-                            $content = getDesktopCellContent($cellDate, $cellStart, $cellEnd, $appointments, $isFirstCellOfDay);
-            
-                            $id = "appointment-cell-".$cellStart->getTimestamp();
-                            echo "<td class=\"appointment-cell cell-appointment p-0 align-top\" id=\"$id\">$content</td>";
-                        }
-                        echo "</tr>";
+                        $cellStart = clone $cellDate;
+                        $cellStart->add(date_interval_create_from_date_string($i." hours"));
+        
+                        $cellEnd = clone $cellStart;
+                        $cellEnd->add(date_interval_create_from_date_string("59 minutes"));
+        
+                        $isFirstCellOfDay = $i == 0;
+                        $content = getDesktopCellContent($cellDate, $cellStart, $cellEnd, $appointments, $isFirstCellOfDay);
+        
+                        $id = "appointment-cell-".$cellStart->getTimestamp();
+                        echo "<td class=\"appointment-cell cell-appointment p-0 align-top\" id=\"$id\">$content</td>";
                     }
+                    echo "</tr>";
+                }
                 ?>
                 </tbody>
             </table>
@@ -372,26 +372,26 @@
     </div>
     <div>
         <?php
-            // Sort the appointments by time and date
-            function sortAppointmentsByTime($a, $b) {
-                $timeA = strtotime($a->getStart());
-                $timeB = strtotime($b->getStart());
-                return $timeA < $timeB ? -1 : 1;
-            }
+        // Sort the appointments by time and date
+        function sortAppointmentsByTime($a, $b) {
+            $timeA = strtotime($a->getStart());
+            $timeB = strtotime($b->getStart());
+            return $timeA < $timeB ? -1 : 1;
+        }
+
+        usort($appointments, "sortAppointmentsByTime");
+
+        for($i = 0; $i < sizeof(COLUMNS); $i++) {
+            $currentDate = clone $startDate;
+            $currentDate->add(date_interval_create_from_date_string($i.' day'));
     
-            usort($appointments, "sortAppointmentsByTime");
-    
-            for($i = 0; $i < sizeof(COLUMNS); $i++) {
-                $currentDate = clone $startDate;
-                $currentDate->add(date_interval_create_from_date_string($i.' day'));
-        
-                echo "<div class=\"row pb-3\">";
-                echo "<h2 class=\"font-weight-bold h4\">".COLUMNS[$i]." ".$currentDate->format('d.m.Y')."</h2>";
-                echo "<div class=\"d-flex flex-column justify-content-start w-100 mobile-appointment-container\">";
-                echo getMobileCellContent($currentDate, $appointments);
-                echo "</div>";
-                echo "</div>";
-            }
+            echo "<div class=\"row pb-3\">";
+            echo "<h2 class=\"font-weight-bold h4\">".COLUMNS[$i]." ".$currentDate->format('d.m.Y')."</h2>";
+            echo "<div class=\"d-flex flex-column justify-content-start w-100 mobile-appointment-container\">";
+            echo getMobileCellContent($currentDate, $appointments);
+            echo "</div>";
+            echo "</div>";
+        }
         ?>
     </div>
 
@@ -399,20 +399,20 @@
         <div class="container card-body">
             <h2 class="h5 text-center">Tags</h2>
             <?php
-                if(!empty($usedTags)) {
-                    foreach($usedTags as $tag) {
-                        $color = '#'.$tag->getColor();
-                        $name = htmlspecialchars($tag->getName());
-                        echo "
+            if(!empty($usedTags)) {
+                foreach($usedTags as $tag) {
+                    $color = '#'.$tag->getColor();
+                    $name = htmlspecialchars($tag->getName());
+                    echo "
                         <div class=\"row mt-2 align-items-center\">
                             <span style=\"background-color: $color\" class=\"mr-2 color-block\"></span>
                             <span class=\"align-middle\">$name</span>
                         </div>
                         ";
-                    }
-                } else {
-                    echo "<span class=\"center-align\">No tags yet.</span>";
                 }
+            } else {
+                echo "<span class=\"center-align\">No tags yet.</span>";
+            }
             ?>
         </div>
     </div>

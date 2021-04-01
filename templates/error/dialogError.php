@@ -7,9 +7,9 @@
             <div class="p-3 card-body">
                 <div class="alert alert-danger w-100">
                     <?php
-                        foreach($errors as $error) {
-                            echo "<span>$error</span><br>";
-                        }
+                    foreach($errors as $error) {
+                        echo "<span>$error</span><br>";
+                    }
                     ?>
                 </div>
                 <button type="button" class="w-100 btn btn-primary" id="btn-close-error-dialog">

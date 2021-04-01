@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="google" content="notranslate">
     <meta name="description" content="The quickest to use calendar far and wide!">
-
+    
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">

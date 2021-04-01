@@ -4,10 +4,10 @@
             Create Appointment
         </h1>
         <?php
-            $formAction = "/appointment/create";
-            $submitButtonText = "Create";
-            $type = "create";
-            require "dialogCreateEditAppointmentBody.php";
+        $formAction = "/appointment/create";
+        $submitButtonText = "Create";
+        $type = "create";
+        require "dialogCreateEditAppointmentBody.php";
         ?>
     </div>
 </div>
