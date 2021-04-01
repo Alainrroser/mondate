@@ -119,10 +119,6 @@ function addTagToListAndSend(tagName, tagColor) {
                     "<span class=\"align-middle\">" + object.name + "</span>" +
                     "</div>"
             }
-            
-            // The checkboxes for the tags are now all disabled because we've edited the DOM
-            // This is why we reload the data from the server
-            requestAndFillInAppointmentData()
         }
     }
     request.send(data)
