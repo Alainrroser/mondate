@@ -58,12 +58,18 @@ class Appointment {
     public function getTags() {
         return $this->tags;
     }
-    
+
+    /**
+     * Return the start date time in the browser's local timezone
+     */
     public function getStartAsDateTime() {
         $utcDateTime = DateTime::createFromFormat("Y-m-d H:i:s", $this->start);
         return DateTimeUtils::convertUTCToLocal($utcDateTime);
     }
-    
+
+    /**
+     * Return the end date time in the browser's local timezone
+     */
     public function getEndAsDateTime() {
         $utcDateTime = DateTime::createFromFormat("Y-m-d H:i:s", $this->end);
         return DateTimeUtils::convertUTCToLocal($utcDateTime);
