@@ -9,8 +9,8 @@ class Dispatcher {
      * weiter.
      */
     public static function dispatch() {
-        $controllerName = UriParser::getControllerName().'Controller';
-        $className = 'App\\Controller\\'.$controllerName;
+        $controllerName = UriParser::getControllerName() . 'Controller';
+        $className = 'App\\Controller\\' . $controllerName;
         $methodName = UriParser::getMethodName();
         
         $controller = new $className();

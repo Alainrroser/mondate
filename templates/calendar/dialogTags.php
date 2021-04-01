@@ -9,7 +9,7 @@
                     <?php
                     foreach($tags as $tag) {
                         $id = $tag->getId();
-                        $color = '#'.$tag->getColor();
+                        $color = '#' . $tag->getColor();
                         $name = htmlspecialchars($tag->getName());
                         echo
                         "<button class=\"tag-$id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">
@@ -58,7 +58,7 @@
                 <?php
                 foreach($tags as $tag) {
                     $id = $tag->getId();
-                    $color = '#'.$tag->getColor();
+                    $color = '#' . $tag->getColor();
                     $name = htmlspecialchars($tag->getName());
                     echo
                     "<button class=\"tag-$id tag align-items-center d-flex flex-row pl-1 list-group-item list-group-item-action\">

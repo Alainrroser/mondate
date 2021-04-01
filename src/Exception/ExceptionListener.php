@@ -8,7 +8,7 @@ use Throwable;
 class ExceptionListener {
     
     public static function register() {
-        set_exception_handler(self::class.'::handleException');
+        set_exception_handler(self::class . '::handleException');
     }
     
     public function handleException(Throwable $exception) {

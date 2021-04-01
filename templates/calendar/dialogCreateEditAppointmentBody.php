@@ -49,7 +49,7 @@
                                 foreach($tags as $tag) {
                                     $id = $tag->getId();
                                     $name = $tag->getName();
-                                    $color = '#'.$tag->getColor();
+                                    $color = '#' . $tag->getColor();
                                     echo
                                     "<div class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
                                             <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">
@@ -130,7 +130,7 @@
                             foreach($tags as $tag) {
                                 $id = $tag->getId();
                                 $name = $tag->getName();
-                                $color = '#'.$tag->getColor();
+                                $color = '#' . $tag->getColor();
                                 echo
                                 "<div class=\"tag-$id appointment-tag align-items-center d-flex flex-row pl-1\">
                                         <input type=\"checkbox\" name=\"tags[$id]\" class=\"align-middle mr-1\">

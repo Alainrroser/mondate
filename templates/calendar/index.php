@@ -11,7 +11,7 @@ function getAppointmentStyle($appointment, $margin, $height) {
     if(sizeof($appointment->getTags()) == 1) {
         // Use the background-color property when there is only one color
         // because a linear gradient is not required in this case
-        $color = '#'.$appointment->getTags()[0]->getColor();
+        $color = '#' . $appointment->getTags()[0]->getColor();
         $style = "background-color: $color;";
     } else if(sizeof($appointment->getTags()) > 1) {
         $gradient = 'linear-gradient(90deg';
@@ -28,8 +28,8 @@ function getAppointmentStyle($appointment, $margin, $height) {
         $style = "background: $gradient;";
     }
     
-    $style .= "margin-top: ".$margin."px;";
-    $style .= "height: ".$height."px;";
+    $style .= "margin-top: " . $margin . "px;";
+    $style .= "height: " . $height . "px;";
     
     return $style;
 }
@@ -235,7 +235,7 @@ require '../templates/error/dialogError.php';
                     <?php
                     if(!empty($usedTags)) {
                         foreach($usedTags as $tag) {
-                            $color = '#'.$tag->getColor();
+                            $color = '#' . $tag->getColor();
                             $name = htmlspecialchars($tag->getName());
                             echo "
                                       <div class=\"row mt-2 align-items-center\">
@@ -259,9 +259,9 @@ require '../templates/error/dialogError.php';
                     <?php
                     for($i = 0; $i < sizeof(COLUMNS); $i++) {
                         $currentDate = clone $startDate;
-                        $currentDate->add(date_interval_create_from_date_string($i.' day'));
+                        $currentDate->add(date_interval_create_from_date_string($i . ' day'));
         
-                        $content = COLUMNS[$i]."<br>".$currentDate->format('d.m.Y');
+                        $content = COLUMNS[$i] . "<br>" . $currentDate->format('d.m.Y');
                         echo "<th scope=\"col\" class=\"text-center\">$content</th>";
                     }
                     ?>
@@ -273,16 +273,16 @@ require '../templates/error/dialogError.php';
                 for($i = 0; $i < 24; $i++) {
                     echo "<tr>";
                     echo "<th scope=\"row\" class=\"p-0 pt-1 align-top\">";
-                    echo str_pad($i, 2, '0', STR_PAD_LEFT).":00";
+                    echo str_pad($i, 2, '0', STR_PAD_LEFT) . ":00";
                     echo "</th>";
-
+    
                     // Loop through every day of the week
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
                         $cellDate = clone $startDate;
-                        $cellDate->add(date_interval_create_from_date_string($j." days"));
+                        $cellDate->add(date_interval_create_from_date_string($j . " days"));
         
                         $cellStart = clone $cellDate;
-                        $cellStart->add(date_interval_create_from_date_string($i." hours"));
+                        $cellStart->add(date_interval_create_from_date_string($i . " hours"));
         
                         $cellEnd = clone $cellStart;
                         $cellEnd->add(date_interval_create_from_date_string("59 minutes"));
@@ -290,7 +290,7 @@ require '../templates/error/dialogError.php';
                         $isFirstCellOfDay = $i == 0;
                         $content = getDesktopCellContent($cellDate, $cellStart, $cellEnd, $appointments, $isFirstCellOfDay);
         
-                        $id = "appointment-cell-".$cellStart->getTimestamp();
+                        $id = "appointment-cell-" . $cellStart->getTimestamp();
                         echo "<td class=\"appointment-cell cell-appointment p-0 align-top\" id=\"$id\">$content</td>";
                     }
                     echo "</tr>";
@@ -385,10 +385,10 @@ require '../templates/error/dialogError.php';
 
         for($i = 0; $i < sizeof(COLUMNS); $i++) {
             $currentDate = clone $startDate;
-            $currentDate->add(date_interval_create_from_date_string($i.' day'));
+            $currentDate->add(date_interval_create_from_date_string($i . ' day'));
     
             echo "<div class=\"row pb-3\">";
-            echo "<h2 class=\"font-weight-bold h4\">".COLUMNS[$i]." ".$currentDate->format('d.m.Y')."</h2>";
+            echo "<h2 class=\"font-weight-bold h4\">" . COLUMNS[$i] . " " . $currentDate->format('d.m.Y') . "</h2>";
             echo "<div class=\"d-flex flex-column justify-content-start w-100 mobile-appointment-container\">";
             echo getMobileCellContent($currentDate, $appointments);
             echo "</div>";
@@ -403,7 +403,7 @@ require '../templates/error/dialogError.php';
             <?php
             if(!empty($usedTags)) {
                 foreach($usedTags as $tag) {
-                    $color = '#'.$tag->getColor();
+                    $color = '#' . $tag->getColor();
                     $name = htmlspecialchars($tag->getName());
                     echo "
                         <div class=\"row mt-2 align-items-center\">

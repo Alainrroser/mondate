@@ -11,7 +11,7 @@ use App\View\View;
 const PASSWORD_PATTERN = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,20}$/";
 
 class UserController {
-
+    
     public function doSignUp() {
         $email = RequestUtils::getPOSTValue('email');
         $password = RequestUtils::getPOSTValue('password');
@@ -48,7 +48,7 @@ class UserController {
                 header("Location: /calendar");
             } else {
                 http_response_code(412);
-
+                
                 $view = new View('signIn/index');
                 $view->title = 'Sign In';
                 $view->errors = ["Incorrect password or non-existing user."];
@@ -60,14 +60,14 @@ class UserController {
     
     public function doChangePassword() {
         Authentication::restrictAuthenticated();
-
+        
         $oldPassword = RequestUtils::getPOSTValue('oldPassword');
         $password = RequestUtils::getPOSTValue('password');
-
+        
         if(!empty($oldPassword) && !empty($password)) {
             $userRepository = new UserRepository();
             $user = Authentication::getAuthenticatedUser();
-
+            
             if(password_verify($oldPassword, $user->getPassword())) {
                 if($oldPassword !== $password) {
                     $userRepository->changePassword($_SESSION["userId"], $password);
@@ -75,7 +75,7 @@ class UserController {
                 }
             } else {
                 http_response_code(412);
-
+                
                 $view = new View('user/changePassword');
                 $view->title = 'Change Password';
                 $view->errors = ["The old password is not correct."];

@@ -59,22 +59,22 @@ class AppointmentController {
         } else {
             $dataPresent = self::postKeysExist('start', 'end', 'name', 'description');
         }
-
+        
         if(!$dataPresent) {
             echo "Invalid input, missing data";
             return false;
         }
-
+        
         return true;
     }
-
+    
     private function postKeysExist(...$keys) {
         foreach($keys as $key) {
             if(!array_key_exists($key, $_POST)) {
                 return false;
             }
         }
-
+        
         return true;
     }
     
