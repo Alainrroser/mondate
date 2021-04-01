@@ -12,7 +12,7 @@
                         E-Mail
                     </label>
                     <input type="email" id="input-email" name="email" class="form-control"
-                           placeholder="Enter an e-mail" maxlength="450" required>
+                           placeholder="Enter an e-mail" maxlength="450" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,}" required>
                 </div>
                 <div class="form-group form">
                     <label for="input-password">

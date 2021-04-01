@@ -9,6 +9,7 @@ use App\Repository\AppointmentRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Util\DateTimeUtils;
+use App\Util\RequestUtils;
 use App\View\JsonView;
 use DateTime;
 
@@ -27,11 +28,11 @@ class AppointmentController {
     public function create() {
         Authentication::restrictAuthenticated();
         
-        if($this->checkIfAppointmentDataPresent()) {
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $name = $_POST['name'];
-            $description = $_POST['description'];
+        if($this->checkIfAppointmentDataPresent(false)) {
+            $start = RequestUtils::getPOSTValue('start');
+            $end = RequestUtils::getPOSTValue('end');
+            $name = RequestUtils::getPOSTValue('name');
+            $description = RequestUtils::getPOSTValue('description');
             $creatorId = $_SESSION['userId'];
             
             $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
@@ -52,37 +53,28 @@ class AppointmentController {
         }
     }
     
-    private function checkIfAppointmentDataPresent() {
-        if(!self::postKeysExist('start', 'end', 'name', 'description')) {
+    private function checkIfAppointmentDataPresent($idRequired) {
+        if($idRequired) {
+            $dataPresent = self::postKeysExist('id', 'start', 'end', 'name', 'description');
+        } else {
+            $dataPresent = self::postKeysExist('start', 'end', 'name', 'description');
+        }
+
+        if(!$dataPresent) {
             echo "Invalid input, missing data";
             return false;
         }
-        
-        if(!self::postKeysNotEmpty('id', 'start', 'end', 'name', 'description')) {
-            echo "Invalid input, all fields must be filled out";
-            return false;
-        }
-        
+
         return true;
     }
-    
+
     private function postKeysExist(...$keys) {
         foreach($keys as $key) {
             if(!array_key_exists($key, $_POST)) {
                 return false;
             }
         }
-        
-        return true;
-    }
-    
-    private function postKeysNotEmpty(...$keys) {
-        foreach($keys as $key) {
-            if(empty($key)) {
-                return false;
-            }
-        }
-        
+
         return true;
     }
     
@@ -157,16 +149,16 @@ class AppointmentController {
     public function edit() {
         Authentication::restrictAuthenticated();
         
-        if($this->checkIfAppointmentDataPresent()) {
+        if($this->checkIfAppointmentDataPresent(true)) {
             if(!$this->validateEditingUserIsCreator($_POST["id"])) {
                 return;
             }
             
-            $id = $_POST['id'];
-            $start = $_POST['start'];
-            $end = $_POST['end'];
-            $name = $_POST['name'];
-            $description = $_POST['description'];
+            $id = RequestUtils::getPOSTValue('id');
+            $start = RequestUtils::getPOSTValue('start');
+            $end = RequestUtils::getPOSTValue('end');
+            $name = RequestUtils::getPOSTValue('name');
+            $description = RequestUtils::getPOSTValue('description');
             
             $startUTC = DateTime::createFromFormat("Y-m-d\TH:i", $start);
             $endUTC = DateTime::createFromFormat("Y-m-d\TH:i", $end);
@@ -235,8 +227,8 @@ class AppointmentController {
                 $endTimeDateSplit = explode(" ", $endTimeDateUTC->format("Y-m-d H:i"));
                 
                 $response = [];
-                $response['start'] = $startTimeDateSplit[0]."T".$startTimeDateSplit[1];
-                $response['end'] = $endTimeDateSplit[0]."T".$endTimeDateSplit[1];
+                $response['start'] = $startTimeDateSplit[0] . "T" . $startTimeDateSplit[1];
+                $response['end'] = $endTimeDateSplit[0] . "T" . $endTimeDateSplit[1];
                 $response['name'] = $appointment->name;
                 $response['description'] = $appointment->description;
                 $response['tags'] = [];

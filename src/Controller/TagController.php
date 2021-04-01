@@ -6,66 +6,85 @@ namespace App\Controller;
 
 use App\Authentication\Authentication;
 use App\Repository\TagRepository;
+use App\Util\RequestUtils;
 use App\View\JsonView;
 
 class TagController {
-    
+
     function index() {
         header("Location: /");
     }
-    
+
     public function create() {
         Authentication::restrictAuthenticated();
-        
-        $exists = false;
-        $tagRepository = new TagRepository();
-        $rows = $tagRepository->readAll();
-        foreach($rows as $row) {
-            if($row->name === $_POST["name"] || $row->color === substr($_POST["color"], 1)) {
-                $exists = true;
+
+        $name = RequestUtils::getPOSTValue("name");
+        $color = RequestUtils::getPOSTValue("color");
+
+        if(!empty($name) && !empty($color)) {
+            // Find out whether this tag already exists
+            $exists = false;
+            $tagRepository = new TagRepository();
+            $tags = $tagRepository->getAllTags();
+
+            foreach($tags as $tag) {
+                // The substring is required because the color from the browser starts with an "#"
+                if($tag->getName() === $name || $tag->getColor() === substr($color, 1)) {
+                    $exists = true;
+                }
             }
-        }
-        if(!$exists) {
-            $tagId = $tagRepository->addTag($_POST["name"], substr($_POST["color"], 1));
-            
-            $response = [];
-            $response['id'] = $tagId;
-            $response['name'] = $_POST["name"];
-            $response['color'] = $_POST["color"];
-            
-            $view = new JsonView();
-            $view->setJsonObject($response);
-            $view->display();
+
+            if(!$exists) {
+                $tagId = $tagRepository->addTag($name, substr($color, 1));
+
+                $response = [];
+                $response['id'] = $tagId;
+                $response['name'] = $name;
+                $response['color'] = $color;
+
+                $view = new JsonView();
+                $view->setJsonObject($response);
+                $view->display();
+            }
+        } else {
+            echo "Invalid input";
         }
     }
-    
-    public function edit() {
-        Authentication::restrictAuthenticated();
-        
-        $tagRepository = new TagRepository();
-        $tagRepository->editTag($_POST["id"], $_POST["name"], substr($_POST["color"], 1));
-    }
-    
+
     public function delete() {
         Authentication::restrictAuthenticated();
-        
-        $tagRepository = new TagRepository();
-        $tagRepository->deleteById($_POST["id"]);
+
+        $id = RequestUtils::getPOSTValue("id");
+
+        if(!empty($id)) {
+            $tagRepository = new TagRepository();
+            $tagRepository->deleteById($id);
+        } else {
+            echo "Invalid input";
+        }
     }
-    
+
     public function get() {
         Authentication::restrictAuthenticated();
-        
-        $tagRepository = new TagRepository();
-        $tag = $tagRepository->readById($_GET['id']);
-        
+
+        $id = RequestUtils::getGETValue("id");
+
         $response = [];
-        $response['name'] = $tag->name;
-        $response['color'] = $tag->color;
-        
+
+        if(!empty($id)) {
+            $tagRepository = new TagRepository();
+            $tag = $tagRepository->readById($id);
+
+            $response['name'] = $tag->name;
+            $response['color'] = $tag->color;
+        } else {
+            $response['name'] = "Unknown";
+            $response['color'] = "000000";
+        }
+
         $view = new JsonView();
         $view->setJsonObject($response);
         $view->display();
     }
-    
+
 }

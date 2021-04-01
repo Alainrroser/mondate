@@ -193,7 +193,7 @@ require '../templates/error/dialogError.php';
                         <a href="/signOut" class="dropdown-item w-100">
                             Sign Out
                         </a>
-                        <a href="/user/changePassword" class="dropdown-item w-100">
+                        <a href="/changePassword" class="dropdown-item w-100">
                             Change Password
                         </a>
                         <button class="dropdown-item w-100 delete-account">
@@ -269,12 +269,14 @@ require '../templates/error/dialogError.php';
                 </thead>
                 <tbody>
                 <?php
+                // Loop through every hour of the day
                 for($i = 0; $i < 24; $i++) {
                     echo "<tr>";
                     echo "<th scope=\"row\" class=\"p-0 pt-1 align-top\">";
                     echo str_pad($i, 2, '0', STR_PAD_LEFT).":00";
                     echo "</th>";
-    
+
+                    // Loop through every day of the week
                     for($j = 0; $j < sizeof(COLUMNS); $j++) {
                         $cellDate = clone $startDate;
                         $cellDate->add(date_interval_create_from_date_string($j." days"));
@@ -426,7 +428,7 @@ require '../templates/error/dialogError.php';
             <a href="/signOut" class="dropdown-item w-100">
                 Sign Out
             </a>
-            <a href="/user/changePassword" class="dropdown-item w-100">
+            <a href="/changePassword" class="dropdown-item w-100">
                 Change Password
             </a>
             <button class="dropdown-item w-100 delete-account">

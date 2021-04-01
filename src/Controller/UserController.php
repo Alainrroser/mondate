@@ -5,19 +5,19 @@ namespace App\Controller;
 use App\Authentication\Authentication;
 use App\Repository\AppointmentRepository;
 use App\Repository\UserRepository;
+use App\Util\RequestUtils;
 use App\View\View;
 
+const PASSWORD_PATTERN = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,20}$/";
+
 class UserController {
-    
+
     public function doSignUp() {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = RequestUtils::getPOSTValue('email');
+        $password = RequestUtils::getPOSTValue('password');
         
-        $emailValid = isset($email) && !empty($email) &&
-                      filter_var($email, FILTER_VALIDATE_EMAIL);
-        
-        $passwordValid = isset($password) && !empty($password) &&
-                         preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-.]).{8,20}$/", $password);
+        $emailValid = !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL);
+        $passwordValid = !empty($password) && preg_match(PASSWORD_PATTERN, $password);
         
         if($passwordValid && $emailValid) {
             $userRepository = new UserRepository();
@@ -35,56 +35,56 @@ class UserController {
                 $view->display();
             }
         } else {
-            header("Location: /signUp");
+            echo "Invalid input";
         }
     }
     
     public function doSignIn() {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = RequestUtils::getPOSTValue('email');
+        $password = RequestUtils::getPOSTValue('password');
         
-        if(Authentication::login($email, $password)) {
-            header("Location: /calendar");
-        } else {
-            http_response_code(412);
-            
-            $view = new View('signIn/index');
-            $view->title = 'Sign In';
-            $view->errors = ["Incorrect password or non-existing user."];
-            $view->background = true;
-            $view->display();
+        if(!empty($email) && !empty($password)) {
+            if(Authentication::login($email, $password)) {
+                header("Location: /calendar");
+            } else {
+                http_response_code(412);
+
+                $view = new View('signIn/index');
+                $view->title = 'Sign In';
+                $view->errors = ["Incorrect password or non-existing user."];
+                $view->background = true;
+                $view->display();
+            }
         }
     }
     
     public function doChangePassword() {
         Authentication::restrictAuthenticated();
-        
-        $userRepository = new UserRepository();
-        $user = Authentication::getAuthenticatedUser();
-        if(password_verify($_POST["oldPassword"], $user->getPassword())) {
-            if($_POST["oldPassword"] !== $_POST["password"]) {
-                $userRepository->changePassword($_SESSION["userId"], $_POST["password"]);
-                Authentication::logout();
+
+        $oldPassword = RequestUtils::getPOSTValue('oldPassword');
+        $password = RequestUtils::getPOSTValue('password');
+
+        if(!empty($oldPassword) && !empty($password)) {
+            $userRepository = new UserRepository();
+            $user = Authentication::getAuthenticatedUser();
+
+            if(password_verify($oldPassword, $user->getPassword())) {
+                if($oldPassword !== $password) {
+                    $userRepository->changePassword($_SESSION["userId"], $password);
+                    Authentication::logout();
+                }
+            } else {
+                http_response_code(412);
+
+                $view = new View('user/changePassword');
+                $view->title = 'Change Password';
+                $view->errors = ["The old password is not correct."];
+                $view->background = true;
+                $view->display();
             }
         } else {
-            http_response_code(412);
-            
-            $view = new View('user/changePassword');
-            $view->title = 'Change Password';
-            $view->errors = ["The old password is not correct."];
-            $view->background = true;
-            $view->display();
+            echo "Invalid input";
         }
-    }
-    
-    public function changePassword() {
-        Authentication::restrictAuthenticated();
-        
-        $view = new View('user/changePassword');
-        $view->title = 'Change Password';
-        $view->errors = [];
-        $view->background = true;
-        $view->display();
     }
     
     public function delete() {

@@ -61,23 +61,11 @@ class AppointmentRepository extends Repository {
         return $appointments;
     }
 
-    public function readAll($max = 100) {
-        $query = "SELECT * FROM $this->tableName LIMIT 0, $max";
-        $rows = $this->executeAndGetRows($query);
-
-        $appointments = [];
-        foreach ($rows as $row) {
-            $appointments[] = $this->convertRowToAppointment($row);
-        }
-
-        return $appointments;
-    }
-
     public function createAppointment($start, $end, $name, $description, $creatorId, $tagIds) {
         // Convert from local time to UTC string
         $start = DateTimeUtils::convertLocalToUTC($start)->format("Y-m-d H:i");
         $end = DateTimeUtils::convertLocalToUTC($end)->format("Y-m-d H:i");
-    
+
         $queryAppointment = "INSERT INTO $this->tableName (start, end, name, description, creator_id)
                              VALUES (?, ?, ?, ?, ?)";
         $appointmentId = self::executeAndGetInsertId($queryAppointment, 'ssssi', $start, $end, $name, $description, $creatorId);
@@ -94,7 +82,7 @@ class AppointmentRepository extends Repository {
     }
 
     public function editAppointment($id, $start, $end, $name, $description, $tagIds) {
-        // Convert from local time to UTC
+        // Convert from local time to UTC string
         $start = DateTimeUtils::convertLocalToUTC($start)->format("Y-m-d H:i");
         $end = DateTimeUtils::convertLocalToUTC($end)->format("Y-m-d H:i");
 
