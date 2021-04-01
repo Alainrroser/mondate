@@ -26,20 +26,20 @@ class UserRepository extends Repository {
 
     public function getById($id) {
         $query = "SELECT * FROM $this->tableName WHERE id = ?";
-        $row = $this->executeAndGetRows($query, 'i', $id)[0];
-        return $this->convertRowToUser($row);
+        $rows = $this->executeAndGetRows($query, 'i', $id);
+        return sizeof($rows) > 0 ? $this->convertRowToUser($rows[0]) : null;
     }
 
     public function getByEmail($email) {
         $query = "SELECT * FROM $this->tableName WHERE email = ?";
-        $row = $this->executeAndGetRows($query, 's', $email)[0];
-        return $this->convertRowToUser($row);
+        $rows = $this->executeAndGetRows($query, 's', $email);
+        return sizeof($rows) > 0 ? $this->convertRowToUser($rows[0]) : null;
     }
 
     public function changePassword($id, $password) {
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = "UPDATE $this->tableName SET password=? WHERE id=?";
+        $query = "UPDATE $this->tableName SET password = ? WHERE id = ?";
         $this->execute($query, 'si', $passwordHash, $id);
     }
 
